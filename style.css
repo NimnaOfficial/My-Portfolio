@@ -116,7 +116,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 }
 .huge-text { 
     /* Lowered the minimum to 2.5rem and the multiplier to 8vw for perfect scaling */
-    font-size: clamp(2.5rem, 8vw, 8rem); 
+    font-size: clamp(2.5rem, 7vw, 8rem); 
     font-weight: 800; 
     
     /* Increased slightly from 0.9 to 1 so the text doesn't clip when zoomed */
