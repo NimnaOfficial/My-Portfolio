@@ -84,4 +84,4 @@ Because this project uses vanilla web technologies without a build step or packa
    * GitHub: @NimnaOfficial
 
 ##
-Designed and Engineered by K.G.L Sandanimne. Western Province, Sri Lanka.
+> Designed and Engineered by K.G.L Sandanimne. Western Province, Sri Lanka.
