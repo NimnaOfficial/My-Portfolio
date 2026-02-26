@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "Lanka Washing System",
             desc: "A hybrid application handling 500+ database queries efficiently. Designed and implemented 15+ UI screens to ensure a smooth, seamless user experience.",
             tags: ["Java", "PHP", "UI/UX"],
-            repoLink: "https://github.com/NimnaOfficial/Lanka-Washing-System",
+            repoLink: "https://github.com/NimnaOfficial/LankaWashingApp",
             liveLink: "https://lankawashing.infinityfree.me/" // Triggers the Visit Website button
         },
         {
