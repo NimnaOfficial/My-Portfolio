@@ -53,8 +53,8 @@ Because this project uses vanilla web technologies without a build step or packa
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/NimnaOfficial/portfolio.git](https://github.com/NimnaOfficial/portfolio.git)
-   ```
+   git clone https://github.com/NimnaOfficial/portfolio.git
+      ```
 2. **Navigate to the directory:**
    ```bash
    cd portfolio
