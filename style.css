@@ -340,8 +340,20 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     .about-content p { text-align: center; }
 
     /* ACCORDION MOBILE TWEAKS */
-    .accordion-header h3 { font-size: 1.15rem; text-align: left; }
-    .accordion-content { padding: 0 0 1.5rem 10px; text-align: left; }
+    .accordion { 
+        padding: 0 1.5rem; /* 🔥 THE FIX: Pushes the entire accordion away from the screen edges */
+    }
+    .accordion-header {
+        padding: 1.5rem 0; /* Slightly tighter vertical spacing for mobile */
+    }
+    .accordion-header h3 { 
+        font-size: 1.15rem; 
+        text-align: left; 
+    }
+    .accordion-content { 
+        padding: 0 0 1.5rem 10px; 
+        text-align: left; 
+    }
 
     /* Projects Adjustments */
     .proj-layout { flex-direction: column; justify-content: flex-end; padding-top: 150px; }
