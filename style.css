@@ -172,7 +172,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 /* --- ABOUT SECTION --- */
 .about-section { padding: 150px 5%; text-align: center; perspective: 1000px; }
 .hollow-text {
-    font-size: clamp(4rem, 10vw, 8rem); color: transparent;
+    font-size: clamp(4rem, 10vw, 7rem); color: transparent;
     -webkit-text-stroke: 2px rgba(255,255,255,0.2); margin-bottom: -40px; position: relative; z-index: 1;
     background: linear-gradient(90deg, #ff6b6b, #8b5cf6, #92EFFD, #ff6b6b);
     background-size: 300% auto; 
@@ -200,7 +200,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     z-index: -1; opacity: 0; transition: opacity 0.5s ease, filter 0.5s ease;
 }
 .about-content:hover::before { opacity: 1; filter: blur(20px); }
-.about-content p { font-size: 1.2rem; line-height: 1.6; color: var(--text-main); transform: translateZ(30px); margin-bottom: 2rem; }
+.about-content p { font-size: 1.1rem; line-height: 1.6; color: var(--text-main); transform: translateZ(30px); margin-bottom: 2rem; }
 
 /* --- ACCORDION --- */
 .section-title { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 3rem; text-align: center; }
@@ -346,7 +346,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     
     /* Hero Text Mobile Override */
     .huge-text { 
-        font-size: 11.5vw; /* Math ensures 10 letters fit perfectly without word breaks */
+        font-size: 7vw; /* Math ensures 10 letters fit perfectly without word breaks */
         letter-spacing: 0px; 
         padding: 0 10px; 
         white-space: nowrap;
