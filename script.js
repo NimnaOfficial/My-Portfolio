@@ -1,425 +1,444 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // --- 0. CUSTOM CURSOR LOGIC ---
+  const cursorDot = document.getElementById("cursor-dot");
+  const cursorOutline = document.getElementById("cursor-outline");
+  const interactiveElements = document.querySelectorAll(
+    "a, button, .thumb-card, .accordion-header, input, textarea",
+  );
 
-    // --- 0. CUSTOM CURSOR LOGIC ---
-    const cursorDot = document.getElementById('cursor-dot');
-    const cursorOutline = document.getElementById('cursor-outline');
-    const interactiveElements = document.querySelectorAll('a, button, .thumb-card, .accordion-header, input, textarea');
+  window.addEventListener("mousemove", (e) => {
+    const posX = e.clientX;
+    const posY = e.clientY;
 
-    window.addEventListener('mousemove', (e) => {
-        const posX = e.clientX;
-        const posY = e.clientY;
+    cursorDot.style.left = `${posX}px`;
+    cursorDot.style.top = `${posY}px`;
 
-        cursorDot.style.left = `${posX}px`;
-        cursorDot.style.top = `${posY}px`;
+    cursorOutline.animate(
+      {
+        left: `${posX}px`,
+        top: `${posY}px`,
+      },
+      { duration: 500, fill: "forwards" },
+    );
+  });
 
-        cursorOutline.animate({
-            left: `${posX}px`,
-            top: `${posY}px`
-        }, { duration: 500, fill: "forwards" });
-    });
+  interactiveElements.forEach((el) => {
+    el.addEventListener("mouseenter", () =>
+      cursorOutline.classList.add("hover-active"),
+    );
+    el.addEventListener("mouseleave", () =>
+      cursorOutline.classList.remove("hover-active"),
+    );
+  });
 
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover-active'));
-        el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover-active'));
-    });
+  // --- 1. THEME TOGGLE (Dark/Light Mode) ---
+  const themeBtn = document.getElementById("theme-toggle");
+  const htmlEl = document.documentElement;
 
-    // --- 1. THEME TOGGLE (Dark/Light Mode) ---
-    const themeBtn = document.getElementById('theme-toggle');
-    const htmlEl = document.documentElement;
-    
-    if (localStorage.getItem('theme') === 'dark') {
-        htmlEl.setAttribute('data-theme', 'dark');
+  if (localStorage.getItem("theme") === "dark") {
+    htmlEl.setAttribute("data-theme", "dark");
+  }
+
+  themeBtn.addEventListener("click", () => {
+    if (htmlEl.getAttribute("data-theme") === "light") {
+      htmlEl.removeAttribute("data-theme");
+      localStorage.setItem("theme", "dark");
+    } else {
+      htmlEl.setAttribute("data-theme", "light");
+      localStorage.setItem("theme", "light");
     }
+  });
 
-    themeBtn.addEventListener('click', () => {
-        if (htmlEl.getAttribute('data-theme') === 'light') {
-            htmlEl.removeAttribute('data-theme');
-            localStorage.setItem('theme', 'dark');
+  // --- 2. STICKY NAVBAR & MOBILE MENU TOGGLE ---
+  const navbar = document.getElementById("navbar");
+  const hamburger = document.getElementById("hamburger");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const mobileLinks = document.querySelectorAll(".mobile-link");
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 50) navbar.classList.add("scrolled");
+    else navbar.classList.remove("scrolled");
+  });
+
+  // Toggle Floating Glass Menu
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      mobileMenu.classList.toggle("active");
+    });
+
+    // Close menu cleanly when a link is clicked
+    mobileLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        mobileMenu.classList.remove("active");
+      });
+    });
+  }
+
+  // --- 3. MAGNETIC BUTTON FIX ---
+  const magneticBtns = document.querySelectorAll(".magnetic-btn");
+
+  magneticBtns.forEach((btn) => {
+    btn.addEventListener("mousemove", (e) => {
+      const position = btn.getBoundingClientRect();
+      const x = e.clientX - position.left - position.width / 2;
+      const y = e.clientY - position.top - position.height / 2;
+
+      btn.style.setProperty("--mx", `${x * 0.3}px`);
+      btn.style.setProperty("--my", `${y * 0.5}px`);
+    });
+
+    btn.addEventListener("mouseout", () => {
+      btn.style.setProperty("--mx", `0px`);
+      btn.style.setProperty("--my", `0px`);
+    });
+  });
+
+  // --- 4. 3D HOVER TILT FOR ABOUT CARD ---
+  const tiltCard = document.querySelector(".tilt-card");
+  if (tiltCard) {
+    tiltCard.addEventListener("mousemove", (e) => {
+      const rect = tiltCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = ((y - centerY) / centerY) * -10;
+      const rotateY = ((x - centerX) / centerX) * 10;
+
+      tiltCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    });
+
+    tiltCard.addEventListener("mouseleave", () => {
+      tiltCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+    });
+  }
+
+  // --- 5. ACCORDION LOGIC ---
+  const accordionItems = document.querySelectorAll(".accordion-item");
+  if (accordionItems.length > 0) {
+    const firstBody = accordionItems[0].querySelector(".accordion-body");
+    firstBody.style.maxHeight = firstBody.scrollHeight + "px";
+
+    accordionItems.forEach((item) => {
+      const header = item.querySelector(".accordion-header");
+      header.addEventListener("click", () => {
+        const isActive = item.classList.contains("active");
+        const body = item.querySelector(".accordion-body");
+
+        accordionItems.forEach((acc) => {
+          acc.classList.remove("active");
+          acc.querySelector(".accordion-body").style.maxHeight = "0";
+        });
+
+        if (!isActive) {
+          item.classList.add("active");
+          body.style.maxHeight = body.scrollHeight + "px";
+        }
+      });
+    });
+  }
+
+  // --- 6. VERTICAL PROJECT CAROUSEL ---
+  const projectDatabase = [
+    {
+      title: "Lanka Washing System",
+      desc: "A hybrid application handling 500+ database queries efficiently. Designed and implemented 15+ UI screens to ensure a smooth, seamless user experience.",
+      tags: ["Java", "PHP", "UI/UX"],
+      repoLink: "https://github.com/NimnaOfficial/LankaWashingApp",
+      liveLink: "https://lankawashing.infinityfree.me/",
+    },
+    {
+      title: "Smart Crop Supply Mgmt",
+      desc: "About Smart Crop Supply Management System is a Java desktop application for managing farmers, crops, inventory, buyer requests, and reports using a role-based system with MySQL integration.",
+      tags: ["JasperReports", "Backend", "SQL"],
+      repoLink:
+        "https://github.com/NimnaOfficial/SmartCropSupplyManagementSystem",
+      liveLink: "",
+    },
+    {
+      title: "AI & Data Science",
+      desc: "Hands-on experimentation with Python-based AI/ML concepts. Built predictive models, data analysis pipelines, and basic neural networks. (COMING SOON)",
+      tags: ["Python", "Machine Learning", "Data Science"],
+      repoLink: "",
+      liveLink: "",
+    },
+    {
+      title: "Auto Parts Online",
+      desc: "AutoHub is a responsive e-commerce platform delivering premium auto parts in Sri Lanka. It combines an intuitive UI/UX with a secure PHP backend for a seamless shopping experience.",
+      tags: ["HTML", "CSS", "JS", "PHP"],
+      repoLink: "https://github.com/NimnaOfficial/AutoPartsOnline",
+      liveLink: "https://autopartsonlinex.infinityfree.me/",
+    },
+    {
+      title: "Any GPA",
+      desc: "ANY GPA is an edge-native academic SaaS engineered for global scale. It empowers students to architect, calculate, and share custom grading frameworks seamlessly. ",
+      tags: ["HTML", "CSS", "JS", "PHP", "SQL", "AI", "Wasmer", "API"],
+      repoLink: "https://github.com/NimnaOfficial/AnyGPA",
+      liveLink: "https://anygpa.wasmer.app/",
+    },
+  ];
+
+  const thumbCards = document.querySelectorAll(".thumb-card");
+  const bgLayers = document.querySelectorAll(".proj-bg-layer");
+  const projTitle = document.getElementById("proj-title");
+  const projDesc = document.getElementById("proj-desc");
+  const projTags = document.getElementById("proj-tags");
+  const infoWrapper = document.querySelector(".proj-info-wrapper");
+  const repoBtn = document.getElementById("proj-repo-btn");
+  const liveBtn = document.getElementById("proj-live-btn");
+
+  if (infoWrapper)
+    infoWrapper.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+
+  thumbCards.forEach((card) => {
+    card.addEventListener("click", function () {
+      const index = this.getAttribute("data-index");
+      if (this.classList.contains("active")) return;
+
+      thumbCards.forEach((t) => t.classList.remove("active"));
+      bgLayers.forEach((bg) => bg.classList.remove("active"));
+
+      this.classList.add("active");
+      bgLayers[index].classList.add("active");
+
+      infoWrapper.style.opacity = "0";
+      infoWrapper.style.transform = "translateY(20px)";
+
+      setTimeout(() => {
+        const currentProject = projectDatabase[index];
+
+        projTitle.textContent = currentProject.title;
+        projDesc.textContent = currentProject.desc;
+
+        projTags.innerHTML = "";
+        currentProject.tags.forEach((tagText) => {
+          const span = document.createElement("span");
+          span.classList.add("tag");
+          span.textContent = tagText;
+          projTags.appendChild(span);
+        });
+
+        if (currentProject.repoLink) {
+          repoBtn.href = currentProject.repoLink;
+          repoBtn.style.display = "inline-block";
         } else {
-            htmlEl.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', 'light');
+          repoBtn.style.display = "none";
         }
+
+        if (currentProject.liveLink) {
+          liveBtn.href = currentProject.liveLink;
+          liveBtn.style.display = "inline-block";
+        } else {
+          liveBtn.style.display = "none";
+        }
+
+        infoWrapper.style.opacity = "1";
+        infoWrapper.style.transform = "translateY(0)";
+      }, 400);
+    });
+  });
+
+  // --- 7. SCROLL REVEAL ANIMATIONS ---
+  const observerOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+  const scrollObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document
+    .querySelectorAll(".reveal-up, .reveal-fade")
+    .forEach((el) => scrollObserver.observe(el));
+
+  // --- 8. ANTIGRAVITY TEXT REVEAL (DYNAMIC CURSOR TYPEWRITER) ---
+  const heroText = document.getElementById("hero-text");
+  if (heroText) {
+    const rawHTML = heroText.innerHTML;
+    heroText.innerHTML = ""; // Clear the initial text
+
+    // Create containers for the text and the cursor
+    const textContainer = document.createElement("span");
+    const cursorSpan = document.createElement("span");
+
+    cursorSpan.classList.add("type-cursor");
+    cursorSpan.textContent = "_"; // Your colored underscore
+
+    heroText.appendChild(textContainer);
+    heroText.appendChild(cursorSpan);
+
+    // Break the HTML string into tags and individual characters
+    const parts = rawHTML.split(/(<[^>]*>)/g);
+    let allChars = [];
+
+    parts.forEach((part) => {
+      if (part.startsWith("<")) {
+        allChars.push({ type: "tag", content: part });
+      } else {
+        const chars = part.split("");
+        chars.forEach((char) => {
+          allChars.push({ type: "char", content: char });
+        });
+      }
     });
 
-    // --- 2. STICKY NAVBAR & MOBILE MENU TOGGLE ---
-    const navbar = document.getElementById('navbar');
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
+    let currentIndex = 0;
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) navbar.classList.add('scrolled');
-        else navbar.classList.remove('scrolled');
+    function typeNext() {
+      if (currentIndex < allChars.length) {
+        const current = allChars[currentIndex];
+
+        // If it's a <br> tag, insert it instantly
+        if (current.type === "tag") {
+          const temp = document.createElement("div");
+          temp.innerHTML = current.content;
+          while (temp.firstChild) {
+            textContainer.appendChild(temp.firstChild);
+          }
+          setTimeout(typeNext, 0);
+        }
+        // If it's a space, insert it instantly
+        else if (current.content === " ") {
+          textContainer.appendChild(document.createTextNode(" "));
+          setTimeout(typeNext, 0);
+        }
+        // If it's a letter, type it out with the animation
+        else {
+          const charSpan = document.createElement("span");
+          charSpan.classList.add("char-span");
+          charSpan.textContent = current.content;
+          textContainer.appendChild(charSpan);
+
+          // Trigger the CSS fade-in
+          setTimeout(() => {
+            charSpan.classList.add("revealed");
+          }, 10);
+
+          setTimeout(typeNext, 160); // Typing speed (90ms per letter)
+        }
+        currentIndex++;
+      } else {
+        // When finished typing, make the cursor blink infinitely
+        cursorSpan.classList.add("blinking");
+      }
+    }
+
+    // Start the typing animation half a second after the page loads
+    setTimeout(typeNext, 500);
+  }
+
+  // --- 9. RADIATING PARTICLE VORTEX (SLOWED DOWN AMBIENT) ---
+  const canvas = document.getElementById("antigravity-canvas");
+  if (canvas) {
+    const ctx = canvas.getContext("2d");
+    let width, height, particles;
+
+    let mouse = { x: -1000, y: -1000, radius: 150 };
+
+    window.addEventListener("mousemove", (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
     });
 
-    // Toggle Floating Glass Menu
-    if (hamburger && mobileMenu) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-        });
-
-        // Close menu cleanly when a link is clicked
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                mobileMenu.classList.remove('active');
-            });
-        });
-    }
-
-    // --- 3. MAGNETIC BUTTON FIX ---
-    const magneticBtns = document.querySelectorAll('.magnetic-btn');
-
-    magneticBtns.forEach(btn => {
-        btn.addEventListener('mousemove', (e) => {
-            const position = btn.getBoundingClientRect();
-            const x = e.clientX - position.left - position.width / 2;
-            const y = e.clientY - position.top - position.height / 2;
-            
-            btn.style.setProperty('--mx', `${x * 0.3}px`);
-            btn.style.setProperty('--my', `${y * 0.5}px`);
-        });
-
-        btn.addEventListener('mouseout', () => {
-            btn.style.setProperty('--mx', `0px`);
-            btn.style.setProperty('--my', `0px`);
-        });
+    window.addEventListener("mouseout", () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
     });
 
-    // --- 4. 3D HOVER TILT FOR ABOUT CARD ---
-    const tiltCard = document.querySelector('.tilt-card');
-    if (tiltCard) {
-        tiltCard.addEventListener('mousemove', (e) => {
-            const rect = tiltCard.getBoundingClientRect();
-            const x = e.clientX - rect.left; 
-            const y = e.clientY - rect.top;  
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = ((y - centerY) / centerY) * -10; 
-            const rotateY = ((x - centerX) / centerX) * 10;
-            
-            tiltCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-        });
+    class VortexParticle {
+      constructor() {
+        this.reset();
+      }
 
-        tiltCard.addEventListener('mouseleave', () => {
-            tiltCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-        });
+      reset() {
+        this.angle = Math.random() * Math.PI * 2;
+        this.radius = Math.random() * 100;
+
+        // 🔥 1. DRASTICALLY SLOWED Base Speed
+        // Was: Math.random() * 0.6 + 0.2
+        this.speed = Math.random() * 0.15 + 0.05;
+
+        this.size = Math.random() * 2 + 0.5;
+
+        // 🔥 2. SLOWED Rotation (Spin)
+        // Was: (Math.random() - 0.5) * 0.005
+        this.spin = (Math.random() - 0.5) * 0.0015;
+
+        this.x = 0;
+        this.y = 0;
+      }
+
+      update() {
+        this.radius += this.speed;
+        this.angle += this.spin;
+
+        // 🔥 3. REMOVED Aggressive Acceleration
+        // Was: this.speed *= 1.005 (which makes them speed up exponentially)
+        this.speed *= 1.002;
+
+        const centerX = width / 2;
+        const centerY = height / 2;
+
+        let targetX = centerX + Math.cos(this.angle) * this.radius;
+        let targetY = centerY + Math.sin(this.angle) * this.radius;
+
+        let dx = mouse.x - targetX;
+        let dy = mouse.y - targetY;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < mouse.radius) {
+          let force = (mouse.radius - distance) / mouse.radius;
+          // 🔥 4. SOFTER Mouse Repulsion
+          // Was: force * 40
+          targetX -= (dx / distance) * force * 15;
+          targetY -= (dy / distance) * force * 15;
+        }
+
+        this.x = targetX;
+        this.y = targetY;
+
+        if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+          this.reset();
+        }
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        let opacity = Math.min(1, this.radius / 300);
+        ctx.fillStyle = `rgba(147, 51, 234, ${opacity})`;
+        ctx.fill();
+      }
     }
 
-    // --- 5. ACCORDION LOGIC ---
-    const accordionItems = document.querySelectorAll('.accordion-item');
-    if(accordionItems.length > 0) {
-        const firstBody = accordionItems[0].querySelector('.accordion-body');
-        firstBody.style.maxHeight = firstBody.scrollHeight + "px";
+    function initCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      particles = [];
 
-        accordionItems.forEach(item => {
-            const header = item.querySelector('.accordion-header');
-            header.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                const body = item.querySelector('.accordion-body');
-
-                accordionItems.forEach(acc => {
-                    acc.classList.remove('active');
-                    acc.querySelector('.accordion-body').style.maxHeight = '0';
-                });
-
-                if (!isActive) {
-                    item.classList.add('active');
-                    body.style.maxHeight = body.scrollHeight + "px";
-                }
-            });
-        });
+      for (let i = 0; i < 400; i++) {
+        particles.push(new VortexParticle());
+        particles[i].radius = Math.random() * (width / 2);
+      }
     }
 
-    // --- 6. VERTICAL PROJECT CAROUSEL ---
-    const projectDatabase = [
-        {
-            title: "Lanka Washing System",
-            desc: "A hybrid application handling 500+ database queries efficiently. Designed and implemented 15+ UI screens to ensure a smooth, seamless user experience.",
-            tags: ["Java", "PHP", "UI/UX"],
-            repoLink: "https://github.com/NimnaOfficial/LankaWashingApp",
-            liveLink: "https://lankawashing.infinityfree.me/"
-        },
-        {
-            title: "Smart Crop Supply Mgmt",
-            desc: "About Smart Crop Supply Management System is a Java desktop application for managing farmers, crops, inventory, buyer requests, and reports using a role-based system with MySQL integration.",
-            tags: ["JasperReports", "Backend", "SQL"],
-            repoLink: "https://github.com/NimnaOfficial/SmartCropSupplyManagementSystem",
-            liveLink: "" 
-        },
-        {
-            title: "AI & Data Science",
-            desc: "Hands-on experimentation with Python-based AI/ML concepts. Built predictive models, data analysis pipelines, and basic neural networks. (COMING SOON)",
-            tags: ["Python", "Machine Learning", "Data Science"],
-            repoLink: "",
-            liveLink: "" 
-        },
-        {
-            title: "Auto Parts Online",
-            desc: "AutoHub is a responsive e-commerce platform delivering premium auto parts in Sri Lanka. It combines an intuitive UI/UX with a secure PHP backend for a seamless shopping experience.",
-            tags: ["HTML", "CSS", "JS", "PHP"],
-            repoLink: "https://github.com/NimnaOfficial/AutoPartsOnline",
-            liveLink: "https://autopartsonlinex.infinityfree.me/" 
-        }
-    ];
+    function animateCanvas() {
+      requestAnimationFrame(animateCanvas);
+      ctx.clearRect(0, 0, width, height);
 
-    const thumbCards = document.querySelectorAll('.thumb-card');
-    const bgLayers = document.querySelectorAll('.proj-bg-layer');
-    const projTitle = document.getElementById('proj-title');
-    const projDesc = document.getElementById('proj-desc');
-    const projTags = document.getElementById('proj-tags');
-    const infoWrapper = document.querySelector('.proj-info-wrapper');
-    const repoBtn = document.getElementById('proj-repo-btn');
-    const liveBtn = document.getElementById('proj-live-btn');
-
-    if(infoWrapper) infoWrapper.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-
-    thumbCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const index = this.getAttribute('data-index');
-            if (this.classList.contains('active')) return;
-
-            thumbCards.forEach(t => t.classList.remove('active'));
-            bgLayers.forEach(bg => bg.classList.remove('active'));
-
-            this.classList.add('active');
-            bgLayers[index].classList.add('active');
-
-            infoWrapper.style.opacity = '0';
-            infoWrapper.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                const currentProject = projectDatabase[index];
-                
-                projTitle.textContent = currentProject.title;
-                projDesc.textContent = currentProject.desc;
-                
-                projTags.innerHTML = '';
-                currentProject.tags.forEach(tagText => {
-                    const span = document.createElement('span');
-                    span.classList.add('tag');
-                    span.textContent = tagText;
-                    projTags.appendChild(span);
-                });
-
-                if (currentProject.repoLink) {
-                    repoBtn.href = currentProject.repoLink;
-                    repoBtn.style.display = 'inline-block';
-                } else {
-                    repoBtn.style.display = 'none';
-                }
-
-                if (currentProject.liveLink) {
-                    liveBtn.href = currentProject.liveLink;
-                    liveBtn.style.display = 'inline-block';
-                } else {
-                    liveBtn.style.display = 'none';
-                }
-
-                infoWrapper.style.opacity = '1';
-                infoWrapper.style.transform = 'translateY(0)';
-            }, 400); 
-        });
-    });
-
-    // --- 7. SCROLL REVEAL ANIMATIONS ---
-    const observerOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
-    const scrollObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.reveal-up, .reveal-fade').forEach(el => scrollObserver.observe(el));
-
-    // --- 8. ANTIGRAVITY TEXT REVEAL (DYNAMIC CURSOR TYPEWRITER) ---
-    const heroText = document.getElementById('hero-text');
-    if (heroText) {
-        const rawHTML = heroText.innerHTML;
-        heroText.innerHTML = ''; // Clear the initial text
-        
-        // Create containers for the text and the cursor
-        const textContainer = document.createElement('span');
-        const cursorSpan = document.createElement('span');
-        
-        cursorSpan.classList.add('type-cursor');
-        cursorSpan.textContent = '_'; // Your colored underscore
-        
-        heroText.appendChild(textContainer);
-        heroText.appendChild(cursorSpan);
-
-        // Break the HTML string into tags and individual characters
-        const parts = rawHTML.split(/(<[^>]*>)/g);
-        let allChars = [];
-        
-        parts.forEach(part => {
-            if (part.startsWith('<')) {
-                allChars.push({ type: 'tag', content: part });
-            } else {
-                const chars = part.split('');
-                chars.forEach(char => {
-                    allChars.push({ type: 'char', content: char });
-                });
-            }
-        });
-
-        let currentIndex = 0;
-        
-        function typeNext() {
-            if (currentIndex < allChars.length) {
-                const current = allChars[currentIndex];
-                
-                // If it's a <br> tag, insert it instantly
-                if (current.type === 'tag') {
-                    const temp = document.createElement('div');
-                    temp.innerHTML = current.content;
-                    while(temp.firstChild) {
-                        textContainer.appendChild(temp.firstChild);
-                    }
-                    setTimeout(typeNext, 0);
-                } 
-                // If it's a space, insert it instantly
-                else if (current.content === ' ') {
-                    textContainer.appendChild(document.createTextNode(' '));
-                    setTimeout(typeNext, 0);
-                } 
-                // If it's a letter, type it out with the animation
-                else {
-                    const charSpan = document.createElement('span');
-                    charSpan.classList.add('char-span');
-                    charSpan.textContent = current.content;
-                    textContainer.appendChild(charSpan);
-                    
-                    // Trigger the CSS fade-in
-                    setTimeout(() => {
-                        charSpan.classList.add('revealed');
-                    }, 10);
-                    
-                    setTimeout(typeNext, 160); // Typing speed (90ms per letter)
-                }
-                currentIndex++;
-            } else {
-                // When finished typing, make the cursor blink infinitely
-                cursorSpan.classList.add('blinking');
-            }
-        }
-
-        // Start the typing animation half a second after the page loads
-        setTimeout(typeNext, 500);
+      particles.forEach((p) => {
+        p.update();
+        p.draw();
+      });
     }
 
-    // --- 9. RADIATING PARTICLE VORTEX (SLOWED DOWN AMBIENT) ---
-    const canvas = document.getElementById('antigravity-canvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let width, height, particles;
-        
-        let mouse = { x: -1000, y: -1000, radius: 150 };
-
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-
-        window.addEventListener('mouseout', () => {
-            mouse.x = -1000;
-            mouse.y = -1000;
-        });
-
-        class VortexParticle {
-            constructor() {
-                this.reset();
-            }
-
-            reset() {
-                this.angle = Math.random() * Math.PI * 2;
-                this.radius = Math.random() * 100;
-                
-                // 🔥 1. DRASTICALLY SLOWED Base Speed 
-                // Was: Math.random() * 0.6 + 0.2
-                this.speed = Math.random() * 0.15 + 0.05; 
-                
-                this.size = Math.random() * 2 + 0.5;
-                
-                // 🔥 2. SLOWED Rotation (Spin)
-                // Was: (Math.random() - 0.5) * 0.005
-                this.spin = (Math.random() - 0.5) * 0.0015; 
-                
-                this.x = 0; 
-                this.y = 0;
-            }
-
-            update() {
-                this.radius += this.speed;
-                this.angle += this.spin;
-                
-                // 🔥 3. REMOVED Aggressive Acceleration
-                // Was: this.speed *= 1.005 (which makes them speed up exponentially)
-                this.speed *= 1.002; 
-
-                const centerX = width / 2;
-                const centerY = height / 2;
-
-                let targetX = centerX + Math.cos(this.angle) * this.radius;
-                let targetY = centerY + Math.sin(this.angle) * this.radius;
-
-                let dx = mouse.x - targetX;
-                let dy = mouse.y - targetY;
-                let distance = Math.sqrt(dx * dx + dy * dy);
-
-                if (distance < mouse.radius) {
-                    let force = (mouse.radius - distance) / mouse.radius;
-                    // 🔥 4. SOFTER Mouse Repulsion
-                    // Was: force * 40
-                    targetX -= (dx / distance) * force * 15;
-                    targetY -= (dy / distance) * force * 15;
-                }
-
-                this.x = targetX;
-                this.y = targetY;
-
-                if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
-                    this.reset();
-                }
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                let opacity = Math.min(1, this.radius / 300);
-                ctx.fillStyle = `rgba(147, 51, 234, ${opacity})`;
-                ctx.fill();
-            }
-        }
-
-        function initCanvas() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            particles = [];
-            
-            for (let i = 0; i < 400; i++) {
-                particles.push(new VortexParticle());
-                particles[i].radius = Math.random() * (width / 2); 
-            }
-        }
-
-        function animateCanvas() {
-            requestAnimationFrame(animateCanvas);
-            ctx.clearRect(0, 0, width, height);
-
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-        }
-
-        initCanvas();
-        animateCanvas();
-        window.addEventListener('resize', initCanvas);
-    }
+    initCanvas();
+    animateCanvas();
+    window.addEventListener("resize", initCanvas);
+  }
 });
