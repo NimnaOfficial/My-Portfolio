@@ -198,15 +198,45 @@ document.addEventListener("DOMContentLoaded", () => {
       const index = this.getAttribute("data-index");
       if (this.classList.contains("active")) return;
 
+      // Smoothly auto-center the clicked thumbnail
+      this.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
+
       thumbCards.forEach((t) => t.classList.remove("active"));
       bgLayers.forEach((bg) => bg.classList.remove("active"));
 
       this.classList.add("active");
       bgLayers[index].classList.add("active");
 
-      infoWrapper.style.opacity = "0";
-      infoWrapper.style.transform = "translateY(20px)";
+      // Grab the individual elements for a staggered animation
+      const animatedElements = [
+        document.getElementById("proj-tags"),
+        document.getElementById("proj-title"),
+        document.getElementById("proj-desc"),
+        document.querySelector(".proj-action-btns"),
+      ];
 
+      // 1. STAGGERED ANIMATE OUT (Fade and slide up slightly)
+      animatedElements.forEach((el, i) => {
+        if (!el) return;
+        el.animate(
+          [
+            { opacity: 1, transform: "translateY(0px)" },
+            { opacity: 0, transform: "translateY(-15px)" },
+          ],
+          {
+            duration: 250,
+            easing: "cubic-bezier(0.4, 0, 0.2, 1)", // Smooth ease out
+            fill: "forwards",
+            delay: i * 40, // 40ms stagger between each element
+          },
+        );
+      });
+
+      // Wait for the out-animation to finish before swapping data
       setTimeout(() => {
         const currentProject = projectDatabase[index];
 
@@ -235,9 +265,23 @@ document.addEventListener("DOMContentLoaded", () => {
           liveBtn.style.display = "none";
         }
 
-        infoWrapper.style.opacity = "1";
-        infoWrapper.style.transform = "translateY(0)";
-      }, 400);
+        // 2. STAGGERED ANIMATE IN (Fade and snap up from the bottom)
+        animatedElements.forEach((el, i) => {
+          if (!el) return;
+          el.animate(
+            [
+              { opacity: 0, transform: "translateY(30px)" },
+              { opacity: 1, transform: "translateY(0px)" },
+            ],
+            {
+              duration: 500,
+              easing: "cubic-bezier(0.16, 1, 0.3, 1)", // Premium snappy spring effect
+              fill: "forwards",
+              delay: i * 60, // 60ms stagger for the entrance
+            },
+          );
+        });
+      }, 350); // Trigger swap right after the last element fades out
     });
   });
 
