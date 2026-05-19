@@ -5,6 +5,54 @@ document.addEventListener("DOMContentLoaded", () => {
   const interactiveElements = document.querySelectorAll(
     "a, button, .thumb-card, .accordion-header, input, textarea",
   );
+  // --- 🔥 UPGRADED: Physics-based Smooth Scrolling Engine ---
+  const lenis = new Lenis({
+    duration: 1.5,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smooth: true,
+    // Disable smooth scroll on mobile to allow native browser swiping
+    smoothTouch: false,
+    touchMultiplier: 2,
+  });
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
+  // --- 10. DRAG-TO-SCROLL ENGINE FOR DESKTOP ---
+  const slider = document.querySelector(".proj-thumbnails");
+  let isDown = false;
+  let startY;
+  let scrollTop;
+
+  if (slider) {
+    slider.addEventListener("mousedown", (e) => {
+      isDown = true;
+      slider.classList.add("active-drag");
+      startY = e.pageY - slider.offsetTop;
+      scrollTop = slider.scrollTop;
+    });
+
+    slider.addEventListener("mouseleave", () => {
+      isDown = false;
+      slider.classList.remove("active-drag");
+    });
+
+    slider.addEventListener("mouseup", () => {
+      isDown = false;
+      slider.classList.remove("active-drag");
+    });
+
+    slider.addEventListener("mousemove", (e) => {
+      if (!isDown) return; // Only trigger if mouse is held down
+      e.preventDefault();
+      const y = e.pageY - slider.offsetTop;
+      const walk = (y - startY) * 2; // Multiplier adjusts scroll speed
+      slider.scrollTop = scrollTop - walk;
+    });
+  }
 
   window.addEventListener("mousemove", (e) => {
     const posX = e.clientX;
@@ -178,6 +226,12 @@ document.addEventListener("DOMContentLoaded", () => {
       tags: ["HTML", "CSS", "JS", "PHP", "SQL", "AI", "Wasmer", "API"],
       repoLink: "https://github.com/NimnaOfficial/AnyGPA",
       liveLink: "https://anygpa.wasmer.app/",
+    },
+    {
+      title: "Ghost Port OS",
+      desc: "Ghost Port OS is a high-performance terminal utility for managing system ports. It provides a sleek interface for monitoring and controlling network connections.",
+      tags: ["C++", "System Programming", "Networking", "CMaker", "Pwsh"],
+      repoLink: "https://github.com/NimnaOfficial/GhostPort",
     },
   ];
 
