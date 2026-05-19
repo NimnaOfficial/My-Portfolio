@@ -313,6 +313,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 .proj-thumbnails {
     /* ... existing styles ... */
     cursor: grab; /* Shows the 'hand' cursor */
+    -webkit-user-select: none; 
     user-select: none; /* Prevents text highlighting while dragging */
 }
 
