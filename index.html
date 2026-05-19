@@ -2,11 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
     <title>K.G.L Sandanimne | Software Engineer & AI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="image.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
 </head>
 <body>
 
@@ -18,16 +27,16 @@
     <canvas id="antigravity-canvas" class="antigravity-bg"></canvas>
 
     <nav class="navbar" id="navbar">
-        <a href="#" class="nav-logo">SANDANIMNE<span>.</span></a>
+        <a href="#" class="nav-logo">SANDANIMNE<span class="brand-dot">.</span></a>
         
-        <div class="nav-links">
+        <div class="nav-links desktop-only">
             <a href="#about" class="hover-underline magnetic-link">About</a>
             <a href="#skills" class="hover-underline magnetic-link">Skills</a>
             <a href="#projects" class="hover-underline magnetic-link">Projects</a>
         </div>
 
         <div class="nav-actions">
-            <button id="theme-toggle" class="theme-btn magnetic-btn" aria-label="Toggle Theme">
+            <button id="theme-toggle" class="theme-btn magnetic-btn" aria-label="Toggle Dark and Light Theme">
                 <div class="theme-icon-wrapper">
                     <span class="sun-icon">..</span>
                     <span class="sun-icon">☾</span>
@@ -37,10 +46,10 @@
             </button>
             <a href="#contact" class="contact-pill magnetic-btn desktop-only">Let's Talk</a>
             
-            <div class="hamburger" id="hamburger">
+            <button class="hamburger" id="hamburger" aria-label="Toggle Mobile Menu">
                 <span></span>
                 <span></span>
-            </div>
+            </button>
         </div>
     </nav>
 
@@ -161,6 +170,45 @@
                     </div>
                 </div>
             </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <span class="num">04</span>
+                    <h3>Cloud & Database Architecture</h3>
+                    <span class="icon"></span>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p>Designing and managing robust databases across local (MySQL, WAMP/XAMPP) and modern cloud environments (Supabase, MongoDB) for high-availability systems.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <span class="num">05</span>
+                    <h3>Modern UI/UX Engineering</h3>
+                    <span class="icon"></span>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p>Crafting intuitive, highly responsive frontend interfaces combining frameworks like React and Tailwind to bridge the gap between aesthetic design and complex code.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <span class="num">06</span>
+                    <h3>System Admin & Security</h3>
+                    <span class="icon"></span>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <p>Managing server environments, troubleshooting OS-level architecture (Windows/Linux), and implementing fundamental cybersecurity practices to secure application deployments.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -172,6 +220,7 @@
             <div class="proj-bg-layer bg-proj-3"></div>
             <div class="proj-bg-layer bg-proj-4"></div>
             <div class="proj-bg-layer bg-proj-5"></div>
+            <div class="proj-bg-layer bg-proj-6"></div>
             <div class="proj-bg-overlay"></div>
         </div>
 
@@ -197,48 +246,60 @@
                 </div>
             </div>
 
-            <div class="proj-thumbnails reveal-up delay-1">
-                
-                <div class="thumb-card active magnetic-link" data-index="0">
-                    <div class="thumb-img bg-thumb-1"></div>
-                    <div class="thumb-content">
-                        <h4>Lanka Wash</h4>
-                        <p>Full-Stack / UI</p>
-                    </div>
-                </div>
+            <div class="proj-thumbnails-wrapper reveal-up delay-1">
+                <div class="proj-thumbnails" id="proj-thumbnails">
+                    <div class="thumb-track" id="thumb-track">
+                        
+                        <div class="thumb-card active magnetic-link" data-index="0">
+                            <div class="thumb-img bg-thumb-1"></div>
+                            <div class="thumb-content">
+                                <h4>Lanka Wash</h4>
+                                <p>Full-Stack / UI</p>
+                            </div>
+                        </div>
 
-                <div class="thumb-card magnetic-link" data-index="1">
-                    <div class="thumb-img bg-thumb-2"></div>
-                    <div class="thumb-content">
-                        <h4>Smart Crop Supply</h4>
-                        <p>Backend Analytics</p>
-                    </div>
-                </div>
+                        <div class="thumb-card magnetic-link" data-index="1">
+                            <div class="thumb-img bg-thumb-2"></div>
+                            <div class="thumb-content">
+                                <h4>Smart Crop Supply</h4>
+                                <p>Backend Analytics</p>
+                            </div>
+                        </div>
 
-                <div class="thumb-card magnetic-link" data-index="2">
-                    <div class="thumb-img bg-thumb-3"></div>
-                    <div class="thumb-content">
-                        <h4>AI & Data</h4>
-                        <p>Python / ML</p>
-                    </div>
-                </div>
-                
-                <div class="thumb-card magnetic-link" data-index="3">
-                    <div class="thumb-img bg-thumb-4"></div>
-                    <div class="thumb-content">
-                        <h4>Auto Parts Online</h4>
-                        <p>Parts shopping</p>
-                    </div>
-                </div>
+                        <div class="thumb-card magnetic-link" data-index="2">
+                            <div class="thumb-img bg-thumb-3"></div>
+                            <div class="thumb-content">
+                                <h4>AI & Data</h4>
+                                <p>Python / ML</p>
+                            </div>
+                        </div>
+                        
+                        <div class="thumb-card magnetic-link" data-index="3">
+                            <div class="thumb-img bg-thumb-4"></div>
+                            <div class="thumb-content">
+                                <h4>Auto Parts Online</h4>
+                                <p>Parts shopping</p>
+                            </div>
+                        </div>
 
-                <div class="thumb-card magnetic-link" data-index="4">
-                    <div class="thumb-img bg-thumb-5"></div>
-                    <div class="thumb-content">
-                        <h4>Any GPA</h4>
-                        <p>Ai Intergrated GPA Calculation System</p>
+                        <div class="thumb-card magnetic-link" data-index="4">
+                            <div class="thumb-img bg-thumb-5"></div>
+                            <div class="thumb-content">
+                                <h4>Any GPA</h4>
+                                <p>GPA Calculation System</p>
+                            </div>
+                        </div>
+
+                        <div class="thumb-card magnetic-link" data-index="5">
+                            <div class="thumb-img bg-thumb-6"></div>
+                            <div class="thumb-content">
+                                <h4>Ghost Port OS</h4>
+                                <p>Ports Management Utility</p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -290,19 +351,19 @@
                     
                     <div class="input-row">
                         <div class="input-group">
-                            <input type="text" name="name" placeholder="Your Name *" required>
+                            <input type="text" name="name" placeholder="Your Name *" required aria-label="Enter your name">
                         </div>
                         <div class="input-group">
-                            <input type="email" name="email" placeholder="Your Email *" required>
+                            <input type="email" name="email" placeholder="Your Email *" required aria-label="Enter your email address">
                         </div>
                     </div>
                     
                     <div class="input-group">
-                        <input type="text" name="website" placeholder="Website / Portfolio Link (Optional)">
+                        <input type="text" name="website" placeholder="Website / Portfolio Link (Optional)" aria-label="Enter your website or portfolio link">
                     </div>
                     
                     <div class="input-group">
-                        <textarea name="message" placeholder="Your Comment *" required rows="4"></textarea>
+                        <textarea name="message" placeholder="Your Comment *" required rows="4" aria-label="Enter your message"></textarea>
                     </div>
                     
                     <button type="submit" class="btn-primary magnetic-btn form-submit-btn">Get In Touch</button>
@@ -342,6 +403,7 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
