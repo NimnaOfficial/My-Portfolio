@@ -233,6 +233,12 @@ document.addEventListener("DOMContentLoaded", () => {
       tags: ["C++", "System Programming", "Networking", "CMaker", "Pwsh"],
       repoLink: "https://github.com/NimnaOfficial/GhostPort",
     },
+    {
+      title: "Beverage Potential",
+      desc: "Traditional historical sales data answers the question: <b>What did this outlet sell?</b> Our mission was to answer a fundamentally different question",
+      tags: ["Python", "Data Analysis", "Machine Learning", "Visualization"],
+      repoLink: "https://github.com/NimnaOfficial/BeveragePotential",
+    },
   ];
 
   const thumbCards = document.querySelectorAll(".thumb-card");
