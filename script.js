@@ -235,9 +235,9 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       title: "Beverage Potential",
-      desc: "Traditional historical sales data answers the question: <b>What did this outlet sell?</b> Our mission was to answer a fundamentally different question",
+      desc: "Traditional historical sales data answers the question: What did this outlet sell? Our mission was to answer a fundamentally different question",
       tags: ["Python", "Data Analysis", "Machine Learning", "Visualization"],
-      repoLink: "https://github.com/NimnaOfficial/BeveragePotential",
+      repoLink: "https://github.com/NimnaOfficial/BaveragePotential",
     },
   ];
 
