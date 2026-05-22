@@ -169,7 +169,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     width: 100vw; max-width: 100%; overflow: hidden; background: var(--card-bg); 
     padding: 1.5rem 0; border-top: 1px solid var(--card-border); border-bottom: 1px solid var(--card-border);
 }
-.marquee-track { display: flex; width: max-content; animation: scrollText 30s linear infinite; }
+.marquee-track { display: flex; width: max-content; animation: scrollText 40s linear infinite; }
 .marquee-group { display: flex; align-items: center; gap: 3rem; padding-right: 3rem; }
 .marquee-group span { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text-main); white-space: nowrap; }
 .marquee-group .dot { color: var(--accent); }
