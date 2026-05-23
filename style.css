@@ -552,7 +552,10 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     
     /* FOOTER CENTERING FIX */
     .footer-col { text-align: center; }
-    .footer-social-pills { align-items: center; }
+    .footer-social-pills { 
+        width: 100%; 
+        align-items: center !important; 
+    }
 
     /* Fix Mobile Cursor Issues */
     .cursor-dot, .cursor-outline { display: none; }
