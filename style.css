@@ -50,10 +50,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 
 
 /* =========================================================
-   2. AMBIENT GLOW & BACKGROUND VORTEX (RESTORED TO ORIGINAL)
-   ========================================================= */
-/* =========================================================
-   🔥 HIGH-CONTRAST AMBIENT GLOW 🔥
+   🔥 EXPANDED RADIANT SMOOTH AMBIENT GLOW 🔥
    ========================================================= */
 .ambient-glow {
     position: fixed; 
@@ -62,18 +59,33 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     width: 100vw; 
     height: 100vh;
     
-    /* 🔥 The Fix: Brighter center (0.45 opacity), deeper mid-ring (0.7 opacity) */
+    /* 🔥 The Fix: Pushed the mid-fade to 50% so the purple physically occupies 
+       way more screen real estate, and delayed the black void until 90% 
+       to keep the blending slope incredibly gradual and soft. */
     background: radial-gradient(
         ellipse at center, 
-        rgba(147, 51, 234, 0.45) 0%, 
-        rgba(147, 51, 234, 0.25) 25%, 
-        rgba(20, 5, 40, 0.7) 55%, 
-        transparent 85%
+        rgba(147, 51, 234, 0.45) 1%,    /* Peak radiant core */
+        rgba(120, 30, 200, 0.25) 40%,   /* 🔥 Purple energy extended to 50% width */
+        rgba(0, 0, 0, 1) 80%,           /* 🔥 Black void starts right at the edge boundaries */
+        rgba(0, 0, 0, 1) 100%           /* Corners remain flawlessly masked in absolute black */
     );
     
     z-index: -1; 
     pointer-events: none; 
     transition: background 0.5s ease;
+}
+
+/* =========================================================
+   🔥 LIGHT MODE OVERRIDE FOR AMBIENT GLOW 🔥
+   ========================================================= */
+[data-theme="light"] .ambient-glow {
+    /* Slightly increased the light mode purple to match the new dark mode energy */
+    background: radial-gradient(
+        ellipse at center, 
+        rgba(126, 34, 206, 0.25) 0%, 
+        rgba(126, 34, 206, 0.1) 40%, 
+        transparent 80%
+    );
 }
 
 .antigravity-bg {
