@@ -1,10 +1,14 @@
-/* --- CSS VARIABLES & THEME LOGIC --- */
+/* =========================================================
+   1. CSS VARIABLES & THEME LOGIC (RESTORED TO ORIGINAL)
+   ========================================================= */
 :root {
-    --bg-main: #050505;
+    /* 🔥 Restored your original dark base and bright purple */
+    --bg-main: #000000;
     --text-main: #ffffff;
     --text-muted: #8a8a93;
     --accent: #9333ea;
     --accent-glow: rgba(147, 51, 234, 0.3);
+    
     --card-bg: rgba(20, 20, 22, 0.6);
     --card-border: rgba(255, 255, 255, 0.08);
     --nav-bg: rgba(5, 5, 5, 0.8);
@@ -44,28 +48,195 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 .section-padding { padding: 120px 0; }
 .mt-base { margin-top: 2rem; }
 
-/* --- CUSTOM CURSOR --- */
-.cursor-dot {
-    width: 8px; height: 8px; background-color: var(--accent);
-    border-radius: 50%; position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9999;
-    transform: translate(-50%, -50%); transition: opacity 0.3s;
-}
-.cursor-outline {
-    width: 40px; height: 40px; border: 1px solid var(--accent);
-    border-radius: 50%; position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9998;
-    transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background 0.2s;
-}
-.cursor-outline.hover-active { width: 60px; height: 60px; background-color: var(--accent-glow); border-color: transparent; }
 
+/* =========================================================
+   2. AMBIENT GLOW & BACKGROUND VORTEX (RESTORED TO ORIGINAL)
+   ========================================================= */
+/* =========================================================
+   🔥 HIGH-CONTRAST AMBIENT GLOW 🔥
+   ========================================================= */
 .ambient-glow {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: radial-gradient(circle at 50% 0%, var(--accent-glow) 0%, transparent 60%);
-    z-index: -1; pointer-events: none; transition: background 0.5s ease;
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh;
+    
+    /* 🔥 The Fix: Brighter center (0.45 opacity), deeper mid-ring (0.7 opacity) */
+    background: radial-gradient(
+        ellipse at center, 
+        rgba(147, 51, 234, 0.45) 0%, 
+        rgba(20, 5, 40, 0.7) 35%, 
+        transparent 75%
+    );
+    
+    z-index: -1; 
+    pointer-events: none; 
+    transition: background 0.5s ease;
 }
 
-/* --- NAVBAR --- */
+.antigravity-bg {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: -2; pointer-events: none; opacity: 0.8;
+}
+
+
+/* =========================================================
+   3. TACTICAL HUD: CHROMATIC ABERRATION & SMOOTH MOTION
+   ========================================================= */
+.hud-cursor {
+    position: fixed; top: 0; left: 0; z-index: 10000; pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+    mix-blend-mode: difference; color: #fff; will-change: transform;
+}
+
+/* 🔥 The Crosshair: Uses JS Velocity for Parallax Drag AND Rotation */
+.hud-crosshair {
+    width: 24px; height: 24px; position: relative;
+    /* Injects the --rot variable calculated by your JS velocity */
+    transform: translate3d(var(--vx, 0), var(--vy, 0), 0) rotate(var(--rot, 0deg));
+    will-change: transform;
+    transition: opacity 0.4s ease, filter 0.4s ease;
+}
+
+/* ... (keep your existing ::before/::after RGB glitch CSS here) ... */
+
+/* =========================================================
+   🔥 IDLE STANDBY MODE (When mouse stops moving)
+   ========================================================= */
+.hud-cursor.is-idle .hud-crosshair {
+    /* Dims the crosshair */
+    opacity: 0.3;
+    /* Adds a slow, rhythmic breathing glow when sitting still */
+    animation: standbyBreathe 3s infinite alternate ease-in-out;
+}
+
+/* Fades the data text completely out when idle so it doesn't clutter the screen */
+.hud-cursor.is-idle .hud-data {
+    opacity: 0;
+    transform: translate3d(calc(var(--vx, 0) * 0.5), calc(var(--vy, 0) * 0.5), 0) scale(0.9);
+}
+
+.hud-cursor.is-idle .hud-pulse {
+    /* Slows down and dims the radar pulse when idle */
+    animation-duration: 4s;
+    opacity: 0.2;
+}
+
+@keyframes standbyBreathe {
+    0% { filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.2)); }
+    100% { filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8)); opacity: 0.7; }
+}
+
+/* --- HOVER STATES --- */
+.hud-cursor.active-target .hud-crosshair { 
+    /* Hard overrides the idle and rotational math to snap into the target diamond */
+    transform: translate3d(var(--vx, 0), var(--vy, 0), 0) rotate(45deg) scale(1.6); 
+    opacity: 1;
+    animation: none;
+}
+
+@keyframes slowSpin { 
+    0% { transform: rotate(0deg); } 
+    100% { transform: rotate(360deg); } 
+}
+
+/* The Crosshair Lines */
+.hud-crosshair::before, .hud-crosshair::after {
+    content: ''; position: absolute; background: #fff;
+    /* 🔥 The Smooth RGB Chromatic Drift Animation */
+    animation: rgbDrift 3s ease-in-out infinite alternate;
+}
+.hud-crosshair::before { top: 0; left: 11px; width: 2px; height: 24px; }
+.hud-crosshair::after { top: 11px; left: 0; width: 24px; height: 2px; }
+
+@keyframes rgbDrift {
+    0% { box-shadow: -2px 0px 4px rgba(255, 0, 80, 0.9), 2px 0px 4px rgba(0, 255, 255, 0.9); }
+    50% { box-shadow: 2px -2px 4px rgba(255, 0, 255, 0.9), -2px 2px 4px rgba(0, 255, 100, 0.9); }
+    100% { box-shadow: 2px 2px 4px rgba(255, 0, 80, 0.9), -2px -2px 4px rgba(0, 255, 255, 0.9); }
+}
+
+/* 🔥 The Chromatic Pulse Scan Ring */
+.hud-pulse {
+    position: absolute; width: 40px; height: 40px; border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: chromaticPulseScan 2.5s infinite cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes chromaticPulseScan {
+    0% { 
+        transform: scale(0.4); opacity: 0; 
+        box-shadow: inset 0 0 0 rgba(255,0,80,0), 0 0 0 rgba(0,255,255,0); 
+    }
+    50% { 
+        opacity: 0.8; border-color: rgba(255,255,255,0.6);
+        box-shadow: inset -2px 0 8px rgba(255,0,80,0.6), 2px 0 8px rgba(0,255,255,0.6); 
+    }
+    100% { 
+        transform: scale(1.5); opacity: 0; 
+        box-shadow: inset -10px 0 20px rgba(255,0,80,0), 10px 0 20px rgba(0,255,255,0); 
+    }
+}
+
+/* The Live Coordinates Data Feed */
+.hud-data {
+    position: absolute; 
+    top: 30px; 
+    left: 30px;
+    font-family: 'Syne', monospace; 
+    font-size: 0.65rem; 
+    font-weight: 700;
+    letter-spacing: 2px; 
+    white-space: nowrap; 
+    text-transform: uppercase;
+    
+    /* Perfect silver-chrome edge border and text tint */
+    border-left: 2px solid #cbd5e1; 
+    padding-left: 10px; 
+    opacity: 0.85;
+    color: #e2e8f0; 
+    
+    /* Retains your smooth velocity drag physics */
+    transform: translate3d(calc(var(--vx, 0) * 0.5), calc(var(--vy, 0) * 0.5), 0);
+    
+    /* 🔥 NEW ANIMATION: Smooth, low-frequency silver breathing glow */
+    animation: silverGlowVibrate 2.5s infinite alternate ease-in-out;
+}
+
+/* --- HOVER STATES: When scanning a target --- */
+.hud-cursor.active-target .hud-crosshair { 
+    animation: none; /* Stops the slow spin */
+    transform: rotate(45deg) scale(1.6); /* Snaps aggressively to a diamond */
+}
+.hud-cursor.active-target .hud-pulse { border-color: transparent; }
+
+/* The RGB glitch gets wider when locked onto a target */
+.hud-cursor.active-target .hud-crosshair::before,
+.hud-cursor.active-target .hud-crosshair::after {
+    animation: rgbTargetLocked 0.3s infinite alternate ease-in-out;
+}
+@keyframes silverGlowVibrate {
+    0% { 
+        text-shadow: 
+            0 0 4px rgba(255, 255, 255, 0.4), 
+            0 0 12px rgba(148, 163, 184, 0.3); 
+    }
+    100% { 
+        text-shadow: 
+            0 0 6px rgba(255, 255, 255, 0.6), 
+            0 0 18px rgba(148, 163, 184, 0.5),
+            0 0 24px rgba(255, 255, 255, 0.2); 
+    }
+}
+.hud-cursor.active-target .hud-data { color: var(--accent); border-color: var(--accent); opacity: 1; }
+
+/* Kill default cursors on desktop, hide on mobile */
+@media (min-width: 901px) { * { cursor: none !important; } }
+@media (max-width: 900px) { .hud-cursor { display: none !important; } * { cursor: auto !important; } }
+
+
+/* =========================================================
+   4. NAVBAR & MOBILE MENU
+   ========================================================= */
 .navbar {
     position: fixed; top: 0; left: 0; width: 100%;
     display: flex; justify-content: space-between; align-items: center;
@@ -73,8 +244,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 }
 .navbar.scrolled {
     background: var(--nav-bg); 
-    -webkit-backdrop-filter: blur(12px); /* Linter Prefix Fix */
-    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); 
     border-bottom: 1px solid var(--card-border);
 }
 .nav-logo { font-size: 1.5rem; font-weight: 800; text-decoration: none; color: var(--text-main); letter-spacing: -1px; }
@@ -83,35 +253,22 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 .nav-links a { color: var(--text-main); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
 .nav-actions { display: flex; align-items: center; gap: 1.5rem; }
 
-/* Hamburger (Hidden on Desktop) */
 .hamburger {
-    display: none; 
-    flex-direction: column; 
-    justify-content: space-between;
-    width: 30px; height: 20px; 
-    
-    /* 🔥 THE BUG FIX: Strip the browser's default button styles 🔥 */
-    background: transparent; 
-    border: none; 
-    padding: 0; 
-    
+    display: none; flex-direction: column; justify-content: space-between;
+    width: 30px; height: 20px; background: transparent; border: none; padding: 0; 
     cursor: auto; z-index: 1002;
 }
 .hamburger span {
-    width: 100%; height: 2px; 
-    background-color: var(--text-main); 
-    border-radius: 2px;
+    width: 100%; height: 2px; background-color: var(--text-main); border-radius: 2px;
     transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
 .hamburger.active span:nth-child(2) { transform: translateY(-9px) rotate(-45deg); }
 
-/* FLOATING MOBILE MENU */
 .mobile-menu {
     position: fixed; top: 80px; left: 5%; width: 90%; height: auto;
     background: var(--nav-bg); 
-    -webkit-backdrop-filter: blur(24px); /* Linter Prefix Fix */
-    backdrop-filter: blur(24px); 
+    -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); 
     border: 1px solid var(--card-border); border-radius: 24px;
     padding: 2.5rem; z-index: 1000; opacity: 0; pointer-events: none;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -133,6 +290,10 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 .mobile-menu.active .mobile-link:nth-child(3) { transition-delay: 0.2s; }
 .mobile-menu.active .mobile-link:nth-child(4) { transition-delay: 0.25s; }
 
+
+/* =========================================================
+   5. BUTTONS & UI ELEMENTS
+   ========================================================= */
 .btn-primary, .contact-pill {
     display: inline-block; background: var(--btn-bg); color: var(--btn-text);
     padding: 14px 32px; border-radius: 50px; font-weight: 600; text-decoration: none; border: none; cursor: none;
@@ -150,21 +311,21 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s, color 0.3s;
 }
 
-/* --- HERO --- */
+
+/* =========================================================
+   6. HERO & MARQUEE
+   ========================================================= */
 .hero {
     min-height: 100vh; display: flex; flex-direction: column;
     justify-content: center; align-items: center; text-align: center;
     padding: 0 5%; position: relative;
 }
 .huge-text { 
-    font-size: clamp(2.5rem, 7vw, 7rem); 
-    font-weight: 800; line-height: 1; letter-spacing: -2px; 
-    margin-bottom: 2rem; z-index: 2; width: 100%; 
-    white-space: nowrap; text-align: center; padding: 0 1rem; 
+    font-size: clamp(2.5rem, 7vw, 7rem); font-weight: 800; line-height: 1; letter-spacing: -2px; 
+    margin-bottom: 2rem; z-index: 2; width: 100%; white-space: nowrap; text-align: center; padding: 0 1rem; 
 }
 .subtitle { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--text-muted); max-width: 650px; z-index: 2; line-height: 1.6; text-align: center; }
 
-/* --- MARQUEE --- */
 .marquee-container {
     width: 100vw; max-width: 100%; overflow: hidden; background: var(--card-bg); 
     padding: 1.5rem 0; border-top: 1px solid var(--card-border); border-bottom: 1px solid var(--card-border);
@@ -175,15 +336,17 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 .marquee-group .dot { color: var(--accent); }
 @keyframes scrollText { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-/* --- ABOUT SECTION --- */
+
+/* =========================================================
+   7. ABOUT & ACCORDION (SKILLS)
+   ========================================================= */
 .about-section { padding: 150px 5%; text-align: center; perspective: 1000px; }
 .hollow-text {
     font-size: clamp(4rem, 10vw, 7rem); color: transparent;
     -webkit-text-stroke: 2px rgba(255,255,255,0.2); margin-bottom: -40px; position: relative; z-index: 1;
     background: linear-gradient(90deg, #ff6b6b, #8b5cf6, #92EFFD, #ff6b6b);
     background-size: 300% auto; 
-    -webkit-background-clip: text; /* Linter Prefix Fix */
-    background-clip: text; 
+    -webkit-background-clip: text; background-clip: text; 
     transition: all 0.5s ease;
 }
 [data-theme="light"] .hollow-text { -webkit-text-stroke: 2px rgba(0,0,0,0.1); }
@@ -192,8 +355,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 
 .about-content {
     background: rgba(24, 24, 27, 0.8); 
-    -webkit-backdrop-filter: blur(10px); /* Linter Prefix Fix */
-    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); 
     padding: 40px; border-radius: 24px; max-width: 800px; margin: 0 auto;
     position: relative; z-index: 2; border: 1px solid rgba(255,255,255,0.05);
     transform-style: preserve-3d; transition: transform 0.1s ease, box-shadow 0.3s ease;
@@ -208,7 +370,6 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 .about-content:hover::before { opacity: 1; filter: blur(20px); }
 .about-content p { font-size: 1.1rem; line-height: 1.6; color: var(--text-main); transform: translateZ(30px); margin-bottom: 2rem; }
 
-/* --- ACCORDION --- */
 .section-title { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 3rem; text-align: center; }
 .accordion-item { border-bottom: 1px solid var(--card-border); }
 .accordion-header { display: flex; align-items: center; justify-content: space-between; padding: 2rem 0; cursor: none; transition: color 0.3s; }
@@ -224,23 +385,18 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 .accordion-item.active .accordion-header .icon::after { transform: rotate(90deg); }
 .accordion-item.active .accordion-header .icon::before, .accordion-item.active .accordion-header .icon::after { background: var(--accent); }
 
-/* --- PROJECTS --- */
 
+/* =========================================================
+   8. PROJECTS SECTION (3D ISOMETRIC)
+   ========================================================= */
 .immersive-projects { 
-    position: relative; 
-    width: 100%; 
-    min-height: 100vh; 
-    display: flex; 
-    align-items: center; 
-    overflow: hidden; 
-    padding: 100px 0; 
-
-    /* 🔥 THE FIX: Dissolves the top and bottom of the entire project theater into the space background 🔥 */
+    position: relative; width: 100%; min-height: 100vh; display: flex; align-items: center; 
+    overflow: hidden; padding: 100px 0; 
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
     mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+    will-change: transform; perspective: 1000px; 
 }
 .project-bg-container { position: absolute; inset: 0; z-index: 0; }
-
 .proj-bg-layer {
     position: absolute; inset: 0; background-size: cover; background-position: center;
     opacity: 0; visibility: hidden; transform: scale(1.05); transition: opacity 1.2s ease, transform 10s linear;
@@ -249,145 +405,29 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 .proj-bg-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg-main) 0%, rgba(5,5,5,0.8) 40%, rgba(5,5,5,0.4) 100%); z-index: 1; }
 [data-theme="light"] .proj-bg-overlay { background: linear-gradient(90deg, var(--bg-main) 0%, rgba(248, 250, 252, 0.9) 45%, rgba(248, 250, 252, 0.5) 100%); }
 
-.proj-layout { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 4rem; width: 100%; height: 100%; }
-
-.proj-info-wrapper {
-    /* 🔥 Restored your layout rules! */
-    flex: 1; 
-    max-width: 600px;
-    padding: 20px 0;
-    position: relative;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+.proj-layout { 
+    position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 4rem; width: 100%; height: 100%; 
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s ease;
 }
 
+.proj-info-wrapper {
+    flex: 1; max-width: 600px; padding: 20px 0; position: relative;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+}
 .proj-info-wrapper::before {
-    content: '';
-    position: absolute;
-    inset: -20px -40px;
-    /* 🔥 Made the glow slightly brighter (white 4% opacity) so it separates from the background */
+    content: ''; position: absolute; inset: -20px -40px;
     background: radial-gradient(circle at center, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
-    z-index: -1;
-    pointer-events: none;
-    border-radius: 30px;
+    z-index: -1; pointer-events: none; border-radius: 30px;
 }
 
 .massive-proj-title { font-size: clamp(3rem, 6vw, 5rem); font-family: 'Syne', sans-serif; font-weight: 800; line-height: 1; margin-bottom: 1.5rem; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-
 .proj-description {
-    /* 🔥 Restored your description layout rules! */
-    font-size: 1.15rem; 
-    color: var(--text-muted); 
-    line-height: 1.7; 
-    margin-bottom: 2.5rem;
-    
-    padding-bottom: 2rem;
-    /* 🔥 Brightened the border fade so it's clearly visible */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1.15rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 2.5rem;
+    padding-bottom: 2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     border-image: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.2) 80%, transparent) 1;
 }
-
 .proj-tags { display: flex; gap: 10px; margin-bottom: 2rem; flex-wrap: wrap; }
 .proj-tags .tag { padding: 6px 16px; border: 1px solid var(--accent); border-radius: 50px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; background: var(--accent-glow); color: var(--text-main); }
-/* =========================================================
-   🔥 NEW GEN 3D ISOMETRIC SCROLL TRACK 🔥
-   ========================================================= */
-
-.proj-thumbnails-wrapper {
-    width: 350px;
-    height: 65vh;
-    position: relative;
-    flex-shrink: 0;
-    /* The fading edge mask is applied to the static wrapper */
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-}
-
-.proj-thumbnails {
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    /* The 3D Camera Lens mapping depth to the user's screen */
-    perspective: 1500px; 
-    padding: 0 10px;
-}
-
-/* Sleek native scrollbar styling */
-.proj-thumbnails::-webkit-scrollbar { width: 4px; }
-.proj-thumbnails::-webkit-scrollbar-track { background: transparent; }
-.proj-thumbnails::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
-.proj-thumbnails::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-.thumb-track {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    /* Massive top/bottom padding allows the first/last item to scroll to the center */
-    padding: 30vh 10px 30vh 10px; 
-    transform-style: preserve-3d;
-    
-    /* 🔥 The Isometric Tilt: Angles the entire track into the background 🔥 */
-    transform: rotateX(15deg) rotateY(-20deg) rotateZ(8deg);
-}
-
-.thumb-card {
-    display: flex; align-items: center; gap: 1rem; padding: 10px; border-radius: 16px; cursor: none;
-    background: var(--card-bg); border: 1px solid var(--card-border); 
-    -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); 
-    
-    /* Premium Apple-style spring easing for 3D translations */
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, border-color 0.5s ease; 
-    transform-style: preserve-3d;
-    position: relative;
-}
-
-.thumb-card::before { 
-    content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, var(--accent-glow)); 
-    opacity: 0; transition: opacity 0.4s ease; z-index: -1; 
-}
-.thumb-img { width: 80px; height: 80px; border-radius: 12px; background-size: cover; background-position: center; transition: transform 0.4s ease; }
-.thumb-content h4 { font-size: 1.1rem; color: var(--text-main); margin-bottom: 4px; }
-.thumb-content p { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; }
-
-/* --- 3D Hover & Active States --- */
-.thumb-card:hover {
-    /* Slightly lifts off the track toward the camera on hover */
-    transform: translateZ(20px); 
-    border-color: rgba(255,255,255,0.3);
-}
-.thumb-card:hover .thumb-img { transform: scale(1.1); }
-
-.proj-thumbnails {
-    /* ... existing styles ... */
-    cursor: grab; /* Shows the 'hand' cursor */
-    -webkit-user-select: none; 
-    user-select: none; /* Prevents text highlighting while dragging */
-}
-
-.proj-thumbnails:active {
-    cursor: grabbing; /* Shows the 'closed fist' when clicking */
-}
-
-.thumb-card.active {
-    /* Dramatically pops up toward the camera lens (Z-axis) */
-    transform: translateZ(60px) scale(1.05); 
-    border-color: var(--accent);
-    /* Casts a realistic 3D shadow backward onto the track */
-    box-shadow: -20px 20px 40px rgba(0,0,0,0.6), 0 0 30px var(--accent-glow);
-}
-.thumb-card.active::before { opacity: 1; }
-
-/* Enable hardware acceleration for smooth transforms */
-.immersive-projects { 
-    will-change: transform; 
-    perspective: 1000px; 
-}
-
-/* Add a smooth entrance animation for the projects container */
-.proj-layout {
-    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s ease;
-}
 
 .proj-action-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
 .btn-secondary {
@@ -398,7 +438,54 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 }
 .btn-secondary:hover { border-color: var(--accent); background: var(--accent-glow); }
 
-/* --- CONTACT SECTION --- */
+.proj-thumbnails-wrapper {
+    width: 350px; height: 65vh; position: relative; flex-shrink: 0;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+.proj-thumbnails {
+    width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth;
+    perspective: 1500px; padding: 0 10px;
+    cursor: grab; -webkit-user-select: none; user-select: none;
+}
+.proj-thumbnails:active { cursor: grabbing; }
+.proj-thumbnails::-webkit-scrollbar { width: 4px; }
+.proj-thumbnails::-webkit-scrollbar-track { background: transparent; }
+.proj-thumbnails::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+.proj-thumbnails::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+.thumb-track {
+    display: flex; flex-direction: column; gap: 1.5rem;
+    padding: 30vh 10px 30vh 10px; transform-style: preserve-3d;
+    transform: rotateX(15deg) rotateY(-20deg) rotateZ(8deg);
+}
+.thumb-card {
+    display: flex; align-items: center; gap: 1rem; padding: 10px; border-radius: 16px; cursor: none;
+    background: var(--card-bg); border: 1px solid var(--card-border); 
+    -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); 
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, border-color 0.5s ease; 
+    transform-style: preserve-3d; position: relative;
+}
+.thumb-card::before { 
+    content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, var(--accent-glow)); 
+    opacity: 0; transition: opacity 0.4s ease; z-index: -1; 
+}
+.thumb-img { width: 80px; height: 80px; border-radius: 12px; background-size: cover; background-position: center; transition: transform 0.4s ease; }
+.thumb-content h4 { font-size: 1.1rem; color: var(--text-main); margin-bottom: 4px; }
+.thumb-content p { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; }
+
+.thumb-card:hover { transform: translateZ(20px); border-color: rgba(255,255,255,0.3); }
+.thumb-card:hover .thumb-img { transform: scale(1.1); }
+.thumb-card.active {
+    transform: translateZ(60px) scale(1.05); border-color: var(--accent);
+    box-shadow: -20px 20px 40px rgba(0,0,0,0.6), 0 0 30px var(--accent-glow);
+}
+.thumb-card.active::before { opacity: 1; }
+
+
+/* =========================================================
+   9. CONTACT SECTION & MAP
+   ========================================================= */
 .contact-top-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 5rem; }
 .huge-text-sub { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin: 1rem 0 2rem 0; font-family: 'Syne', sans-serif;}
 .contact-right { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
@@ -406,28 +493,22 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 .info-block p, .info-block a { color: var(--text-main); font-size: 1rem; text-decoration: none; line-height: 1.5; transition: color 0.3s; cursor: none;}
 .info-block a:hover { color: var(--accent); }
 .social-links-small { display: flex; flex-direction: column; gap: 0.5rem; }
+
 .massive-email-container { text-align: center; margin-bottom: -50px; position: relative; z-index: 2; }
 .massive-email { 
     font-size: clamp(2rem, 5vw, 5rem); font-weight: 800; 
     background: linear-gradient(135deg, #ff6b6b, var(--accent)); 
-    -webkit-background-clip: text; /* Linter Prefix Fix */
-    background-clip: text; 
-    -webkit-text-fill-color: transparent; 
-    letter-spacing: -2px; word-break: break-all; 
+    -webkit-background-clip: text; background-clip: text; 
+    -webkit-text-fill-color: transparent; letter-spacing: -2px; word-break: break-all; 
 }
 .map-form-container { position: relative; width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 50px; }
 .map-wrapper { 
-    width: 100%; 
-    height: 600px; 
-    filter: grayscale(100%) invert(90%) contrast(120%); 
-    opacity: 0.8; 
-    transition: filter 0.6s; 
-    
-    /* 🔥 THE FIX: Seamless Gradient Fade for Top and Bottom 🔥 */
+    width: 100%; height: 600px; filter: grayscale(100%) invert(90%) contrast(120%); opacity: 0.8; transition: filter 0.6s; 
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
     mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
 }
 [data-theme="light"] .map-wrapper { filter: grayscale(100%) contrast(100%); opacity: 0.8; }
+
 .form-overlap-card {
     background: var(--bg-main); border: 1px solid var(--card-border);
     border-radius: 24px 24px 0 0; padding: 5rem 10%; width: 90%; max-width: 1000px;
@@ -449,7 +530,10 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 .custom-form textarea { resize: vertical; min-height: 100px; }
 .form-submit-btn { margin: 0 auto; display: block; margin-top: 3rem; }
 
-/* --- MEGA FOOTER --- */
+
+/* =========================================================
+   10. MEGA FOOTER
+   ========================================================= */
 .mega-footer { padding: 80px 0 0 0; overflow: hidden; position: relative; }
 .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 4rem; }
 .footer-col h4 { font-size: 1.5rem; margin-bottom: 1.5rem; }
@@ -469,7 +553,10 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     display: block; width: 100%; overflow: hidden; text-align: center;
 }
 
-/* --- ANIMATION UTILITY CLASSES --- */
+
+/* =========================================================
+   11. ANIMATION UTILITIES
+   ========================================================= */
 .reveal-up { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
 .delay-1 { transition-delay: 0.15s; }
 .delay-2 { transition-delay: 0.3s; }
@@ -478,7 +565,16 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 .hover-underline::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -2px; left: 0; background-color: currentColor; transition: width 0.3s ease; }
 .hover-underline:hover::after { width: 100%; }
 
-/* 🔥 THE BULLETPROOF MOBILE LAYOUT & CENTERING 🔥 */
+.char-span { opacity: 0; transform: translateY(10px); display: inline-block; transition: opacity 0.2s ease, transform 0.2s ease; }
+.char-span.revealed { opacity: 1; transform: translateY(0); }
+.type-cursor { color: var(--accent); font-weight: 800; display: inline-block; margin-left: 2px; opacity: 1; }
+.type-cursor.blinking { animation: blinkCursor 0.9s step-end infinite; }
+@keyframes blinkCursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+
+/* =========================================================
+   12. BULLETPROOF MOBILE LAYOUT (Media Queries)
+   ========================================================= */
 @media (max-width: 900px) {
     /* Hide Desktop Elements */
     .nav-links, .desktop-only { display: none; }
@@ -494,7 +590,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     
     /* Hero Text Mobile Override */
     .huge-text { 
-        font-size: 7vw; /* Math ensures 10 letters fit perfectly without word breaks */
+        font-size: 7vw; 
         letter-spacing: 0px; 
         padding: 0 10px; 
         white-space: nowrap;
@@ -505,41 +601,33 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     .about-content p { text-align: center; }
 
     /* ACCORDION MOBILE TWEAKS */
-    .accordion { 
-        padding: 0 1.5rem; 
-    }
-    .accordion-header {
-        padding: 1.5rem 0; 
-    }
-    .accordion-header h3 { 
-        font-size: 1.15rem; 
-        text-align: left; 
-    }
-    .accordion-content { 
-        padding: 0 0 1.5rem 10px; 
-        text-align: left; 
-    }
+    .accordion { padding: 0 1.5rem; }
+    .accordion-header { padding: 1.5rem 0; }
+    .accordion-header h3 { font-size: 1.15rem; text-align: left; }
+    .accordion-content { padding: 0 0 1.5rem 10px; text-align: left; }
 
-    /* Projects Adjustments */
+    /* Projects Adjustments - RESTORE 2D MOBILE LAYOUT */
     .proj-layout { flex-direction: column; justify-content: flex-end; padding-top: 150px; }
     .proj-info-wrapper { max-width: 100%; text-align: center; }
     .proj-tags { justify-content: center; }
     .proj-action-btns { justify-content: center; }
-    .proj-thumbnails { 
-        flex-direction: row; 
-        width: 100%; 
-        max-height: none; /* Removes the desktop height limit */
-        overflow-y: visible;
-        overflow-x: auto; 
-        padding-bottom: 20px; 
-        scroll-snap-type: x mandatory; 
-        
-        /* 🔥 Switch the mask to horizontal for mobile */
-        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-        mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    
+    .proj-thumbnails-wrapper {
+        width: 100%; height: auto;
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
     }
-    .thumb-card { min-width: 250px; scroll-snap-align: center; }
-    .thumb-card.active { transform: translateY(-10px) scale(1.05); }
+    .proj-thumbnails {
+        overflow-x: auto; overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        perspective: none; padding: 20px 0;
+    }
+    .thumb-track {
+        flex-direction: row; padding: 0 10px;
+        transform: none; width: max-content; gap: 1rem;
+    }
+    .thumb-card { min-width: 250px; scroll-snap-align: center; transform: none !important; }
+    .thumb-card.active { transform: scale(1.05) !important; box-shadow: 0 10px 30px var(--accent-glow); }
     
     /* CONTACT SECTION CENTERING FIX */
     .contact-top-grid { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
@@ -560,76 +648,14 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     /* Fix Mobile Cursor Issues */
     .cursor-dot, .cursor-outline { display: none; }
     * { cursor: auto !important; }
-
-    /* 🔥 RESTORE 2D MOBILE LAYOUT */
-    .proj-thumbnails-wrapper {
-        width: 100%;
-        height: auto;
-        /* Horizontal fade mask for mobile swiping */
-        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
-        mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
-    }
-
-    .proj-thumbnails {
-        overflow-x: auto;
-        overflow-y: hidden;
-        scroll-snap-type: x mandatory;
-        perspective: none; /* Kills the 3D depth */
-        padding: 20px 0;
-    }
-
-    .thumb-track {
-        flex-direction: row; /* Horizontal alignment for swiping */
-        padding: 0 10px;
-        transform: none; /* 🔥 Kills the 3D Isometric Tilt */
-        width: max-content;
-        gap: 1rem;
-    }
-
-    .thumb-card { 
-        min-width: 250px; 
-        scroll-snap-align: center; 
-        transform: none !important; /* Forces 2D state */
-    }
-
-    .thumb-card.active { 
-        transform: scale(1.05) !important; /* Standard 2D active state */
-        box-shadow: 0 10px 30px var(--accent-glow); 
-    }
 }
 
-/* --- ANTIGRAVITY BACKGROUND & TYPEWRITER --- */
-.antigravity-bg {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    z-index: -2; pointer-events: none; opacity: 0.8;
-}
 
-.char-span {
-    opacity: 0; transform: translateY(10px); display: inline-block;
-    transition: opacity 0.2s ease, transform 0.2s ease; 
-}
 
-.char-span.revealed { opacity: 1; transform: translateY(0); }
 
-/* 🔥 THE ACCENT-COLORED BLINKING CURSOR 🔥 */
-.type-cursor {
-    color: var(--accent); 
-    font-weight: 800;
-    display: inline-block;
-    margin-left: 2px;
-    opacity: 1;
-}
-
-.type-cursor.blinking {
-    animation: blinkCursor 0.9s step-end infinite;
-}
-
-@keyframes blinkCursor {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-}
-
-/* --- LINTER FIXES: EXTRACTED INLINE STYLES --- */
+/* =========================================================
+   13. ASSET LINKS (EXTRACTED INLINE STYLES)
+   ========================================================= */
 .bg-proj-1 { background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1920'); }
 .bg-proj-2 { background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1920'); }
 .bg-proj-3 { background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1920'); }

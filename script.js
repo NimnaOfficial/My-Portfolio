@@ -1,10 +1,104 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // --- 0. CUSTOM CURSOR LOGIC ---
-  const cursorDot = document.getElementById("cursor-dot");
-  const cursorOutline = document.getElementById("cursor-outline");
+  // =========================================================
+  // 🔥 0. EVOLVED TACTICAL HUD (CONTINUOUS ROUND ROTATION)
+  // =========================================================
+  const hudCursor = document.getElementById("hud-cursor");
+  const hudData = document.getElementById("hud-data");
+
   const interactiveElements = document.querySelectorAll(
-    "a, button, .thumb-card, .accordion-header, input, textarea",
+    "a, button, .thumb-card, .accordion-header, input, textarea, .hamburger",
   );
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let cursorX = mouseX;
+  let cursorY = mouseY;
+
+  // 🔥 NEW: Variables for infinite, continuous rolling physics
+  let currentRotation = 0;
+  let rotationVelocity = 0;
+
+  const speed = 0.52;
+  let idleTimeout;
+
+  // 1. TRACK THE MOUSE & HANDLE IDLE STATE
+  window.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    hudCursor.classList.remove("is-idle");
+
+    clearTimeout(idleTimeout);
+    idleTimeout = setTimeout(() => {
+      if (!hudCursor.classList.contains("active-target")) {
+        hudCursor.classList.add("is-idle");
+      }
+    }, 150);
+
+    if (!hudCursor.classList.contains("active-target")) {
+      hudData.textContent = `SYS.IDLE // X:${mouseX} Y:${mouseY}`;
+    }
+  });
+
+  // 2. THE PHYSICS LOOP
+  function animateHUD() {
+    // Calculate raw velocity
+    const velX = mouseX - cursorX;
+    const velY = mouseY - cursorY;
+
+    // Smooth position dragging
+    cursorX += velX * speed;
+    cursorY += velY * speed;
+
+    hudCursor.style.transform = `translate3d(calc(${cursorX}px - 12px), calc(${cursorY}px - 12px), 0)`;
+
+    // Calculate Parallax Drag
+    const dragX = velX * -0.15;
+    const dragY = velY * -0.15;
+
+    // 🔥 THE MAGIC: Continuous "Roundly" Rolling Physics
+    // 1. Target spin speed based on horizontal velocity (moves right -> spins left)
+    const targetSpinSpeed = velX * -0.4;
+
+    // 2. Smooth out the acceleration and deceleration of the spin
+    rotationVelocity += (targetSpinSpeed - rotationVelocity) * 0.15;
+
+    // 3. Add the velocity continuously so it rolls infinitely (360+ degrees)
+    currentRotation += rotationVelocity;
+
+    // Inject smoothed coordinates into CSS
+    hudCursor.style.setProperty("--vx", `${dragX}px`);
+    hudCursor.style.setProperty("--vy", `${dragY}px`);
+    hudCursor.style.setProperty("--rot", `${currentRotation}deg`);
+
+    requestAnimationFrame(animateHUD);
+  }
+
+  animateHUD();
+
+  // 3. TARGET LOCK LOGIC
+  interactiveElements.forEach((el) => {
+    el.addEventListener("mouseenter", () => {
+      hudCursor.classList.add("active-target");
+      hudCursor.classList.remove("is-idle");
+
+      let actionText = "[ TARGET_LOCKED ]";
+      if (el.tagName === "A") actionText = "[ NAV_LINK_DETECTED ]";
+      if (el.classList.contains("thumb-card"))
+        actionText = "[ ACCESS_PROJECT_DB ]";
+      if (el.tagName === "INPUT" || el.tagName === "TEXTAREA")
+        actionText = "[ AWAITING_KEYSTROKES ]";
+      if (el.classList.contains("accordion-header"))
+        actionText = "[ EXPAND_MODULE ]";
+
+      hudData.textContent = actionText;
+    });
+
+    el.addEventListener("mouseleave", () => {
+      hudCursor.classList.remove("active-target");
+      hudData.textContent = `SYS.IDLE // X:${mouseX} Y:${mouseY}`;
+    });
+  });
   // --- 🔥 UPGRADED: Physics-based Smooth Scrolling Engine ---
   const lenis = new Lenis({
     duration: 1.5,
@@ -465,13 +559,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 🔥 1. DRASTICALLY SLOWED Base Speed
         // Was: Math.random() * 0.6 + 0.2
-        this.speed = Math.random() * 0.15 + 0.05;
+        this.speed = Math.random() * 0.4 + 0.02;
 
         this.size = Math.random() * 2 + 0.5;
 
         // 🔥 2. SLOWED Rotation (Spin)
         // Was: (Math.random() - 0.5) * 0.005
-        this.spin = (Math.random() - 0.5) * 0.0015;
+        this.spin = (Math.random() - 0.5) * 0.0004;
 
         this.x = 0;
         this.y = 0;
