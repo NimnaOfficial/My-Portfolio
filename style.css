@@ -640,15 +640,24 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     .form-overlap-card { padding: 3rem 5%; width: 95%; margin-top: -100px; text-align: center; }
     
     /* FOOTER CENTERING FIX */
-    .footer-col { text-align: center; }
+    .footer-col { 
+        text-align: center; 
+    }
+    
+    /* 🔥 THE FIX: Forces the last footer column (Socials) to break out and center perfectly */
+    .footer-grid .footer-col:last-child {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 1rem; /* Gives it a little breathing room from the top row */
+    }
+
     .footer-social-pills { 
         width: 100%; 
         align-items: center !important; 
+        justify-content: center;
     }
-
-    /* Fix Mobile Cursor Issues */
-    .cursor-dot, .cursor-outline { display: none; }
-    * { cursor: auto !important; }
 }
 
 
