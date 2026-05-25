@@ -66,8 +66,9 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     background: radial-gradient(
         ellipse at center, 
         rgba(147, 51, 234, 0.45) 0%, 
-        rgba(20, 5, 40, 0.7) 35%, 
-        transparent 75%
+        rgba(147, 51, 234, 0.25) 25%, 
+        rgba(20, 5, 40, 0.7) 55%, 
+        transparent 85%
     );
     
     z-index: -1; 
