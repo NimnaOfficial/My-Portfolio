@@ -94,6 +94,41 @@ document.addEventListener("DOMContentLoaded", () => {
       hudData.textContent = actionText;
     });
 
+    // =========================================================
+    // 🔥 INFINITE TWO-WAY SCROLL ANIMATION ENGINE
+    // =========================================================
+
+    const scrollObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Element has entered the screen
+            entry.target.classList.add("is-visible");
+          } else {
+            // 🔥 THE FIX: Check if the element contains the Google Map
+            // If it DOES NOT have the map, it is safe to remove the class and animate infinitely
+            if (
+              !entry.target.querySelector("iframe") &&
+              !entry.target.classList.contains("map-wrapper")
+            ) {
+              entry.target.classList.remove("is-visible");
+            }
+          }
+        });
+      },
+      {
+        // Lowered threshold slightly to ensure tall sections trigger easily
+        threshold: 0.1,
+        rootMargin: "0px 0px -20px 0px",
+      },
+    );
+
+    // Select every single element that has the reveal-up class
+    const hiddenElements = document.querySelectorAll(".reveal-up");
+
+    // Command the observer to watch all of them endlessly
+    hiddenElements.forEach((el) => scrollObserver.observe(el));
+
     el.addEventListener("mouseleave", () => {
       hudCursor.classList.remove("active-target");
       hudData.textContent = `SYS.IDLE // X:${mouseX} Y:${mouseY}`;
@@ -451,7 +486,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }, observerOptions);
 
   document
-    .querySelectorAll(".reveal-up, .reveal-fade")
+    .querySelectorAll(" .reveal-fade")
     .forEach((el) => scrollObserver.observe(el));
 
   // --- 8. ANTIGRAVITY TEXT REVEAL (DYNAMIC CURSOR TYPEWRITER) ---

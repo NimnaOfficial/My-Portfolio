@@ -683,5 +683,10 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 .bg-thumb-7 { background-image: url('https://i.postimg.cc/BQdJxH4c/dtastm.png'); }
 
 .hidden-btn { display: none; }
-.map-iframe { border: 0; }
+/* Update this line at the bottom of your CSS */
+.map-iframe { 
+    width: 100%; 
+    height: 100%; 
+    border: 0; 
+}
 .footer-email-link { color: inherit; text-decoration: none; cursor: none; }
