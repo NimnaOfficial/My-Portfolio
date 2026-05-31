@@ -39,7 +39,12 @@ This portfolio steps away from standard web templates to utilize modern, Awards-
 
 ## 📂 Project Structure
 
-
+```text
+├── index.html       # Main HTML document structure & Web3Forms integration
+├── style.css        # Global variables, responsive layouts, and CSS animations
+├── script.js        # DOM interaction, 3D math, observers, and carousel logic
+└── README.md        # Project documentation
+```
 ---
 
 ## ⚙️ Setup & Installation
