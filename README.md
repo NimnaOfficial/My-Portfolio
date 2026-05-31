@@ -86,7 +86,7 @@ Because this project uses vanilla web technologies without a build step or packa
 ## 📬 Contact & Links
    * Developer: K.G.L Sandanimne (Nimna)
    * Email: lochsand2022@gmail.com
-   
+   * GitHub: @NimnaOfficial
      
 ---
 ##
