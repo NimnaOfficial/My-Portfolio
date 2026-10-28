@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   // =========================================================
-  // 🔥 0. EVOLVED TACTICAL HUD (CONTINUOUS ROUND ROTATION)
+  // // 0. EVOLVED TACTICAL HUD (CONTINUOUS ROUND ROTATION)
   // =========================================================
   const hudCursor = document.getElementById("hud-cursor");
   const hudData = document.getElementById("hud-data");
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let cursorX = mouseX;
   let cursorY = mouseY;
 
-  // 🔥 NEW: Variables for infinite, continuous rolling physics
+  // // NEW: Variables for infinite, continuous rolling physics
   let currentRotation = 0;
   let rotationVelocity = 0;
 
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const dragX = velX * -0.15;
     const dragY = velY * -0.15;
 
-    // 🔥 THE MAGIC: Continuous "Roundly" Rolling Physics
+    // // THE MAGIC: Continuous "Roundly" Rolling Physics
     // 1. Target spin speed based on horizontal velocity (moves right -> spins left)
     const targetSpinSpeed = velX * -0.4;
 
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =========================================================
-  // 🔥 TWO-WAY SCROLL ANIMATION ENGINE
+  // // TWO-WAY SCROLL ANIMATION ENGINE
   // =========================================================
   const scrollObserver = new IntersectionObserver(
     (entries) => {
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const hiddenElements = document.querySelectorAll(".reveal-up");
   hiddenElements.forEach((el) => scrollObserver.observe(el));
-  // --- 🔥 UPGRADED: Physics-based Smooth Scrolling Engine ---
+  // --- // UPGRADED: Physics-based Smooth Scrolling Engine ---
   const lenis = new Lenis({
     duration: 1.5,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- 🔥 MANDATORY FEATURES: SCROLL PROGRESS & BACK TO TOP ---
+  // --- // MANDATORY FEATURES: SCROLL PROGRESS & BACK TO TOP ---
   const progressBar = document.getElementById("scroll-progress");
   const backToTopBtn = document.getElementById("back-to-top");
 
@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- 🔥 TACTICAL HUD TOAST NOTIFICATION ---
+  // --- // TACTICAL HUD TOAST NOTIFICATION ---
   const hudToast = document.getElementById("hud-toast");
   const toastText = document.getElementById("toast-text");
   let toastTimer;
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2800);
   }
 
-  // --- 🔥 RESUME / CV MODAL ENGINE ---
+  // --- // RESUME / CV MODAL ENGINE ---
   const resumeModal = document.getElementById("resume-modal");
   const resumeBtn = document.getElementById("resume-btn");
   const heroResumeBtn = document.getElementById("hero-resume-btn");
@@ -268,7 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- 🔥 CLIPBOARD COPY ENGINES ---
+  // --- // CLIPBOARD COPY ENGINES ---
   const copyEmailBtn = document.getElementById("copy-email-btn");
   function copyEmailAction() {
     navigator.clipboard.writeText("lochsand2022@gmail.com").then(() => {
@@ -548,7 +548,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- 🔥 PROJECT DISCIPLINE FILTER MATRIX ---
+  // --- // PROJECT DISCIPLINE FILTER MATRIX ---
   const filterChips = document.querySelectorAll(".filter-chip");
   if (filterChips.length > 0) {
     filterChips.forEach((chip) => {
@@ -680,13 +680,13 @@ document.addEventListener("DOMContentLoaded", () => {
         this.angle = Math.random() * Math.PI * 2;
         this.radius = Math.random() * 100;
 
-        // 🔥 1. DRASTICALLY SLOWED Base Speed
+        // // 1. DRASTICALLY SLOWED Base Speed
         // Was: Math.random() * 0.6 + 0.2
         this.speed = Math.random() * 0.4 + 0.02;
 
         this.size = Math.random() * 2 + 0.5;
 
-        // 🔥 2. SLOWED Rotation (Spin)
+        // // 2. SLOWED Rotation (Spin)
         // Was: (Math.random() - 0.5) * 0.005
         this.spin = (Math.random() - 0.5) * 0.0004;
 
@@ -698,7 +698,7 @@ document.addEventListener("DOMContentLoaded", () => {
         this.radius += this.speed;
         this.angle += this.spin;
 
-        // 🔥 3. REMOVED Aggressive Acceleration
+        // // 3. REMOVED Aggressive Acceleration
         // Was: this.speed *= 1.005 (which makes them speed up exponentially)
         this.speed *= 1.002;
 
@@ -714,7 +714,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (distance < mouse.radius) {
           let force = (mouse.radius - distance) / mouse.radius;
-          // 🔥 4. SOFTER Mouse Repulsion
+          // // 4. SOFTER Mouse Repulsion
           // Was: force * 40
           targetX -= (dx / distance) * force * 15;
           targetY -= (dy / distance) * force * 15;

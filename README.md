@@ -1,94 +1,110 @@
-# K.G.L Sandanimne | Software Engineering Portfolio 👤
+# K.G.L Sandanimne | Systems & Distributed Software Engineering Portfolio // CS.CORE
 
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://github.com/NimnaOfficial)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://github.com/NimnaOfficial)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://github.com/NimnaOfficial)
-[![Web3Forms](https://img.shields.io/badge/Web3Forms-Serverless_Contact-8b5cf6?style=for-the-badge)](https://web3forms.com)
+[![Live Portfolio](https://img.shields.io/badge/Live_Portfolio-ONLINE-success?style=for-the-badge&logo=googlechrome&logoColor=white)](https://nimnaofficial.github.io/My-Portfolio/)
+[![GitHub Pages](https://img.shields.io/badge/Deploy-GitHub_Pages-blue?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/NimnaOfficial/My-Portfolio/actions)
+[![C++20](https://img.shields.io/badge/C++-20-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)](https://github.com/NimnaOfficial/GhostPort)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)](https://github.com/NimnaOfficial/SmartMove)
+[![Wasmer WASI](https://img.shields.io/badge/Wasmer-Edge_WASI-black?style=for-the-badge&logo=webassembly&logoColor=white)](https://anygpa.wasmer.app)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-yellow.svg?style=for-the-badge)](LICENSE)
 
-An elite, high-performance personal portfolio website built to showcase full-stack software engineering projects, system architectures, and AI/ML data science experiments. 
+An industrial-grade, zero-dependency personal portfolio engineered to showcase low-level systems programming, distributed microservices, edge cloud architectures, and computational neural mathematics.
 
-This project features **zero external dependencies** or bloated libraries, relying entirely on advanced Vanilla CSS and JavaScript to achieve complex 3D DOM physics, custom cursors, and immersive rendering.
+Built entirely with **Vanilla HTML5, CSS3, and ES6+** without bloated frameworks or build dependencies, delivering 60–120 FPS hardware-accelerated 3D DOM transforms, continuous angular rolling HUD cursor physics, and sub-millisecond static page loads on GitHub Pages.
 
- 🔗 [View Live Portfolio Here](https://nimnaofficial.github.io/My-Portfolio/) 
-
----
-
-
-## 🚀 Key Features & UI/UX Highlights
-
-This portfolio steps away from standard web templates to utilize modern, Awards-winning design patterns and high-end interactive physics:
-
-* **Immersive Vertical Project Carousel:** A custom-engineered, full-screen project slider with crossfading background images, dynamic data injection, and continuous CSS scaling effects.
-* **3D Mouse-Tracking Physics:** The "About Me" glassmorphism card calculates mouse positioning via JavaScript to apply a dynamic 10-degree `rotateX` and `rotateY` tilt effect in 3D space.
-* **Advanced Typography Animations:** Features liquid-fill gradient text and scroll-scrubbing Intersection Observers.
-* **Magnetic Interactive Elements:** Buttons and links use mathematical offsets to physically "pull" toward the user's cursor.
-* **Flawless Infinite Marquee:** A mathematically calculated, zero-gap continuous scrolling tech-stack track using a dual-group overflow method.
-* **Custom Cursor Engine:** A dual-element trailing cursor that dynamically expands when hovering over clickable DOM elements.
-* **Dark / Light Mode Toggle:** Seamless CSS variable switching with `localStorage` persistence.
-* **Serverless Contact Form:** Fully integrated with the Web3Forms API to handle form submissions directly to email without a backend database.
+› **[Launch Live Portfolio](https://nimnaofficial.github.io/My-Portfolio/)** • › **[Download FlowCV Resume](K_G_L_Sandanimne_FlowCV_Resume_2026-10-28.pdf)**
 
 ---
 
-## 🛠️ Technology Stack
+## // Key Architectural & UI/UX Highlights
 
-* **Structure:** Semantic HTML5
-* **Styling:** CSS3 (Variables, CSS Grid, Flexbox, Keyframes, 3D Transforms, Backdrop-Filter, Liquid Gradients)
-* **Logic:** Vanilla JavaScript (ES6+, DOM Manipulation, Intersection Observer API, `requestAnimationFrame`, CSS Variable Injection)
-* **Fonts:** [Syne](https://fonts.google.com/specimen/Syne) (Brutalist Headers) & [Inter](https://fonts.google.com/specimen/Inter) (Clean Body Text)
+* **[x] Evolved Tactical HUD Cursor:** A mathematical dual-element cursor using linear interpolation (lerp) position smoothing and continuous angular rolling physics (`currentRotation += rotationVelocity`) with `mix-blend-mode: difference` chromatic aberration.
+* **[+] 400-Particle Ambient Vortex Engine:** An HTML5 2D Canvas rendering concentric particle orbits with soft quadratic mouse repulsion physics.
+* **[#] Recruiter Discipline Filter Matrix:** Instantly toggles and filters projects across `SYSTEMS & C++`, `MICROSERVICES`, `AI & SHADERS`, and `EDGE & CLOUD`, automatically centering matching architecture cards.
+* **[§] Interactive Engineering Journey & Academic Timeline:** Highlights higher education milestones at NIBM Colombo (HDSE 26.1F), empirical sociotechnical research publication ($N=322$, SPSS OLS Linear Regression), and the *Data Storm 7.0* Datathon (OCTAVE — John Keells Group).
+* **› Interactive Curriculum Vitae Modal:** Instant, in-browser credential verification with direct download for the official FlowCV PDF resume (`K_G_L_Sandanimne_FlowCV_Resume_2026-10-28.pdf`).
+* **[!] Tactical HUD Toast Notifications:** Real-time sliding status alerts providing feedback for clipboard actions, filter updates, and transmission acknowledgments.
+* **[%] Linear Scroll Progress Indicator:** A glowing top viewport meter visualizing read depth through the document.
+* **[~] Zero-Dependency Vector Theme Engine:** Smooth rotational scale transitions between Dark Mode and Light Mode with verified `localStorage` bidirectional persistence.
+* **[*] 3D Mouse-Tracking Parallax:** Perspective-transformed glassmorphism cards calculating normalized centroid offsets for real-time 3D tilt.
+* **[>] Physics-Based Smooth Scrolling:** Integrated with `@studio-freight/lenis` for inertial glides and smooth programmatic back-to-top navigation.
 
 ---
 
-## 📂 Project Structure
+## // Flagship Systems Showcased
+
+| Project | Tech Stack | Architectural Highlight |
+| :--- | :--- | :--- |
+| **[PixMath Studio](https://github.com/NimnaOfficial/PixMath)** | `React 19` `WebGL2` `PyTorch` `Python 3.11` `SIREN / KAN` | Continuous mathematics $\longleftrightarrow$ discrete fragment shaders (120 FPS) and neural symbolic equation extraction. |
+| **[SmartMove Transit](https://github.com/NimnaOfficial/SmartMove)** | `Spring Boot 3` `Spring Cloud` `Oracle 21c` `MongoDB` | Distributed enterprise microservices with Netflix Eureka discovery, ACID transactional core, and unstructured fleet telemetry. |
+| **[GhostPort OS](https://github.com/NimnaOfficial/GhostPort)** | `C++20` `WinKernel` `Linux /proc` `Docker` `CMake` | Multi-threaded systems utility with zero-copy port reaping and native OS scheduler hooks (Windows Toolhelp32, Linux `/proc`, Mach APIs). |
+| **[TechFix Mobile Edge](https://github.com/NimnaOfficial/TECHFIX)** | `Android` `Kotlin` `Cloudflare D1` `Workers` | Enterprise repair lifecycle app with sub-millisecond edge SQLite and real-time geospatial routing. |
+| **[AnyGPA Global SaaS](https://github.com/NimnaOfficial/AnyGPA)** | `Wasmer WASI` `PHP 8.2` `Gemini 1.5 Flash` `GSAP` | Edge-native WebAssembly SaaS featuring automated AI Vision OCR transcript extraction with 5-key failover rotation. |
+| **[Data Storm: Beverage Potential](https://github.com/NimnaOfficial/BaveragePotential)** | `Python` `Medallion Lakehouse` `Parquet` `Geospatial` | Latent purchase demand forecasting for 20,000 retail outlets (OCTAVE / John Keells Group) treating sales as a left-censored problem. |
+| **[EDU. 0 Engine](https://github.com/NimnaOfficial/EDU.-0-project)** | `Python 3.11` `Docker` `Telegram Bot API` `ReportLab` | Asynchronous zero-disk in-RAM compiler transforming `.h5p` modules into 16:9 widescreen PPTX and Platypus PDFs. |
+
+---
+
+## // Technology Stack
+
+* **Structure & Semantics:** HTML5, Viewport Cover, WebP / Modern Raster Assets.
+* **Styling & Physics:** CSS3 (Variables, 3D Transforms, `perspective(1000px)`, Backdrop Filter, Keyframe Aberrations, CSS Grid).
+* **Kinetic Engines:** Vanilla ES6+ (requestAnimationFrame, Vector Lerp Math, Intersection Observer API, Web Animations API).
+* **Scroll Engine:** Studio Freight Lenis (Physics Inertial Scrolling).
+* **Serverless Backend:** Web3Forms API (Direct submissions via encrypted access token).
+* **Typography:** [Syne](https://fonts.google.com/specimen/Syne) (Brutalist Headers) & [Inter](https://fonts.google.com/specimen/Inter) (Body / Code UI).
+
+---
+
+## // Project Structure
 
 ```text
-├── index.html       # Main HTML document structure & Web3Forms integration
-├── style.css        # Global variables, responsive layouts, and CSS animations
-├── script.js        # DOM interaction, 3D math, observers, and carousel logic
-└── README.md        # Project documentation
+.
+├── index.html                               # Semantic layout, HUD, Timeline, Projects & CV Modal
+├── style.css                                # Theming variables, HUD crosshair, 3D CSS & animations
+├── script.js                                # Physics engines, HUD lerp, carousel, filters & observers
+├── K_G_L_Sandanimne_FlowCV_Resume_2026-10-28.pdf # Official verified Curriculum Vitae document
+├── image.png                                # 32x32 Favicon icon
+├── README.md                                # Executive project documentation
+├── LICENSE                                  # Apache License 2.0
+└── .github/
+    └── workflows/
+        └── static.yml                       # GitHub Actions static deployment to GitHub Pages
 ```
+
 ---
 
-## ⚙️ Setup & Installation
+## // Setup & Local Execution
 
-Because this project uses vanilla web technologies without a build step or package manager, running it locally is instantaneous.
+Because this project utilizes zero-dependency web technologies without a build step or package manager:
 
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/NimnaOfficial/My-Portfolio.git
-      ```
-2. **Navigate to the directory:**
-   ```bash
-   cd portfolio
+   cd My-Portfolio
    ```
-3. **Run the site:**
-   Simply double-click <code>index.html</code> to open it in your browser, or use a tool like VS Code's Live Server extension for hot-reloading.
-
----
-
-## 🔧 Configuration Guide
-
-1. **Updating Projects (The Vertical Carousel)**
-   The project section is driven by a JavaScript array. To add or update projects, locate the <code>projectDatabase</code> array in <code>script.js</code> and modify the objects:
-
+2. **Run instantly with any static server:**
    ```bash
-   const projectDatabase = [
-    {
-        title: "Your Project Name",
-        desc: "Detailed description of your software architecture.",
-        tags: ["Java", "Python", "SQL"]
-    }
-   ];
+   # Using Python 3:
+   python3 -m http.server 8000
+
+   # Or open index.html directly in any browser:
+   open index.html
    ```
-2. **Updating the Contact Form**
-   The contact form is configured to send submissions directly to <code>lochsand2022@gmail.com</code>. If you fork this repo, replace the hidden <code>access_key</code> input in <code>index.html</code> with your own key from Web3Forms:
+3. Navigate to `http://localhost:8000`.
 
 ---
 
-## 📬 Contact & Links
-   * Developer: K.G.L Sandanimne (Nimna)
-   * Email: lochsand2022@gmail.com
-   * GitHub: @NimnaOfficial
-     
+## // Contact & Professional Coordinates
+
+* **Developer:** K.G.L. Sandanimne (Nimna)
+* **Academic Institute:** National Institute of Business Management (NIBM Colombo 07, Sri Lanka)
+* **Student Registration ID:** `COHNDSE26.1F-004`
+* **Phone:** [+94 76 776 5833](tel:+94767765833)
+* **Emails:** [sandanimne01@gmail.com](mailto:sandanimne01@gmail.com) • [lochsand2022@gmail.com](mailto:lochsand2022@gmail.com)
+* **GitHub:** [@NimnaOfficial](https://github.com/NimnaOfficial)
+* **LinkedIn:** [linkedin.com/in/sandanimne-k-g-l-a276aa34a](https://www.linkedin.com/in/sandanimne-k-g-l-a276aa34a)
+* **Location:** Avissawella / Western Province, Sri Lanka
+
 ---
-##
-> Designed and Engineered by K.G.L Sandanimne. Western Province, Sri Lanka.
+
+> Designed & Engineered with mathematical rigor by **K.G.L Sandanimne**.

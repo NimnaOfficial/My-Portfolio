@@ -2,7 +2,7 @@
    1. CSS VARIABLES & THEME LOGIC (RESTORED TO ORIGINAL)
    ========================================================= */
 :root {
-    /* 🔥 Restored your original dark base and bright purple */
+    /* // Restored your original dark base and bright purple */
     --bg-main: #000000;
     --text-main: #ffffff;
     --text-muted: #8a8a93;
@@ -50,7 +50,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 
 
 /* =========================================================
-   🔥 EXPANDED RADIANT SMOOTH AMBIENT GLOW 🔥
+   // EXPANDED RADIANT SMOOTH AMBIENT GLOW //
    ========================================================= */
 .ambient-glow {
     position: fixed; 
@@ -59,14 +59,14 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     width: 100vw; 
     height: 100vh;
     
-    /* 🔥 The Fix: Pushed the mid-fade to 50% so the purple physically occupies 
+    /* // The Fix: Pushed the mid-fade to 50% so the purple physically occupies 
        way more screen real estate, and delayed the black void until 90% 
        to keep the blending slope incredibly gradual and soft. */
     background: radial-gradient(
         ellipse at center, 
         rgba(147, 51, 234, 0.45) 1%,    /* Peak radiant core */
-        rgba(120, 30, 200, 0.25) 40%,   /* 🔥 Purple energy extended to 50% width */
-        rgba(0, 0, 0, 1) 80%,           /* 🔥 Black void starts right at the edge boundaries */
+        rgba(120, 30, 200, 0.25) 40%,   /* // Purple energy extended to 50% width */
+        rgba(0, 0, 0, 1) 80%,           /* // Black void starts right at the edge boundaries */
         rgba(0, 0, 0, 1) 100%           /* Corners remain flawlessly masked in absolute black */
     );
     
@@ -76,7 +76,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 }
 
 /* =========================================================
-   🔥 LIGHT MODE OVERRIDE FOR AMBIENT GLOW 🔥
+   // LIGHT MODE OVERRIDE FOR AMBIENT GLOW //
    ========================================================= */
 [data-theme="light"] .ambient-glow {
     /* Slightly increased the light mode purple to match the new dark mode energy */
@@ -98,12 +98,12 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
    3. TACTICAL HUD: CHROMATIC ABERRATION & SMOOTH MOTION
    ========================================================= */
 .hud-cursor {
-    position: fixed; top: 0; left: 0; z-index: 10000; pointer-events: none;
+    position: fixed; top: 0; left: 0; z-index: 100050; pointer-events: none;
     display: flex; align-items: center; justify-content: center;
     mix-blend-mode: difference; color: #fff; will-change: transform;
 }
 
-/* 🔥 The Crosshair: Uses JS Velocity for Parallax Drag AND Rotation */
+/* // The Crosshair: Uses JS Velocity for Parallax Drag AND Rotation */
 .hud-crosshair {
     width: 24px; height: 24px; position: relative;
     /* Injects the --rot variable calculated by your JS velocity */
@@ -115,7 +115,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 /* ... (keep your existing ::before/::after RGB glitch CSS here) ... */
 
 /* =========================================================
-   🔥 IDLE STANDBY MODE (When mouse stops moving)
+   // IDLE STANDBY MODE (When mouse stops moving)
    ========================================================= */
 .hud-cursor.is-idle .hud-crosshair {
     /* Dims the crosshair */
@@ -157,7 +157,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 /* The Crosshair Lines */
 .hud-crosshair::before, .hud-crosshair::after {
     content: ''; position: absolute; background: #fff;
-    /* 🔥 The Smooth RGB Chromatic Drift Animation */
+    /* // The Smooth RGB Chromatic Drift Animation */
     animation: rgbDrift 3s ease-in-out infinite alternate;
 }
 .hud-crosshair::before { top: 0; left: 11px; width: 2px; height: 24px; }
@@ -169,7 +169,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     100% { box-shadow: 2px 2px 4px rgba(255, 0, 80, 0.9), -2px -2px 4px rgba(0, 255, 255, 0.9); }
 }
 
-/* 🔥 The Chromatic Pulse Scan Ring */
+/* // The Chromatic Pulse Scan Ring */
 .hud-pulse {
     position: absolute; width: 40px; height: 40px; border-radius: 50%;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -211,7 +211,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     /* Retains your smooth velocity drag physics */
     transform: translate3d(calc(var(--vx, 0) * 0.5), calc(var(--vy, 0) * 0.5), 0);
     
-    /* 🔥 NEW ANIMATION: Smooth, low-frequency silver breathing glow */
+    /* // NEW ANIMATION: Smooth, low-frequency silver breathing glow */
     animation: silverGlowVibrate 2.5s infinite alternate ease-in-out;
 }
 
@@ -736,7 +736,7 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
         text-align: center; 
     }
     
-    /* 🔥 THE FIX: Forces the last footer column (Socials) to break out and center perfectly */
+    /* // THE FIX: Forces the last footer column (Socials) to break out and center perfectly */
     .footer-grid .footer-col:last-child {
         grid-column: 1 / -1;
         display: flex;
