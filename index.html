@@ -20,6 +20,17 @@
 </head>
 <body>
 
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress-container" aria-hidden="true">
+        <div class="scroll-progress-bar" id="scroll-progress"></div>
+    </div>
+
+    <!-- HUD Toast Notification -->
+    <div class="hud-toast" id="hud-toast" role="status" aria-live="polite">
+        <span class="toast-dot"></span>
+        <span class="toast-text" id="toast-text">TRANSMISSION CONFIRMED</span>
+    </div>
+
     <div class="hud-cursor" id="hud-cursor">
         <div class="hud-crosshair">
             <div class="hud-pulse"></div>
@@ -36,11 +47,16 @@
         
         <div class="nav-links desktop-only">
             <a href="#about" class="hover-underline magnetic-link">About</a>
+            <a href="#journey" class="hover-underline magnetic-link">Journey</a>
             <a href="#skills" class="hover-underline magnetic-link">Skills</a>
             <a href="#projects" class="hover-underline magnetic-link">Projects</a>
+            <a href="#contact" class="hover-underline magnetic-link">Contact</a>
         </div>
 
         <div class="nav-actions">
+            <button id="resume-btn" class="resume-pill magnetic-btn desktop-only" aria-label="Open Curriculum Vitae">
+                <span>CV / Resume 📄</span>
+            </button>
             <button id="theme-toggle" class="theme-btn magnetic-btn" aria-label="Toggle Dark and Light Theme">
                 <span class="theme-icon-slot theme-icon-moon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -73,8 +89,11 @@
     <div class="mobile-menu" id="mobile-menu">
         <div class="mobile-links">
             <a href="#about" class="mobile-link">About</a>
+            <a href="#journey" class="mobile-link">Journey</a>
             <a href="#skills" class="mobile-link">Skills</a>
             <a href="#projects" class="mobile-link">Projects</a>
+            <a href="#contact" class="mobile-link">Contact</a>
+            <button id="mobile-resume-btn" class="mobile-link btn-secondary mt-base" style="width: 100%; border-radius: 50px;">View Resume / CV 📄</button>
             <a href="#contact" class="mobile-link btn-primary mt-base">Let's Talk</a>
         </div>
     </div>
@@ -85,6 +104,7 @@
         <p class="subtitle reveal-up delay-1">Software Engineering student specializing in Distributed Microservices, C++20 Systems Programming, Edge WebAssembly, and Intelligent AI Architectures.</p>
         <div class="hero-actions reveal-up delay-2">
             <a href="#projects" class="btn-primary magnetic-btn">Explore Systems ↗</a>
+            <button class="btn-secondary magnetic-btn hero-resume-trigger" id="hero-resume-btn">Curriculum Vitae 📄</button>
             <a href="https://github.com/NimnaOfficial" target="_blank" rel="noopener noreferrer" class="btn-secondary magnetic-btn">GitHub Matrix ↗</a>
         </div>
     </section>
@@ -134,6 +154,70 @@
         <h2 class="hollow-text reveal-up">ABOUT ME</h2><br><br>
         <div class="about-content reveal-up delay-1 tilt-card">
             <p>I am a Software Engineering student at NIBM Colombo (HDSE) passionate about bridging the divide between low-level kernel performance and distributed enterprise architecture. From engineering multi-threaded C++20 utilities with native OS kernel hooks to deploying polyglot transit microservices (Oracle 21c + MongoDB) and edge-native WebAssembly engines, I design systems that are robust, scalable, and mathematically verified.</p>
+        </div>
+    </section>
+
+    <section id="journey" class="journey-section container section-padding">
+        <div class="section-header-centered reveal-up">
+            <span class="cyber-tag">[ TIMELINE // MILESTONES ]</span>
+            <h2 class="section-title">ENGINEERING JOURNEY</h2>
+            <p class="section-subtext">Academic foundation, empirical sociotechnical research, and real-world systems architecture.</p>
+        </div>
+
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-item reveal-up">
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <div class="timeline-date">2026 — PRESENT</div>
+                    <h3>Higher Diploma in Software Engineering (HDSE 26.1F)</h3>
+                    <h4>National Institute of Business Management (NIBM Colombo)</h4>
+                    <p>Rigorous computer science curriculum focusing on Distributed Systems, Advanced Database Management, Concurrency, Operating Systems, and Network Security protocols. Student Registration: <code>COHNDSE26.1F-004</code>.</p>
+                    <div class="timeline-tags">
+                        <span>Distributed Systems</span><span>C++</span><span>Java</span><span>Spring Cloud</span><span>Oracle 21c</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal-up delay-1">
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <div class="timeline-date">OCTOBER 2026</div>
+                    <h3>Empirical Sociotechnical Research Publication</h3>
+                    <h4>School of Computing & Engineering, NIBM Sri Lanka</h4>
+                    <p>Authored formal 32-page empirical investigation: <em>"The Impact of Algorithmic Social Media on Digital Media Addiction"</em> ($N=322$). Proved digital addiction is an engineered recommendation-engine phenomenon using IBM SPSS 27 with OLS Multiple Linear Regression ($R^2 = 0.518, p < 0.001$) and ANOVA variance models.</p>
+                    <div class="timeline-tags">
+                        <span>IBM SPSS v27</span><span>OLS Regression</span><span>ANOVA</span><span>Empirical Research</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal-up delay-1">
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <div class="timeline-date">MAY 2026</div>
+                    <h3>Data Storm 7.0 — Advanced Demand Lakehouse</h3>
+                    <h4>OCTAVE (John Keells Group) — Team CODE BLOODED</h4>
+                    <p>Engineered an enterprise Medallion Lakehouse pipeline predicting latent purchase demand across 20,000 Sri Lankan retail outlets. Solved historical sales constraints as a left-censored demand problem with Parquet columnar storage and geospatial foot-traffic modeling.</p>
+                    <div class="timeline-tags">
+                        <span>Medallion Lakehouse</span><span>Parquet</span><span>Geospatial ML</span><span>Pandas</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item reveal-up delay-2">
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <div class="timeline-date">2026</div>
+                    <h3>Open-Source Systems & Edge Computing Deployments</h3>
+                    <h4>GhostPort OS, PixMath Studio, SmartMove & AnyGPA Edge</h4>
+                    <p>Built multi-threaded C++20 daemons hooking directly into Windows Toolhelp32 and Linux /proc, compiled continuous math to WebGL2 GPU fragment shaders with SIREN/KAN PyTorch networks, and deployed edge-native WebAssembly (WASI) micro-SaaS with Gemini AI Vision.</p>
+                    <div class="timeline-tags">
+                        <span>C++20</span><span>WebGL2</span><span>PyTorch</span><span>Wasmer WASI</span><span>Docker</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -234,6 +318,19 @@
             <div class="proj-bg-overlay"></div>
         </div>
 
+        <div class="container project-filter-container reveal-up">
+            <div class="project-filter-header">
+                <span class="filter-label">SYSTEMS.MATRIX //</span>
+                <div class="project-filters" id="project-filters">
+                    <button class="filter-chip active" data-filter="all">ALL ARCHITECTURES (7)</button>
+                    <button class="filter-chip" data-filter="systems">SYSTEMS & C++</button>
+                    <button class="filter-chip" data-filter="microservices">MICROSERVICES</button>
+                    <button class="filter-chip" data-filter="math-ai">AI & SHADERS</button>
+                    <button class="filter-chip" data-filter="edge-mobile">EDGE & CLOUD</button>
+                </div>
+            </div>
+        </div>
+
         <div class="container proj-layout">
             
             <div class="proj-info-wrapper reveal-up">
@@ -260,7 +357,7 @@
                 <div class="proj-thumbnails" id="proj-thumbnails">
                     <div class="thumb-track" id="thumb-track">
                         
-                        <div class="thumb-card active magnetic-link" data-index="0">
+                        <div class="thumb-card active magnetic-link" data-index="0" data-category="math-ai">
                             <div class="thumb-img bg-thumb-1"></div>
                             <div class="thumb-content">
                                 <h4>PixMath Studio</h4>
@@ -268,7 +365,7 @@
                             </div>
                         </div>
 
-                        <div class="thumb-card magnetic-link" data-index="1">
+                        <div class="thumb-card magnetic-link" data-index="1" data-category="microservices">
                             <div class="thumb-img bg-thumb-2"></div>
                             <div class="thumb-content">
                                 <h4>SmartMove Transit</h4>
@@ -276,7 +373,7 @@
                             </div>
                         </div>
 
-                        <div class="thumb-card magnetic-link" data-index="2">
+                        <div class="thumb-card magnetic-link" data-index="2" data-category="systems">
                             <div class="thumb-img bg-thumb-3"></div>
                             <div class="thumb-content">
                                 <h4>GhostPort OS</h4>
@@ -284,7 +381,7 @@
                             </div>
                         </div>
                         
-                        <div class="thumb-card magnetic-link" data-index="3">
+                        <div class="thumb-card magnetic-link" data-index="3" data-category="edge-mobile">
                             <div class="thumb-img bg-thumb-4"></div>
                             <div class="thumb-content">
                                 <h4>TechFix Mobile</h4>
@@ -292,7 +389,7 @@
                             </div>
                         </div>
 
-                        <div class="thumb-card magnetic-link" data-index="4">
+                        <div class="thumb-card magnetic-link" data-index="4" data-category="edge-mobile">
                             <div class="thumb-img bg-thumb-5"></div>
                             <div class="thumb-content">
                                 <h4>AnyGPA Global</h4>
@@ -300,7 +397,7 @@
                             </div>
                         </div>
 
-                        <div class="thumb-card magnetic-link" data-index="5">
+                        <div class="thumb-card magnetic-link" data-index="5" data-category="math-ai">
                             <div class="thumb-img bg-thumb-6"></div>
                             <div class="thumb-content">
                                 <h4>Beverage Potential</h4>
@@ -308,7 +405,7 @@
                             </div>
                         </div>
 
-                        <div class="thumb-card magnetic-link" data-index="6">
+                        <div class="thumb-card magnetic-link" data-index="6" data-category="systems">
                             <div class="thumb-img bg-thumb-7"></div>
                             <div class="thumb-content">
                                 <h4>EDU. 0 Engine</h4>
@@ -337,7 +434,12 @@
                     </div>
                     <div class="info-block">
                         <h4>EMAIL:</h4>
-                        <a href="mailto:lochsand2022@gmail.com" class="magnetic-link">lochsand2022@gmail.com ↗</a>
+                        <div class="email-action-row">
+                            <a href="mailto:lochsand2022@gmail.com" class="magnetic-link">lochsand2022@gmail.com ↗</a>
+                            <button class="copy-email-chip magnetic-btn" id="copy-email-btn" aria-label="Copy Email to Clipboard">
+                                <span>Copy 📋</span>
+                            </button>
+                        </div>
                     </div>
                     <div class="info-block">
                         <h4>WORKING HOURS:</h4>
@@ -420,6 +522,68 @@
             <h1 class="footer-massive-logo">SANDANIMNE.</h1>
         </div>
     </footer>
+
+    <!-- Back to Top Floating Button -->
+    <button class="back-to-top magnetic-btn" id="back-to-top" aria-label="Return to top">
+        <span class="top-arrow">↑</span>
+    </button>
+
+    <!-- Interactive Resume Modal -->
+    <div class="modal-overlay" id="resume-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="modal-close" aria-label="Close Resume Modal">&times;</button>
+            <div class="modal-header">
+                <div class="modal-badge">CURRICULUM VITAE // VERIFIED CANDIDATE</div>
+                <h2 id="modal-title">K.G.L SANDANIMNE</h2>
+                <p class="modal-subtitle">Software Engineering Student • Distributed Systems & Low-Level C++20</p>
+                <div class="modal-meta-row">
+                    <span>📍 Western Province, Sri Lanka</span>
+                    <span>🎓 NIBM Colombo (HDSE)</span>
+                    <span>✉️ lochsand2022@gmail.com</span>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h3>Academic Education</h3>
+                    <div class="modal-item">
+                        <div class="modal-item-title">Higher Diploma in Software Engineering (HDSE 26.1F)</div>
+                        <div class="modal-item-sub">National Institute of Business Management (NIBM Colombo) • 2026 – Present</div>
+                        <p>Rigorous computer science curriculum: Distributed Systems, Advanced Database Management, Concurrent Algorithms, Operating Systems, Statistics for Computing, Network Security.</p>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3>Core Technical Competencies</h3>
+                    <div class="modal-skills-grid">
+                        <div class="skill-category"><strong>Languages:</strong> C++20, Java 17/21, TypeScript, Python 3.11, PHP 8.2, Kotlin, SQL, C#</div>
+                        <div class="skill-category"><strong>Architecture:</strong> Distributed Microservices, Spring Cloud Gateway, Eureka, RESTful APIs, Docker</div>
+                        <div class="skill-category"><strong>Databases:</strong> Oracle 21c XE, MongoDB Atlas, PostgreSQL, MySQL, Cloudflare D1 (Edge SQLite)</div>
+                        <div class="skill-category"><strong>Specialties:</strong> OS Kernel Schedulers, WebGL2 Shaders, Wasmer WASI, PyTorch (SIREN/KAN), Medallion Lakehouse</div>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3>Flagship Production Repositories</h3>
+                    <ul class="modal-proj-list">
+                        <li><strong>PixMath Studio:</strong> Continuous mathematics to WebGL2 fragment shaders + PyTorch neural equation extraction.</li>
+                        <li><strong>SmartMove Transit Platform:</strong> Distributed enterprise transit microservices with Oracle 21c and MongoDB Atlas.</li>
+                        <li><strong>GhostPort OS:</strong> Native C++20 multi-threaded daemon for zero-copy port reaping & process stasis.</li>
+                        <li><strong>AnyGPA Global SaaS:</strong> Wasmer Edge WebAssembly SaaS with Gemini 1.5 Flash automated OCR failover.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <a href="https://github.com/NimnaOfficial" target="_blank" rel="noopener noreferrer" class="btn-primary magnetic-btn">
+                    View GitHub Profile ↗
+                </a>
+                <button class="btn-secondary magnetic-btn" id="modal-copy-email">
+                    Copy Contact Email 📋
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
     <script src="script.js"></script>

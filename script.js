@@ -176,6 +176,111 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // --- 🔥 MANDATORY FEATURES: SCROLL PROGRESS & BACK TO TOP ---
+  const progressBar = document.getElementById("scroll-progress");
+  const backToTopBtn = document.getElementById("back-to-top");
+
+  function updateScrollState() {
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
+
+    if (progressBar) {
+      progressBar.style.width = `${progress}%`;
+    }
+
+    if (backToTopBtn) {
+      if (scrollY > 400) {
+        backToTopBtn.classList.add("visible");
+      } else {
+        backToTopBtn.classList.remove("visible");
+      }
+    }
+  }
+
+  window.addEventListener("scroll", updateScrollState, { passive: true });
+
+  if (backToTopBtn) {
+    backToTopBtn.addEventListener("click", () => {
+      lenis.scrollTo(0, { duration: 1.2 });
+    });
+  }
+
+  // --- 🔥 TACTICAL HUD TOAST NOTIFICATION ---
+  const hudToast = document.getElementById("hud-toast");
+  const toastText = document.getElementById("toast-text");
+  let toastTimer;
+
+  function showToast(message) {
+    if (!hudToast || !toastText) return;
+    toastText.textContent = message;
+    hudToast.classList.add("active");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      hudToast.classList.remove("active");
+    }, 2800);
+  }
+
+  // --- 🔥 RESUME / CV MODAL ENGINE ---
+  const resumeModal = document.getElementById("resume-modal");
+  const resumeBtn = document.getElementById("resume-btn");
+  const heroResumeBtn = document.getElementById("hero-resume-btn");
+  const mobileResumeBtn = document.getElementById("mobile-resume-btn");
+  const modalClose = document.getElementById("modal-close");
+  const modalCopyEmail = document.getElementById("modal-copy-email");
+
+  function openResume() {
+    if (resumeModal) {
+      resumeModal.classList.add("active");
+      resumeModal.setAttribute("aria-hidden", "false");
+      showToast("SYS.ACCESS // RESUME MATRIX LOADED");
+    }
+  }
+
+  function closeResume() {
+    if (resumeModal) {
+      resumeModal.classList.remove("active");
+      resumeModal.setAttribute("aria-hidden", "true");
+    }
+  }
+
+  if (resumeBtn) resumeBtn.addEventListener("click", openResume);
+  if (heroResumeBtn) heroResumeBtn.addEventListener("click", openResume);
+  if (mobileResumeBtn) {
+    mobileResumeBtn.addEventListener("click", () => {
+      if (hamburger && mobileMenu) {
+        hamburger.classList.remove("active");
+        mobileMenu.classList.remove("active");
+      }
+      openResume();
+    });
+  }
+  if (modalClose) modalClose.addEventListener("click", closeResume);
+
+  if (resumeModal) {
+    resumeModal.addEventListener("click", (e) => {
+      if (e.target === resumeModal) closeResume();
+    });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && resumeModal.classList.contains("active")) {
+        closeResume();
+      }
+    });
+  }
+
+  // --- 🔥 CLIPBOARD COPY ENGINES ---
+  const copyEmailBtn = document.getElementById("copy-email-btn");
+  function copyEmailAction() {
+    navigator.clipboard.writeText("lochsand2022@gmail.com").then(() => {
+      showToast("SYS.CLIPBOARD // EMAIL COPIED");
+    }).catch(() => {
+      showToast("EMAIL: lochsand2022@gmail.com");
+    });
+  }
+
+  if (copyEmailBtn) copyEmailBtn.addEventListener("click", copyEmailAction);
+  if (modalCopyEmail) modalCopyEmail.addEventListener("click", copyEmailAction);
+
   // --- 1. THEME TOGGLE (Dark/Light Mode) ---
   const themeBtn = document.getElementById("theme-toggle");
   const htmlEl = document.documentElement;
@@ -442,6 +547,35 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 350); // Trigger swap right after the last element fades out
     });
   });
+
+  // --- 🔥 PROJECT DISCIPLINE FILTER MATRIX ---
+  const filterChips = document.querySelectorAll(".filter-chip");
+  if (filterChips.length > 0) {
+    filterChips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const filter = chip.getAttribute("data-filter");
+        filterChips.forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+
+        let firstMatch = null;
+        thumbCards.forEach((card) => {
+          const category = card.getAttribute("data-category");
+          if (filter === "all" || category === filter) {
+            card.classList.remove("dimmed");
+            if (!firstMatch) firstMatch = card;
+          } else {
+            card.classList.add("dimmed");
+          }
+        });
+
+        if (firstMatch) {
+          firstMatch.click();
+        }
+
+        showToast(`FILTER.APPLIED // ${chip.textContent.trim()}`);
+      });
+    });
+  }
 
   // --- 8. ANTIGRAVITY TEXT REVEAL (DYNAMIC CURSOR TYPEWRITER) ---
   const heroText = document.getElementById("hero-text");
