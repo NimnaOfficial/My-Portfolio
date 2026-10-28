@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const hudData = document.getElementById("hud-data");
 
   const interactiveElements = document.querySelectorAll(
-    "a, button, .thumb-card, .accordion-header, input, textarea, .hamburger",
+    "a, button, .thumb-card, .journey-card, .accordion-header, input, textarea, .hamburger",
   );
 
   let mouseX = window.innerWidth / 2;
@@ -387,6 +387,196 @@ document.addEventListener("DOMContentLoaded", () => {
           item.classList.add("active");
           body.style.maxHeight = body.scrollHeight + "px";
         }
+      });
+    });
+  }
+
+  // =========================================================
+  // // 5.5 SCROLLABLE KINETIC ENGINEERING JOURNEY ENGINE
+  // =========================================================
+  const journeyScrollContainer = document.getElementById("journey-scroll-container");
+  const journeyCards = document.querySelectorAll(".journey-card");
+  const journeyTabs = document.querySelectorAll(".journey-tab");
+  const journeyPrevBtn = document.getElementById("journey-prev-btn");
+  const journeyNextBtn = document.getElementById("journey-next-btn");
+  const journeyCounter = document.getElementById("journey-counter");
+  const journeyProgressLine = document.getElementById("journey-progress-line");
+  const journeyNodeDots = document.querySelectorAll(".journey-node-dot");
+
+  if (journeyScrollContainer && journeyCards.length > 0) {
+    // 1. Drag-to-Scroll Logic
+    let isJourneyDown = false;
+    let journeyStartX = 0;
+    let journeyScrollLeft = 0;
+
+    journeyScrollContainer.addEventListener("mousedown", (e) => {
+      isJourneyDown = true;
+      journeyScrollContainer.classList.add("active-drag");
+      journeyStartX = e.pageX - journeyScrollContainer.offsetLeft;
+      journeyScrollLeft = journeyScrollContainer.scrollLeft;
+    });
+
+    window.addEventListener("mouseup", () => {
+      if (isJourneyDown) {
+        isJourneyDown = false;
+        journeyScrollContainer.classList.remove("active-drag");
+      }
+    });
+
+    journeyScrollContainer.addEventListener("mousemove", (e) => {
+      if (!isJourneyDown) return;
+      e.preventDefault();
+      const x = e.pageX - journeyScrollContainer.offsetLeft;
+      const walk = (x - journeyStartX) * 1.4;
+      journeyScrollContainer.scrollLeft = journeyScrollLeft - walk;
+    });
+
+    // 2. Horizontal Mousewheel Translation
+    journeyScrollContainer.addEventListener(
+      "wheel",
+      (e) => {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+          const maxScroll = journeyScrollContainer.scrollWidth - journeyScrollContainer.clientWidth;
+          if (
+            (e.deltaY > 0 && journeyScrollContainer.scrollLeft < maxScroll - 2) ||
+            (e.deltaY < 0 && journeyScrollContainer.scrollLeft > 2)
+          ) {
+            e.preventDefault();
+            journeyScrollContainer.scrollLeft += e.deltaY * 0.95;
+          }
+        }
+      },
+      { passive: false }
+    );
+
+    // 3. Scroll Progress & Active Milestone Tracking
+    const updateJourneyProgress = () => {
+      const maxScroll = journeyScrollContainer.scrollWidth - journeyScrollContainer.clientWidth;
+      if (maxScroll > 0) {
+        const progress = journeyScrollContainer.scrollLeft / maxScroll;
+        const percentage = Math.min(100, Math.max(14, Math.round(14 + progress * 86)));
+        if (journeyProgressLine) {
+          journeyProgressLine.style.width = `${percentage}%`;
+        }
+      }
+
+      const containerCenter = journeyScrollContainer.scrollLeft + journeyScrollContainer.clientWidth / 2;
+      let closestCard = null;
+      let minDistance = Infinity;
+
+      journeyCards.forEach((card) => {
+        if (card.classList.contains("dimmed")) return;
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const dist = Math.abs(containerCenter - cardCenter);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestCard = card;
+        }
+      });
+
+      if (closestCard) {
+        const index = parseInt(closestCard.getAttribute("data-index"), 10);
+        journeyCards.forEach((c) => c.classList.remove("active-milestone"));
+        closestCard.classList.add("active-milestone");
+
+        if (journeyCounter) {
+          journeyCounter.textContent = `MILESTONE [ 0${index + 1} / 07 ]`;
+        }
+
+        journeyNodeDots.forEach((dot) => {
+          const dotIdx = parseInt(dot.getAttribute("data-index"), 10);
+          if (dotIdx === index) {
+            dot.classList.add("active");
+          } else {
+            dot.classList.remove("active");
+          }
+        });
+      }
+    };
+
+    journeyScrollContainer.addEventListener("scroll", updateJourneyProgress);
+
+    // 4. Milestone Click-to-Center
+    journeyCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        card.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+        journeyCards.forEach((c) => c.classList.remove("active-milestone"));
+        card.classList.add("active-milestone");
+      });
+    });
+
+    // 5. Navigation Arrows
+    const navigateJourney = (direction) => {
+      const visibleCards = Array.from(journeyCards).filter(
+        (card) => !card.classList.contains("dimmed")
+      );
+      if (visibleCards.length === 0) return;
+
+      const currentActive = document.querySelector(".journey-card.active-milestone") || visibleCards[0];
+      let currentIndex = visibleCards.indexOf(currentActive);
+
+      let nextIndex;
+      if (direction === "prev") {
+        nextIndex = currentIndex <= 0 ? visibleCards.length - 1 : currentIndex - 1;
+      } else {
+        nextIndex = currentIndex >= visibleCards.length - 1 ? 0 : currentIndex + 1;
+      }
+
+      const targetCard = visibleCards[nextIndex];
+      if (targetCard) {
+        targetCard.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+        journeyCards.forEach((c) => c.classList.remove("active-milestone"));
+        targetCard.classList.add("active-milestone");
+      }
+    };
+
+    if (journeyPrevBtn) {
+      journeyPrevBtn.addEventListener("click", () => navigateJourney("prev"));
+    }
+    if (journeyNextBtn) {
+      journeyNextBtn.addEventListener("click", () => navigateJourney("next"));
+    }
+
+    // 6. Quick Nav Nodes
+    journeyNodeDots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const idx = parseInt(dot.getAttribute("data-index"), 10);
+        const targetCard = journeyCards[idx];
+        if (targetCard) {
+          targetCard.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+          journeyCards.forEach((c) => c.classList.remove("active-milestone"));
+          targetCard.classList.add("active-milestone");
+          journeyNodeDots.forEach((d) => d.classList.remove("active"));
+          dot.classList.add("active");
+        }
+      });
+    });
+
+    // 7. Category Filter Tabs
+    journeyTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const filter = tab.getAttribute("data-jfilter");
+        journeyTabs.forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+
+        let firstMatch = null;
+        journeyCards.forEach((card) => {
+          const category = card.getAttribute("data-jcategory");
+          if (filter === "all" || category === filter) {
+            card.classList.remove("dimmed");
+            if (!firstMatch) firstMatch = card;
+          } else {
+            card.classList.add("dimmed");
+          }
+        });
+
+        if (firstMatch) {
+          firstMatch.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+          journeyCards.forEach((c) => c.classList.remove("active-milestone"));
+          firstMatch.classList.add("active-milestone");
+        }
+
+        showToast(`JOURNEY.FILTER // ${tab.textContent.trim()}`);
       });
     });
   }
