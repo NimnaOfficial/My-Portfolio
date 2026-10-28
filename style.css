@@ -704,104 +704,8 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 
 
 /* =========================================================
-   12. BULLETPROOF MOBILE LAYOUT (Media Queries)
+   12. BULLETPROOF MOBILE LAYOUT (Relocated to end of stylesheet)
    ========================================================= */
-@media (max-width: 900px) {
-    /* Hide Desktop Elements */
-    .nav-links, .desktop-only { display: none; }
-    
-    /* Show Hamburger */
-    .hamburger { display: flex; }
-    
-    /* Navbar Adjustment */
-    .navbar { padding: 1rem 5%; }
-    .nav-logo { font-size: 1.1rem; letter-spacing: -0.5px; }
-    .nav-actions { gap: 1rem; }
-    .theme-btn { width: 38px; height: 38px; }
-    .theme-icon-slot svg { width: 17px; height: 17px; }
-    
-    /* Hero Text Mobile Override */
-    .huge-text { 
-        font-size: 7vw; 
-        letter-spacing: 0px; 
-        padding: 0 10px; 
-        white-space: nowrap;
-        text-align: center; 
-    }
-
-    /* ABOUT SECTION CENTERING */
-    .about-content p { text-align: center; }
-
-    /* ACCORDION MOBILE TWEAKS */
-    .accordion { padding: 0 1.5rem; }
-    .accordion-header { padding: 1.5rem 0; }
-    .accordion-header h3 { font-size: 1.15rem; text-align: left; }
-    .accordion-content { padding: 0 0 1.5rem 10px; text-align: left; }
-
-    /* Projects Adjustments - RESTORE 2D MOBILE LAYOUT */
-    .immersive-projects { padding: 90px 0; }
-    .project-filter-container { width: 100%; padding: 0 1.25rem; }
-    .project-filter-header { 
-        flex-direction: column; justify-content: center; gap: 10px; 
-        border-radius: 20px; padding: 14px 12px; 
-    }
-    .project-filters { justify-content: center; }
-    .project-filter-top { margin-bottom: 1.5rem; }
-    .project-filter-bottom { margin-top: 1.5rem; }
-    .proj-layout { width: 100%; padding: 0 1.25rem; flex-direction: column; justify-content: flex-end; padding-top: 20px; gap: 2.5rem; }
-    .proj-info-wrapper { max-width: 100%; text-align: center; }
-    .proj-tags { justify-content: center; }
-    .proj-action-btns { justify-content: center; }
-    
-    .proj-thumbnails-wrapper {
-        width: 100%; height: auto; min-height: unset; max-height: unset;
-        flex-direction: row; justify-content: center; align-items: center; gap: 10px;
-    }
-    .thumb-nav-btn { display: none; }
-    .proj-thumbnails {
-        width: 100%; flex: 1;
-        overflow-x: auto; overflow-y: hidden;
-        scroll-snap-type: x mandatory;
-        perspective: none; padding: 20px 0;
-        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
-        mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
-    }
-    .thumb-track {
-        flex-direction: row; padding: 0 10px;
-        transform: none; width: max-content; gap: 1rem;
-    }
-    .thumb-card { min-width: 250px; scroll-snap-align: center; transform: none !important; }
-    .thumb-card.active { transform: scale(1.05) !important; box-shadow: 0 10px 30px var(--accent-glow); }
-    
-    /* CONTACT SECTION CENTERING FIX */
-    .contact-top-grid { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
-    .contact-right { grid-template-columns: 1fr; gap: 2rem; } 
-    .info-block { display: flex; flex-direction: column; align-items: center; } 
-    .social-links-small { align-items: center; }
-    
-    .input-row { flex-direction: column; gap: 0; }
-    .form-overlap-card { padding: 3rem 5%; width: 95%; margin-top: -100px; text-align: center; }
-    
-    /* FOOTER CENTERING FIX */
-    .footer-col { 
-        text-align: center; 
-    }
-    
-    /* // THE FIX: Forces the last footer column (Socials) to break out and center perfectly */
-    .footer-grid .footer-col:last-child {
-        grid-column: 1 / -1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 1rem; /* Gives it a little breathing room from the top row */
-    }
-
-    .footer-social-pills { 
-        width: 100%; 
-        align-items: center !important; 
-        justify-content: center;
-    }
-}
 
 
 
@@ -1090,14 +994,280 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     border-top: 1px solid var(--card-border); flex-wrap: wrap;
 }
 
+/* =========================================================
+   12. BULLETPROOF MOBILE & TABLET RESPONSIVE SYSTEM
+   ========================================================= */
+
 @media (max-width: 900px) {
-    .modal-skills-grid { grid-template-columns: 1fr; }
+    /* 1. Global Reset & Touch Ergonomics */
+    * { 
+        cursor: auto !important; 
+        -webkit-tap-highlight-color: transparent; 
+    }
+    .hud-cursor { display: none !important; }
+
+    /* 2. Navigation & Mobile Drawer */
+    .nav-links, .desktop-only { display: none !important; }
+    .hamburger { 
+        display: flex; 
+        width: 44px; height: 44px; 
+        align-items: center; justify-content: center;
+        padding: 10px;
+    }
+    .hamburger span { width: 22px; height: 2px; }
+    .navbar { 
+        padding: 0.85rem 4%; 
+        padding-top: calc(0.85rem + env(safe-area-inset-top, 0px));
+    }
+    .nav-logo { font-size: 1.15rem; letter-spacing: -0.5px; }
+    .nav-actions { gap: 0.75rem; }
+    .theme-btn { width: 38px; height: 38px; }
+    .theme-icon-slot svg { width: 17px; height: 17px; }
+
+    .mobile-menu {
+        top: calc(72px + env(safe-area-inset-top, 0px));
+        left: 4%; width: 92%;
+        max-height: calc(100dvh - 85px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 2rem 1.5rem;
+        border-radius: 22px;
+    }
+    .mobile-links { gap: 1.25rem; }
+    .mobile-link { font-size: 1.15rem; }
+
+    /* 3. Hero Section */
+    .hero { 
+        min-height: 100dvh; 
+        padding: calc(85px + env(safe-area-inset-top, 0px)) 5% 45px; 
+        justify-content: center;
+    }
+    .hero-badge { 
+        font-size: 0.68rem; 
+        letter-spacing: 1.5px; 
+        padding: 6px 14px; 
+        max-width: 92vw; 
+        white-space: normal; 
+        line-height: 1.4; 
+    }
+    .huge-text { 
+        font-size: clamp(2.3rem, 10vw, 3.8rem); 
+        letter-spacing: -1px; 
+        line-height: 1.05; 
+        padding: 0; 
+        white-space: normal; 
+        word-break: break-word; 
+        text-align: center; 
+        margin: 1.25rem 0;
+    }
+    .subtitle { 
+        font-size: 0.95rem; 
+        line-height: 1.65; 
+        max-width: 95%; 
+        margin: 0.75rem auto 0; 
+    }
+    .hero-actions { 
+        flex-direction: column; 
+        width: 100%; 
+        max-width: 320px; 
+        margin: 1.8rem auto 0; 
+        gap: 0.85rem; 
+    }
+    .hero-actions .btn-primary, 
+    .hero-actions .btn-secondary { 
+        width: 100%; 
+        text-align: center; 
+        padding: 13px 20px; 
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* 4. About Section */
+    .about-section { padding: 80px 4%; }
+    .hollow-text { 
+        font-size: clamp(2.2rem, 11vw, 3.8rem); 
+        margin-bottom: -18px; 
+        -webkit-text-stroke: 1.5px rgba(255,255,255,0.25); 
+        word-break: break-word;
+    }
+    .about-content { 
+        padding: 28px 20px; 
+        border-radius: 20px; 
+        font-size: 1rem; 
+        line-height: 1.65; 
+    }
+    .about-content p { text-align: center; }
+
+    /* 5. Accordion (Skills) */
+    .section-title { font-size: clamp(1.8rem, 6vw, 2.4rem); margin-bottom: 2rem; }
+    .accordion { padding: 0 0.5rem; }
+    .accordion-header { padding: 1.25rem 0; min-height: 48px; }
+    .accordion-header .num { width: 30px; font-size: 0.85rem; flex-shrink: 0; }
+    .accordion-header h3 { font-size: 1.05rem; margin-left: 0.5rem; text-align: left; }
+    .accordion-content { padding: 0 0 1.25rem 30px; font-size: 0.95rem; text-align: left; }
+
+    /* 6. Engineering Journey Timeline */
+    .journey-section { padding: 80px 4%; }
+    .section-header-centered { margin-bottom: 2.5rem; }
+    .section-subtext { font-size: 0.95rem; line-height: 1.6; }
     .timeline-filter-row { margin-top: 1.5rem; }
-    .timeline-filters { justify-content: center; }
-    .timeline-item { padding-left: 45px; margin-bottom: 3.5rem; }
+    .timeline-filters { justify-content: center; gap: 6px; }
+    .timeline-filters .filter-chip { font-size: 0.68rem; padding: 6px 12px; }
+    .timeline-container { padding: 15px 0 30px 0; }
+    .timeline-item { padding-left: 42px; margin-bottom: 3rem; }
     .timeline-line { left: 14px; }
-    .timeline-dot { left: 7px; top: 10px; width: 16px; height: 16px; }
-    .timeline-card { padding: 24px 20px; }
+    .timeline-dot { left: 6px; top: 10px; width: 18px; height: 18px; }
+    .timeline-card { padding: 22px 18px; border-radius: 18px; }
+    .timeline-card h3 { font-size: 1.15rem; line-height: 1.3; }
+    .timeline-card h4 { font-size: 0.88rem; margin-bottom: 10px; }
+    .timeline-card p { font-size: 0.9rem; line-height: 1.65; margin-bottom: 14px; }
     .timeline-header-row { flex-direction: column; align-items: flex-start; gap: 6px; }
-    .modal-card { padding: 25px 20px; }
+    .timeline-tags { gap: 6px; }
+    .timeline-tags span { font-size: 0.7rem; padding: 3px 10px; }
+
+    /* 7. Projects Section */
+    .immersive-projects { padding: 80px 0; min-height: auto; }
+    .project-filter-container { width: 100%; padding: 0 1rem; }
+    .project-filter-top { margin-bottom: 1.5rem; }
+    .project-filter-bottom { margin-top: 1.5rem; }
+    .project-filter-header { 
+        flex-direction: column; justify-content: center; align-items: center; gap: 10px; 
+        border-radius: 20px; padding: 12px 14px; width: 100%; 
+    }
+    .project-filters { justify-content: center; gap: 6px; width: 100%; }
+    .project-filters .filter-chip { font-size: 0.68rem; padding: 6px 12px; }
+    
+    .proj-layout { 
+        width: 100%; padding: 0 1rem; 
+        flex-direction: column; justify-content: flex-start; 
+        padding-top: 10px; gap: 2rem; 
+    }
+    .proj-info-wrapper { max-width: 100%; text-align: center; padding: 10px 0; }
+    .massive-proj-title { font-size: clamp(2rem, 7.5vw, 2.8rem); line-height: 1.1; margin-bottom: 1rem; }
+    .proj-description { font-size: 0.98rem; line-height: 1.65; margin-bottom: 1.5rem; padding-bottom: 1.25rem; }
+    .proj-tags { justify-content: center; gap: 6px; margin-bottom: 1.5rem; }
+    .proj-tags .tag { font-size: 0.72rem; padding: 5px 12px; }
+    .proj-action-btns { flex-direction: column; width: 100%; max-width: 280px; margin: 1rem auto 0; gap: 0.75rem; }
+    .proj-action-btns a { 
+        width: 100%; text-align: center; 
+        min-height: 48px; display: flex; align-items: center; justify-content: center;
+    }
+    
+    .proj-thumbnails-wrapper {
+        width: 100%; height: auto; min-height: unset; max-height: unset;
+        flex-direction: row; justify-content: center; align-items: center; gap: 10px;
+    }
+    .thumb-nav-btn { display: none; }
+    .proj-thumbnails {
+        width: 100%; flex: 1;
+        overflow-x: auto; overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        perspective: none; padding: 15px 0;
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    }
+    .thumb-track {
+        flex-direction: row; padding: 0 12px;
+        transform: none; width: max-content; gap: 0.85rem;
+    }
+    .thumb-card { 
+        min-width: 240px; max-width: 280px; 
+        scroll-snap-align: center; transform: none !important; 
+        padding: 10px 14px; gap: 12px; border-radius: 14px;
+    }
+    .thumb-img { width: 64px; height: 64px; border-radius: 10px; }
+    .thumb-content h4 { font-size: 1rem; margin-bottom: 2px; }
+    .thumb-content p { font-size: 0.75rem; }
+    .thumb-card.active { transform: scale(1.03) !important; box-shadow: 0 8px 24px var(--accent-glow); }
+
+    /* 8. Contact Section & Direct Message Form */
+    .contact-section { padding: 80px 0 0 0; }
+    .contact-top-grid { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; padding: 0 1rem; }
+    .contact-right { grid-template-columns: 1fr; gap: 2rem; } 
+    .info-block { display: flex; flex-direction: column; align-items: center; } 
+    .social-links-small { align-items: center; justify-content: center; }
+    .massive-email { font-size: clamp(1.4rem, 6.5vw, 2.5rem); letter-spacing: -1px; word-break: break-all; }
+    .email-action-row { justify-content: center; }
+    .map-wrapper { height: 320px; }
+    .form-overlap-card { 
+        padding: 2.2rem 1.25rem; width: 94%; margin-top: -70px; 
+        text-align: center; border-radius: 20px 20px 0 0; 
+    }
+    .input-row { flex-direction: column; gap: 0; }
+    .custom-form input, .custom-form textarea { 
+        font-size: 16px; /* Prevents auto-zoom in iOS Safari */
+    }
+    .form-submit-btn { width: 100%; max-width: 280px; margin: 2rem auto 0; }
+
+    /* 9. Footer */
+    .footer-col { text-align: center; }
+    .footer-grid .footer-col:last-child {
+        grid-column: 1 / -1;
+        display: flex; flex-direction: column; align-items: center;
+        margin-top: 1rem;
+    }
+    .footer-social-pills { 
+        width: 100%; 
+        align-items: center !important; 
+        justify-content: center;
+    }
+
+    /* 10. Floating HUD Elements & Modal */
+    .hud-toast {
+        top: calc(16px + env(safe-area-inset-top, 0px));
+        left: 16px; right: 16px;
+        width: auto; justify-content: center;
+        padding: 10px 16px;
+        font-size: 0.72rem; letter-spacing: 1px;
+    }
+    .back-to-top {
+        bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+        right: 18px; width: 44px; height: 44px;
+        font-size: 1.1rem;
+    }
+    .modal-overlay { padding: 12px; }
+    .modal-card { 
+        padding: 24px 16px; border-radius: 20px; 
+        max-height: 90dvh; 
+        -webkit-overflow-scrolling: touch; 
+    }
+    .modal-close-btn { 
+        top: 14px; right: 14px; 
+        width: 44px; height: 44px; 
+        font-size: 1.8rem; 
+        display: flex; align-items: center; justify-content: center; 
+    }
+    .modal-card h2 { font-size: 1.35rem; padding-right: 32px; }
+    .modal-card h3 { font-size: 1.05rem; }
+    .modal-skills-grid { grid-template-columns: 1fr; gap: 10px; }
+    .modal-actions { 
+        flex-direction: column; gap: 10px; 
+        margin-top: 20px; padding-top: 15px; 
+    }
+    .modal-actions .btn-primary, 
+    .modal-actions .btn-secondary { 
+        width: 100%; text-align: center; 
+        display: flex; align-items: center; justify-content: center; 
+    }
+}
+
+/* Extra optimization for small devices (< 480px, iPhone SE & Android Compact) */
+@media (max-width: 480px) {
+    .container { padding: 0 4%; }
+    .huge-text { font-size: clamp(2rem, 9.5vw, 2.9rem); }
+    .hero-actions { max-width: 100%; }
+    .hollow-text { font-size: clamp(1.9rem, 11vw, 2.6rem); }
+    .about-content { padding: 22px 14px; font-size: 0.92rem; }
+    .timeline-item { padding-left: 36px; margin-bottom: 2.6rem; }
+    .timeline-line { left: 12px; }
+    .timeline-dot { left: 4px; width: 16px; height: 16px; }
+    .timeline-card { padding: 18px 14px; }
+    .massive-proj-title { font-size: clamp(1.75rem, 8vw, 2.2rem); }
+    .thumb-card { min-width: 215px; padding: 8px 12px; gap: 10px; }
+    .thumb-img { width: 52px; height: 52px; }
+    .form-overlap-card { padding: 1.8rem 1rem; width: 96%; }
+    .modal-card { padding: 20px 14px; }
 }

@@ -324,6 +324,26 @@ document.addEventListener("DOMContentLoaded", () => {
         mobileMenu.classList.remove("active");
       });
     });
+
+    // Close floating mobile menu on outside click
+    document.addEventListener("click", (e) => {
+      if (
+        mobileMenu.classList.contains("active") &&
+        !mobileMenu.contains(e.target) &&
+        !hamburger.contains(e.target)
+      ) {
+        hamburger.classList.remove("active");
+        mobileMenu.classList.remove("active");
+      }
+    });
+
+    // Close floating mobile menu on Escape key
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && mobileMenu.classList.contains("active")) {
+        hamburger.classList.remove("active");
+        mobileMenu.classList.remove("active");
+      }
+    });
   }
 
   // --- 3. MAGNETIC BUTTON FIX ---
@@ -750,6 +770,33 @@ document.addEventListener("DOMContentLoaded", () => {
       mouse.y = -1000;
     });
 
+    window.addEventListener(
+      "touchstart",
+      (e) => {
+        if (e.touches && e.touches.length > 0) {
+          mouse.x = e.touches[0].clientX;
+          mouse.y = e.touches[0].clientY;
+        }
+      },
+      { passive: true },
+    );
+
+    window.addEventListener(
+      "touchmove",
+      (e) => {
+        if (e.touches && e.touches.length > 0) {
+          mouse.x = e.touches[0].clientX;
+          mouse.y = e.touches[0].clientY;
+        }
+      },
+      { passive: true },
+    );
+
+    window.addEventListener("touchend", () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    });
+
     class VortexParticle {
       constructor() {
         this.reset();
@@ -821,7 +868,8 @@ document.addEventListener("DOMContentLoaded", () => {
       height = canvas.height = window.innerHeight;
       particles = [];
 
-      for (let i = 0; i < 400; i++) {
+      const count = window.innerWidth < 900 ? 120 : 400;
+      for (let i = 0; i < count; i++) {
         particles.push(new VortexParticle());
         particles[i].radius = Math.random() * (width / 2);
       }
