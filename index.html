@@ -318,10 +318,11 @@
             <div class="proj-bg-overlay"></div>
         </div>
 
-        <div class="container project-filter-container reveal-up">
+        <!-- TOP ARCHITECTURE FILTER MATRIX -->
+        <div class="container project-filter-container project-filter-top reveal-up">
             <div class="project-filter-header">
                 <span class="filter-label">SYSTEMS.MATRIX //</span>
-                <div class="project-filters" id="project-filters">
+                <div class="project-filters">
                     <button class="filter-chip active" data-filter="all">ALL ARCHITECTURES (7)</button>
                     <button class="filter-chip" data-filter="systems">SYSTEMS & C++</button>
                     <button class="filter-chip" data-filter="microservices">MICROSERVICES</button>
@@ -331,6 +332,7 @@
             </div>
         </div>
 
+        <!-- MAIN PROJECT SHOWCASE (FULL WIDTH) -->
         <div class="container proj-layout">
             
             <div class="proj-info-wrapper reveal-up">
@@ -354,6 +356,11 @@
             </div>
 
             <div class="proj-thumbnails-wrapper reveal-up delay-1">
+                <!-- TOP CAROUSEL CONTROLLER -->
+                <button class="thumb-nav-btn thumb-nav-prev" id="thumb-prev-btn" aria-label="Previous Architecture" title="Previous Architecture">
+                    <span>▲</span>
+                </button>
+
                 <div class="proj-thumbnails" id="proj-thumbnails">
                     <div class="thumb-track" id="thumb-track">
                         
@@ -414,6 +421,25 @@
                         </div>
 
                     </div>
+                </div>
+
+                <!-- BOTTOM CAROUSEL CONTROLLER -->
+                <button class="thumb-nav-btn thumb-nav-next" id="thumb-next-btn" aria-label="Next Architecture" title="Next Architecture">
+                    <span>▼</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- BOTTOM ARCHITECTURE INDEX -->
+        <div class="container project-filter-container project-filter-bottom reveal-up delay-2">
+            <div class="project-filter-header">
+                <span class="filter-label">ARCHITECTURE.INDEX //</span>
+                <div class="project-filters">
+                    <button class="filter-chip active" data-filter="all">ALL (7)</button>
+                    <button class="filter-chip" data-filter="systems">SYSTEMS & C++</button>
+                    <button class="filter-chip" data-filter="microservices">MICROSERVICES</button>
+                    <button class="filter-chip" data-filter="math-ai">AI & SHADERS</button>
+                    <button class="filter-chip" data-filter="edge-mobile">EDGE & CLOUD</button>
                 </div>
             </div>
         </div>

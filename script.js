@@ -554,8 +554,15 @@ document.addEventListener("DOMContentLoaded", () => {
     filterChips.forEach((chip) => {
       chip.addEventListener("click", () => {
         const filter = chip.getAttribute("data-filter");
-        filterChips.forEach((c) => c.classList.remove("active"));
-        chip.classList.add("active");
+        
+        // Synchronize active state across both top and bottom filter bars
+        filterChips.forEach((c) => {
+          if (c.getAttribute("data-filter") === filter) {
+            c.classList.add("active");
+          } else {
+            c.classList.remove("active");
+          }
+        });
 
         let firstMatch = null;
         thumbCards.forEach((card) => {
@@ -575,6 +582,38 @@ document.addEventListener("DOMContentLoaded", () => {
         showToast(`FILTER.APPLIED // ${chip.textContent.trim()}`);
       });
     });
+  }
+
+  // --- // CAROUSEL PREV / NEXT NAVIGATION CONTROLS ---
+  const thumbPrevBtn = document.getElementById("thumb-prev-btn");
+  const thumbNextBtn = document.getElementById("thumb-next-btn");
+
+  const cycleProject = (direction) => {
+    const visibleCards = Array.from(thumbCards).filter(
+      (card) => !card.classList.contains("dimmed")
+    );
+    if (visibleCards.length === 0) return;
+
+    const currentActiveCard = document.querySelector(".thumb-card.active");
+    let currentIndex = visibleCards.indexOf(currentActiveCard);
+
+    let nextIndex;
+    if (direction === "prev") {
+      nextIndex = currentIndex <= 0 ? visibleCards.length - 1 : currentIndex - 1;
+    } else {
+      nextIndex = currentIndex >= visibleCards.length - 1 ? 0 : currentIndex + 1;
+    }
+
+    if (visibleCards[nextIndex]) {
+      visibleCards[nextIndex].click();
+    }
+  };
+
+  if (thumbPrevBtn) {
+    thumbPrevBtn.addEventListener("click", () => cycleProject("prev"));
+  }
+  if (thumbNextBtn) {
+    thumbNextBtn.addEventListener("click", () => cycleProject("next"));
   }
 
   // --- 8. ANTIGRAVITY TEXT REVEAL (DYNAMIC CURSOR TYPEWRITER) ---
