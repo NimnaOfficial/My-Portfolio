@@ -127,21 +127,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const hiddenElements = document.querySelectorAll(".reveal-up");
   hiddenElements.forEach((el) => scrollObserver.observe(el));
-  // --- // UPGRADED: Physics-based Smooth Scrolling Engine ---
-  const lenis = new Lenis({
-    duration: 1.5,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smooth: true,
-    // Disable smooth scroll on mobile to allow native browser swiping
-    smoothTouch: false,
-    touchMultiplier: 2,
-  });
+  // --- // UPGRADED: Physics-based Smooth Scrolling Engine (with Cross-Browser Fallback) ---
+  let lenis = null;
+  if (typeof Lenis !== "undefined") {
+    try {
+      lenis = new Lenis({
+        duration: 1.5,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smooth: true,
+        // Disable smooth scroll on mobile to allow native browser swiping
+        smoothTouch: false,
+        touchMultiplier: 2,
+      });
 
-  function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
+      function raf(time) {
+        if (lenis) lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+    } catch (err) {
+      console.warn("Lenis initialization bypassed:", err);
+    }
   }
-  requestAnimationFrame(raf);
 
   // --- 10. DRAG-TO-SCROLL ENGINE FOR DESKTOP ---
   const slider = document.querySelector(".proj-thumbnails");
@@ -202,7 +209,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (backToTopBtn) {
     backToTopBtn.addEventListener("click", () => {
-      lenis.scrollTo(0, { duration: 1.2 });
+      if (lenis) {
+        lenis.scrollTo(0, { duration: 1.2 });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     });
   }
 
@@ -268,36 +279,93 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- // CLIPBOARD COPY ENGINES ---
+  // --- // SAFE STORAGE HELPERS (Guards Safari Private Browsing & Brave Shields) ---
+  function getSafeStorage(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function setSafeStorage(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch (e) {
+      // Storage restricted or quota exceeded in private browsing
+    }
+  }
+
+  // --- // UNIVERSAL CLIPBOARD COPY ENGINE (Safari / Firefox / Brave / Chrome / Opera) ---
   const copyEmailBtn = document.getElementById("copy-email-btn");
-  function copyEmailAction() {
-    navigator.clipboard.writeText("lochsand2022@gmail.com").then(() => {
-      showToast("SYS.CLIPBOARD // EMAIL COPIED");
-    }).catch(() => {
+
+  function fallbackCopyText(text) {
+    try {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.top = "-9999px";
+      textarea.style.left = "-9999px";
+      textarea.setAttribute("readonly", "");
+      document.body.appendChild(textarea);
+      textarea.select();
+      const successful = document.execCommand("copy");
+      document.body.removeChild(textarea);
+      if (successful) {
+        showToast("SYS.CLIPBOARD // EMAIL COPIED");
+      } else {
+        showToast("EMAIL: lochsand2022@gmail.com");
+      }
+    } catch (err) {
       showToast("EMAIL: lochsand2022@gmail.com");
-    });
+    }
+  }
+
+  function copyEmailAction() {
+    const targetEmail = "lochsand2022@gmail.com";
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+      navigator.clipboard.writeText(targetEmail)
+        .then(() => {
+          showToast("SYS.CLIPBOARD // EMAIL COPIED");
+        })
+        .catch(() => {
+          fallbackCopyText(targetEmail);
+        });
+    } else {
+      fallbackCopyText(targetEmail);
+    }
   }
 
   if (copyEmailBtn) copyEmailBtn.addEventListener("click", copyEmailAction);
   if (modalCopyEmail) modalCopyEmail.addEventListener("click", copyEmailAction);
 
-  // --- 1. THEME TOGGLE (Dark/Light Mode) ---
+  // --- 1. THEME TOGGLE (Dark/Light Mode with URL Bar Sync) ---
   const themeBtn = document.getElementById("theme-toggle");
   const htmlEl = document.documentElement;
+  const themeColorMeta = document.getElementById("theme-color-meta");
 
-  if (localStorage.getItem("theme") === "light") {
-    htmlEl.setAttribute("data-theme", "light");
+  function applyTheme(isLight) {
+    if (isLight) {
+      htmlEl.setAttribute("data-theme", "light");
+      if (themeColorMeta) themeColorMeta.setAttribute("content", "#f8fafc");
+      setSafeStorage("theme", "light");
+    } else {
+      htmlEl.removeAttribute("data-theme");
+      if (themeColorMeta) themeColorMeta.setAttribute("content", "#000000");
+      setSafeStorage("theme", "dark");
+    }
   }
 
-  themeBtn.addEventListener("click", () => {
-    if (htmlEl.getAttribute("data-theme") === "light") {
-      htmlEl.removeAttribute("data-theme");
-      localStorage.setItem("theme", "dark");
-    } else {
-      htmlEl.setAttribute("data-theme", "light");
-      localStorage.setItem("theme", "light");
-    }
-  });
+  if (getSafeStorage("theme") === "light") {
+    applyTheme(true);
+  }
+
+  if (themeBtn) {
+    themeBtn.addEventListener("click", () => {
+      const isCurrentlyLight = htmlEl.getAttribute("data-theme") === "light";
+      applyTheme(!isCurrentlyLight);
+    });
+  }
 
   // --- 2. STICKY NAVBAR & MOBILE MENU TOGGLE ---
   const navbar = document.getElementById("navbar");
@@ -542,21 +610,25 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(".proj-action-btns"),
       ];
 
-      // 1. STAGGERED ANIMATE OUT (Fade and slide up slightly)
+      // 1. STAGGERED ANIMATE OUT (Fade and slide up slightly with feature check)
       animatedElements.forEach((el, i) => {
         if (!el) return;
-        el.animate(
-          [
-            { opacity: 1, transform: "translateY(0px)" },
-            { opacity: 0, transform: "translateY(-15px)" },
-          ],
-          {
-            duration: 250,
-            easing: "cubic-bezier(0.4, 0, 0.2, 1)", // Smooth ease out
-            fill: "forwards",
-            delay: i * 40, // 40ms stagger between each element
-          },
-        );
+        if (typeof el.animate === "function") {
+          el.animate(
+            [
+              { opacity: 1, transform: "translateY(0px)" },
+              { opacity: 0, transform: "translateY(-15px)" },
+            ],
+            {
+              duration: 250,
+              easing: "cubic-bezier(0.4, 0, 0.2, 1)", // Smooth ease out
+              fill: "forwards",
+              delay: i * 40, // 40ms stagger between each element
+            },
+          );
+        } else {
+          el.style.opacity = "0";
+        }
       });
 
       // Wait for the out-animation to finish before swapping data
@@ -588,21 +660,26 @@ document.addEventListener("DOMContentLoaded", () => {
           liveBtn.style.display = "none";
         }
 
-        // 2. STAGGERED ANIMATE IN (Fade and snap up from the bottom)
+        // 2. STAGGERED ANIMATE IN (Fade and snap up from the bottom with feature check)
         animatedElements.forEach((el, i) => {
           if (!el) return;
-          el.animate(
-            [
-              { opacity: 0, transform: "translateY(30px)" },
-              { opacity: 1, transform: "translateY(0px)" },
-            ],
-            {
-              duration: 500,
-              easing: "cubic-bezier(0.16, 1, 0.3, 1)", // Premium snappy spring effect
-              fill: "forwards",
-              delay: i * 60, // 60ms stagger for the entrance
-            },
-          );
+          if (typeof el.animate === "function") {
+            el.animate(
+              [
+                { opacity: 0, transform: "translateY(30px)" },
+                { opacity: 1, transform: "translateY(0px)" },
+              ],
+              {
+                duration: 500,
+                easing: "cubic-bezier(0.16, 1, 0.3, 1)", // Premium snappy spring effect
+                fill: "forwards",
+                delay: i * 60, // 60ms stagger for the entrance
+              },
+            );
+          } else {
+            el.style.opacity = "1";
+            el.style.transform = "none";
+          }
         });
       }, 350); // Trigger swap right after the last element fades out
     });
@@ -754,8 +831,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- 9. RADIATING PARTICLE VORTEX (SLOWED DOWN AMBIENT) ---
   const canvas = document.getElementById("antigravity-canvas");
-  if (canvas) {
+  if (canvas && typeof canvas.getContext === "function") {
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
     let width, height, particles;
 
     let mouse = { x: -1000, y: -1000, radius: 150 };
