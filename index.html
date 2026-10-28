@@ -163,138 +163,178 @@
             <h2 class="section-title">ENGINEERING JOURNEY</h2>
             <p class="section-subtext">Academic foundations, empirical sociotechnical research, datathon lakehouses, and low-level kernel systems.</p>
             
-            <div class="timeline-filter-row">
+            <div class="timeline-controls-row">
                 <div class="timeline-filters" id="timeline-filters">
                     <button class="filter-chip active" data-tfilter="all">ALL TURNING POINTS (7)</button>
                     <button class="filter-chip" data-tfilter="academic">ACADEMIC & ENTERPRISE</button>
                     <button class="filter-chip" data-tfilter="research">RESEARCH & DATATHON</button>
                     <button class="filter-chip" data-tfilter="systems">SYSTEMS & EDGE</button>
                 </div>
+
+                <div class="timeline-nav-group">
+                    <button class="timeline-engage-btn magnetic-btn" id="timeline-engage-btn" aria-label="Engage vertical scroll mode">
+                        <span class="engage-indicator-dot"></span>
+                        <span class="engage-text" id="engage-text">CLICK TO ENGAGE SCROLL</span>
+                    </button>
+                    <div class="timeline-step-btns">
+                        <button class="timeline-step-btn" id="timeline-step-up" aria-label="Previous Milestone" title="Previous Milestone">
+                            <span>▲</span>
+                        </button>
+                        <button class="timeline-step-btn" id="timeline-step-down" aria-label="Next Milestone" title="Next Milestone">
+                            <span>▼</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="timeline-container">
-            <div class="timeline-line"></div>
+        <!-- SCROLLABLE VIEWPORT WRAPPER -->
+        <div class="timeline-viewport-wrapper reveal-up delay-1" id="timeline-viewport-wrapper">
+            <!-- Top & Bottom Gradient Masks -->
+            <div class="timeline-mask timeline-mask-top"></div>
+            <div class="timeline-mask timeline-mask-bottom"></div>
 
-            <!-- MILESTONE 1 -->
-            <div class="timeline-item reveal-up" data-tcategory="academic">
-                <div class="timeline-dot"></div>
-                <div class="timeline-card">
-                    <div class="timeline-header-row">
-                        <span class="timeline-date">AUG 2024 — NOV 2024</span>
-                        <span class="timeline-badge">✦ THE AWAKENING</span>
+            <!-- HUD Depth Meter -->
+            <div class="timeline-depth-meter">
+                <div class="depth-track">
+                    <div class="depth-fill" id="depth-fill"></div>
+                </div>
+                <span class="depth-counter" id="depth-counter">01 / 07</span>
+            </div>
+
+            <!-- Scrollable Container -->
+            <div class="timeline-scroll-container" id="timeline-scroll-container" tabindex="0" role="region" aria-label="Scrollable Engineering Timeline">
+                <div class="timeline-container" id="timeline-container">
+                    <div class="timeline-line">
+                        <div class="timeline-line-glow" id="timeline-line-glow"></div>
                     </div>
-                    <h3>Foundations in Computer Science & System Logic</h3>
-                    <h4>National Institute of Business Management (NIBM Colombo 07)</h4>
-                    <p>Transitioned into formal computer science with a focus on hardware execution and low-level system logic. Mastered computer architecture, memory allocation models, algorithmic complexity, and discrete mathematics, establishing the structural foundation for systems programming.</p>
-                    <div class="timeline-tags">
-                        <span>Computer Architecture</span><span>Memory Models</span><span>Discrete Math</span><span>Algorithmic Logic</span>
+
+                    <!-- MILESTONE 1 -->
+                    <div class="timeline-item active-focus" data-index="0" data-tcategory="academic">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <div class="timeline-header-row">
+                                <span class="timeline-date">AUG 2024 — NOV 2024</span>
+                                <span class="timeline-badge">✦ THE AWAKENING</span>
+                            </div>
+                            <h3>Foundations in Computer Science & System Logic</h3>
+                            <h4>National Institute of Business Management (NIBM Colombo 07)</h4>
+                            <p>Transitioned into formal computer science with a focus on hardware execution and low-level system logic. Mastered computer architecture, memory allocation models, algorithmic complexity, and discrete mathematics, establishing the structural foundation for systems programming.</p>
+                            <div class="timeline-tags">
+                                <span>Computer Architecture</span><span>Memory Models</span><span>Discrete Math</span><span>Algorithmic Logic</span>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- MILESTONE 2 -->
+                    <div class="timeline-item" data-index="1" data-tcategory="academic">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <div class="timeline-header-row">
+                                <span class="timeline-date">LATE 2024</span>
+                                <span class="timeline-badge">✦ CISCO CERTIFIED</span>
+                            </div>
+                            <h3>Cisco Networking Academy — Telemetry & Packet Routing</h3>
+                            <h4>Cisco Networking Academy Credentials</h4>
+                            <p>Deep-dive into digital networking infrastructure, TCP/IP socket structures, subnet addressing, and network security protocols. Understanding low-level packet traversal and port telemetry proved foundational for authoring socket-level network tools and port reapers.</p>
+                            <div class="timeline-tags">
+                                <span>Cisco Networking</span><span>TCP/IP Sockets</span><span>Packet Telemetry</span><span>Network Protocols</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MILESTONE 3 -->
+                    <div class="timeline-item" data-index="2" data-tcategory="academic">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <div class="timeline-header-row">
+                                <span class="timeline-date">FEB 2025 — FEB 2026</span>
+                                <span class="timeline-badge">✦ 30-CLASS UML DEFENSE</span>
+                            </div>
+                            <h3>Diploma in Software Engineering (Cohort DSE 25.1)</h3>
+                            <h4>NIBM Colombo 07 • Academic Examination Panel Defense</h4>
+                            <p>Advanced from scripting to multi-tier enterprise architecture. Spearheaded technical designs for distributed systems (Lanka Washing System & Resource Management) with 30+ class UML schemas, sequence workflows, and shared MySQL ACID synchronization, achieving 99.9% uptime and 30% execution optimization.</p>
+                            <div class="timeline-tags">
+                                <span>Enterprise Architecture</span><span>30+ Class UML</span><span>Java Swing</span><span>ACID MySQL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MILESTONE 4 -->
+                    <div class="timeline-item" data-index="3" data-tcategory="academic">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <div class="timeline-header-row">
+                                <span class="timeline-date">2025 — PRESENT</span>
+                                <span class="timeline-badge">✦ DISTRIBUTED SYSTEMS</span>
+                            </div>
+                            <h3>Higher Diploma in Software Engineering (HDSE 26.1F)</h3>
+                            <h4>National Institute of Business Management (NIBM Colombo)</h4>
+                            <p>Rigorous computer science curriculum focusing on Distributed Systems, Advanced Database Management, Concurrency, Operating Systems, and Network Security protocols. Student Registration: <code>COHNDSE26.1F-004</code>.</p>
+                            <div class="timeline-tags">
+                                <span>Distributed Systems</span><span>C++</span><span>Java</span><span>Spring Cloud</span><span>Oracle 21c</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MILESTONE 5 -->
+                    <div class="timeline-item" data-index="4" data-tcategory="research">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <div class="timeline-header-row">
+                                <span class="timeline-date">MAY 2026</span>
+                                <span class="timeline-badge">✦ 20,000 RETAIL OUTLETS</span>
+                            </div>
+                            <h3>Data Storm 7.0 — Advanced Demand Lakehouse</h3>
+                            <h4>OCTAVE (John Keells Group) — Team CODE BLOODED</h4>
+                            <p>Competed under high-stakes datathon pressure against Sri Lanka's premier engineering teams. Addressed historical out-of-stock distortion by modeling sales as a left-censored demand problem. Architected a Medallion Lakehouse with Parquet columnar storage and geospatial foot-traffic modeling across 20,000 national outlets.</p>
+                            <div class="timeline-tags">
+                                <span>Data Storm 7.0</span><span>Medallion Lakehouse</span><span>Parquet</span><span>Geospatial ML</span><span>OCTAVE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MILESTONE 6 -->
+                    <div class="timeline-item" data-index="5" data-tcategory="research">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <div class="timeline-header-row">
+                                <span class="timeline-date">OCTOBER 2026</span>
+                                <span class="timeline-badge">✦ N=322 EMPIRICAL PUBLICATION</span>
+                            </div>
+                            <h3>Empirical Sociotechnical Research Publication</h3>
+                            <h4>School of Computing & Engineering, NIBM Sri Lanka</h4>
+                            <p>Authored formal 32-page empirical investigation: <em>"The Impact of Algorithmic Social Media on Digital Media Addiction"</em> ($N=322$). Formulated OLS Multiple Linear Regression ($R^2 = 0.518, F = 78.4, p < 0.001$) and ANOVA variance models in IBM SPSS Statistics 27, scientifically validating that digital dependency is driven by algorithmic feedback loops.</p>
+                            <div class="timeline-tags">
+                                <span>IBM SPSS v27</span><span>OLS Regression</span><span>ANOVA</span><span>Empirical Research</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MILESTONE 7 -->
+                    <div class="timeline-item" data-index="6" data-tcategory="systems">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <div class="timeline-header-row">
+                                <span class="timeline-date">2026 — PRESENT</span>
+                                <span class="timeline-badge">✦ KERNEL & CLOUD RUNTIMES</span>
+                            </div>
+                            <h3>Open-Source Systems & Edge Computing Deployments</h3>
+                            <h4>GhostPort OS, PixMath Studio, SmartMove & AnyGPA Edge</h4>
+                            <p>Built multi-threaded C++20 daemons hooking directly into Windows Toolhelp32 and Linux /proc for zero-copy port reaping; compiled continuous math to WebGL2 GPU fragment shaders with SIREN/KAN PyTorch networks; and deployed edge-native WebAssembly (WASI) micro-SaaS with Gemini AI Vision and Spring Cloud transit microservices.</p>
+                            <div class="timeline-tags">
+                                <span>C++20 Kernel</span><span>WebGL2</span><span>PyTorch</span><span>Wasmer WASI</span><span>Spring Cloud</span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <!-- MILESTONE 2 -->
-            <div class="timeline-item reveal-up delay-1" data-tcategory="academic">
-                <div class="timeline-dot"></div>
-                <div class="timeline-card">
-                    <div class="timeline-header-row">
-                        <span class="timeline-date">LATE 2024</span>
-                        <span class="timeline-badge">✦ CISCO CERTIFIED</span>
-                    </div>
-                    <h3>Cisco Networking Academy — Telemetry & Packet Routing</h3>
-                    <h4>Cisco Networking Academy Credentials</h4>
-                    <p>Deep-dive into digital networking infrastructure, TCP/IP socket structures, subnet addressing, and network security protocols. Understanding low-level packet traversal and port telemetry proved foundational for authoring socket-level network tools and port reapers.</p>
-                    <div class="timeline-tags">
-                        <span>Cisco Networking</span><span>TCP/IP Sockets</span><span>Packet Telemetry</span><span>Network Protocols</span>
-                    </div>
-                </div>
+            <!-- TACTICAL ENGAGEMENT BANNER -->
+            <div class="timeline-engagement-banner" id="timeline-engagement-banner">
+                <span>✦ CLICK TO ENGAGE CHRONICLE SCROLL</span>
             </div>
-
-            <!-- MILESTONE 3 -->
-            <div class="timeline-item reveal-up delay-1" data-tcategory="academic">
-                <div class="timeline-dot"></div>
-                <div class="timeline-card">
-                    <div class="timeline-header-row">
-                        <span class="timeline-date">FEB 2025 — FEB 2026</span>
-                        <span class="timeline-badge">✦ 30-CLASS UML DEFENSE</span>
-                    </div>
-                    <h3>Diploma in Software Engineering (Cohort DSE 25.1)</h3>
-                    <h4>NIBM Colombo 07 • Academic Examination Panel Defense</h4>
-                    <p>Advanced from scripting to multi-tier enterprise architecture. Spearheaded technical designs for distributed systems (Lanka Washing System & Resource Management) with 30+ class UML schemas, sequence workflows, and shared MySQL ACID synchronization, achieving 99.9% uptime and 30% execution optimization.</p>
-                    <div class="timeline-tags">
-                        <span>Enterprise Architecture</span><span>30+ Class UML</span><span>Java Swing</span><span>ACID MySQL</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MILESTONE 4 -->
-            <div class="timeline-item reveal-up delay-1" data-tcategory="academic">
-                <div class="timeline-dot"></div>
-                <div class="timeline-card">
-                    <div class="timeline-header-row">
-                        <span class="timeline-date">2025 — PRESENT</span>
-                        <span class="timeline-badge">✦ DISTRIBUTED SYSTEMS</span>
-                    </div>
-                    <h3>Higher Diploma in Software Engineering (HDSE 26.1F)</h3>
-                    <h4>National Institute of Business Management (NIBM Colombo)</h4>
-                    <p>Rigorous computer science curriculum focusing on Distributed Systems, Advanced Database Management, Concurrency, Operating Systems, and Network Security protocols. Student Registration: <code>COHNDSE26.1F-004</code>.</p>
-                    <div class="timeline-tags">
-                        <span>Distributed Systems</span><span>C++</span><span>Java</span><span>Spring Cloud</span><span>Oracle 21c</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MILESTONE 5 -->
-            <div class="timeline-item reveal-up delay-2" data-tcategory="research">
-                <div class="timeline-dot"></div>
-                <div class="timeline-card">
-                    <div class="timeline-header-row">
-                        <span class="timeline-date">MAY 2026</span>
-                        <span class="timeline-badge">✦ 20,000 RETAIL OUTLETS</span>
-                    </div>
-                    <h3>Data Storm 7.0 — Advanced Demand Lakehouse</h3>
-                    <h4>OCTAVE (John Keells Group) — Team CODE BLOODED</h4>
-                    <p>Competed under high-stakes datathon pressure against Sri Lanka's premier engineering teams. Addressed historical out-of-stock distortion by modeling sales as a left-censored demand problem. Architected a Medallion Lakehouse with Parquet columnar storage and geospatial foot-traffic modeling across 20,000 national outlets.</p>
-                    <div class="timeline-tags">
-                        <span>Data Storm 7.0</span><span>Medallion Lakehouse</span><span>Parquet</span><span>Geospatial ML</span><span>OCTAVE</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MILESTONE 6 -->
-            <div class="timeline-item reveal-up delay-2" data-tcategory="research">
-                <div class="timeline-dot"></div>
-                <div class="timeline-card">
-                    <div class="timeline-header-row">
-                        <span class="timeline-date">OCTOBER 2026</span>
-                        <span class="timeline-badge">✦ N=322 EMPIRICAL PUBLICATION</span>
-                    </div>
-                    <h3>Empirical Sociotechnical Research Publication</h3>
-                    <h4>School of Computing & Engineering, NIBM Sri Lanka</h4>
-                    <p>Authored formal 32-page empirical investigation: <em>"The Impact of Algorithmic Social Media on Digital Media Addiction"</em> ($N=322$). Formulated OLS Multiple Linear Regression ($R^2 = 0.518, F = 78.4, p < 0.001$) and ANOVA variance models in IBM SPSS Statistics 27, scientifically validating that digital dependency is driven by algorithmic feedback loops.</p>
-                    <div class="timeline-tags">
-                        <span>IBM SPSS v27</span><span>OLS Regression</span><span>ANOVA</span><span>Empirical Research</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MILESTONE 7 -->
-            <div class="timeline-item reveal-up delay-2" data-tcategory="systems">
-                <div class="timeline-dot"></div>
-                <div class="timeline-card">
-                    <div class="timeline-header-row">
-                        <span class="timeline-date">2026 — PRESENT</span>
-                        <span class="timeline-badge">✦ KERNEL & CLOUD RUNTIMES</span>
-                    </div>
-                    <h3>Open-Source Systems & Edge Computing Deployments</h3>
-                    <h4>GhostPort OS, PixMath Studio, SmartMove & AnyGPA Edge</h4>
-                    <p>Built multi-threaded C++20 daemons hooking directly into Windows Toolhelp32 and Linux /proc for zero-copy port reaping; compiled continuous math to WebGL2 GPU fragment shaders with SIREN/KAN PyTorch networks; and deployed edge-native WebAssembly (WASI) micro-SaaS with Gemini AI Vision and Spring Cloud transit microservices.</p>
-                    <div class="timeline-tags">
-                        <span>C++20 Kernel</span><span>WebGL2</span><span>PyTorch</span><span>Wasmer WASI</span><span>Spring Cloud</span>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </section>
 

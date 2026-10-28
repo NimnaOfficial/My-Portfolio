@@ -392,36 +392,222 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================================================
-  // // 5.5 ENGINEERING JOURNEY TIMELINE FILTER
+  // // 5.5 VERTICALLY SCROLLABLE ENGINEERING JOURNEY ENGINE
   // =========================================================
-  const timelineFilterChips = document.querySelectorAll("#timeline-filters .filter-chip");
+  const timelineViewportWrapper = document.getElementById("timeline-viewport-wrapper");
+  const timelineScrollContainer = document.getElementById("timeline-scroll-container");
+  const timelineEngageBtn = document.getElementById("timeline-engage-btn");
+  const engageText = document.getElementById("engage-text");
+  const timelineStepUp = document.getElementById("timeline-step-up");
+  const timelineStepDown = document.getElementById("timeline-step-down");
   const timelineItems = document.querySelectorAll(".timeline-item");
+  const depthCounter = document.getElementById("depth-counter");
+  const depthFill = document.getElementById("depth-fill");
+  const timelineLineGlow = document.getElementById("timeline-line-glow");
+  const timelineEngagementBanner = document.getElementById("timeline-engagement-banner");
+  const timelineFilterChips = document.querySelectorAll("#timeline-filters .filter-chip");
 
-  if (timelineFilterChips.length > 0) {
-    timelineFilterChips.forEach((chip) => {
-      chip.addEventListener("click", () => {
-        const filter = chip.getAttribute("data-tfilter");
-        timelineFilterChips.forEach((c) => c.classList.remove("active"));
-        chip.classList.add("active");
+  let isTimelineEngaged = false;
 
-        let firstMatch = null;
-        timelineItems.forEach((item) => {
-          const cat = item.getAttribute("data-tcategory");
-          if (filter === "all" || cat === filter) {
-            item.classList.remove("dimmed");
-            if (!firstMatch) firstMatch = item;
-          } else {
-            item.classList.add("dimmed");
-          }
-        });
+  const setTimelineEngagement = (engaged) => {
+    isTimelineEngaged = engaged;
+    if (engaged) {
+      if (timelineViewportWrapper) timelineViewportWrapper.classList.add("is-engaged");
+      if (timelineEngageBtn) timelineEngageBtn.classList.add("active");
+      if (engageText) engageText.textContent = "SCROLL ACTIVE // CLICK TO EXIT";
+      if (timelineEngagementBanner) {
+        timelineEngagementBanner.innerHTML = "<span>✦ SCROLL ENGAGED // ESC OR CLICK OUTSIDE TO RELEASE</span>";
+      }
+      showToast("CHRONICLE.ENGAGED // VERTICAL SCROLL ACTIVE");
+    } else {
+      if (timelineViewportWrapper) timelineViewportWrapper.classList.remove("is-engaged");
+      if (timelineEngageBtn) timelineEngageBtn.classList.remove("active");
+      if (engageText) engageText.textContent = "CLICK TO ENGAGE SCROLL";
+      if (timelineEngagementBanner) {
+        timelineEngagementBanner.innerHTML = "<span>✦ CLICK TO ENGAGE CHRONICLE SCROLL</span>";
+      }
+      showToast("CHRONICLE.RELEASED // PAGE SCROLL RESTORED");
+    }
+  };
 
-        if (firstMatch && filter !== "all") {
-          firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (timelineViewportWrapper && timelineScrollContainer) {
+    // 1. Click to Engage / Disengage on Wrapper or Toggle Button
+    timelineEngageBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      setTimelineEngagement(!isTimelineEngaged);
+    });
+
+    timelineViewportWrapper.addEventListener("click", () => {
+      if (!isTimelineEngaged) {
+        setTimelineEngagement(true);
+      }
+    });
+
+    // Disengage on outside click
+    document.addEventListener("click", (e) => {
+      if (isTimelineEngaged && !timelineViewportWrapper.contains(e.target) && !timelineEngageBtn?.contains(e.target)) {
+        setTimelineEngagement(false);
+      }
+    });
+
+    // Disengage on Escape key
+    window.addEventListener("keydown", (e) => {
+      if (isTimelineEngaged && e.key === "Escape") {
+        setTimelineEngagement(false);
+      }
+    });
+
+    // 2. Mouse Wheel Scroll (Only active when engaged)
+    timelineScrollContainer.addEventListener(
+      "wheel",
+      (e) => {
+        if (!isTimelineEngaged) return; // Allow natural page scroll if not engaged!
+        const maxScroll = timelineScrollContainer.scrollHeight - timelineScrollContainer.clientHeight;
+        if (maxScroll <= 0) return;
+
+        // If engaged, intercept and scroll smoothly inside
+        e.preventDefault();
+        timelineScrollContainer.scrollTop += e.deltaY * 0.9;
+      },
+      { passive: false }
+    );
+
+    // 3. Drag-to-Scroll Logic
+    let isDraggingTimeline = false;
+    let startY = 0;
+    let initialScrollTop = 0;
+
+    timelineScrollContainer.addEventListener("mousedown", (e) => {
+      isDraggingTimeline = true;
+      timelineScrollContainer.classList.add("active-drag");
+      startY = e.pageY - timelineScrollContainer.offsetTop;
+      initialScrollTop = timelineScrollContainer.scrollTop;
+    });
+
+    window.addEventListener("mouseup", () => {
+      if (isDraggingTimeline) {
+        isDraggingTimeline = false;
+        timelineScrollContainer.classList.remove("active-drag");
+      }
+    });
+
+    timelineScrollContainer.addEventListener("mousemove", (e) => {
+      if (!isDraggingTimeline) return;
+      e.preventDefault();
+      const y = e.pageY - timelineScrollContainer.offsetTop;
+      const walk = (y - startY) * 1.5;
+      timelineScrollContainer.scrollTop = initialScrollTop - walk;
+    });
+
+    // 4. Scroll Tracking, Depth Meter & Active Focus Elevation
+    const updateTimelineFocus = () => {
+      const maxScroll = timelineScrollContainer.scrollHeight - timelineScrollContainer.clientHeight;
+      if (maxScroll > 0) {
+        const progressRatio = timelineScrollContainer.scrollTop / maxScroll;
+        const fillHeight = Math.min(100, Math.max(14, Math.round(14 + progressRatio * 86)));
+        if (depthFill) depthFill.style.height = `${fillHeight}%`;
+        if (timelineLineGlow) timelineLineGlow.style.height = `${fillHeight}%`;
+      }
+
+      // Calculate center of scrollable container
+      const containerCenter = timelineScrollContainer.scrollTop + timelineScrollContainer.clientHeight / 2;
+      let closestItem = null;
+      let minDistance = Infinity;
+
+      timelineItems.forEach((item) => {
+        if (item.classList.contains("dimmed")) return;
+        const itemCenter = item.offsetTop + item.offsetHeight / 2;
+        const dist = Math.abs(containerCenter - itemCenter);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestItem = item;
         }
+      });
 
-        showToast(`TIMELINE // ${chip.textContent.trim()}`);
+      if (closestItem) {
+        timelineItems.forEach((it) => it.classList.remove("active-focus"));
+        closestItem.classList.add("active-focus");
+
+        const index = parseInt(closestItem.getAttribute("data-index") || "0", 10);
+        if (depthCounter) {
+          depthCounter.textContent = `0${index + 1} / 07`;
+        }
+      }
+    };
+
+    timelineScrollContainer.addEventListener("scroll", updateTimelineFocus);
+
+    // Initial check on DOM load
+    updateTimelineFocus();
+
+    // 5. Up and Down Step Buttons
+    const stepMilestone = (direction) => {
+      const visibleItems = Array.from(timelineItems).filter((it) => !it.classList.contains("dimmed"));
+      if (visibleItems.length === 0) return;
+
+      const currentActive = document.querySelector(".timeline-item.active-focus") || visibleItems[0];
+      let currentIndex = visibleItems.indexOf(currentActive);
+
+      let nextIndex;
+      if (direction === "up") {
+        nextIndex = currentIndex <= 0 ? visibleItems.length - 1 : currentIndex - 1;
+      } else {
+        nextIndex = currentIndex >= visibleItems.length - 1 ? 0 : currentIndex + 1;
+      }
+
+      const targetItem = visibleItems[nextIndex];
+      if (targetItem) {
+        targetItem.scrollIntoView({ behavior: "smooth", block: "center" });
+        timelineItems.forEach((it) => it.classList.remove("active-focus"));
+        targetItem.classList.add("active-focus");
+      }
+    };
+
+    if (timelineStepUp) {
+      timelineStepUp.addEventListener("click", () => stepMilestone("up"));
+    }
+    if (timelineStepDown) {
+      timelineStepDown.addEventListener("click", () => stepMilestone("down"));
+    }
+
+    // 6. Click on Card to Center
+    timelineItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        item.scrollIntoView({ behavior: "smooth", block: "center" });
+        timelineItems.forEach((it) => it.classList.remove("active-focus"));
+        item.classList.add("active-focus");
       });
     });
+
+    // 7. Discipline Filter Matrix
+    if (timelineFilterChips.length > 0) {
+      timelineFilterChips.forEach((chip) => {
+        chip.addEventListener("click", () => {
+          const filter = chip.getAttribute("data-tfilter");
+          timelineFilterChips.forEach((c) => c.classList.remove("active"));
+          chip.classList.add("active");
+
+          let firstMatch = null;
+          timelineItems.forEach((item) => {
+            const cat = item.getAttribute("data-tcategory");
+            if (filter === "all" || cat === filter) {
+              item.classList.remove("dimmed");
+              if (!firstMatch) firstMatch = item;
+            } else {
+              item.classList.add("dimmed");
+            }
+          });
+
+          if (firstMatch) {
+            firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
+            timelineItems.forEach((it) => it.classList.remove("active-focus"));
+            firstMatch.classList.add("active-focus");
+          }
+
+          showToast(`TIMELINE // ${chip.textContent.trim()}`);
+        });
+      });
+    }
   }
 
   // --- 6. VERTICAL PROJECT CAROUSEL ---
