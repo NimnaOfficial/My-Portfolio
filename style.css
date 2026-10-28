@@ -312,12 +312,66 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     padding: 14px 32px; border-radius: 50px; font-weight: 600; text-decoration: none; border: none; cursor: none;
 }
 .theme-btn {
-    background: transparent; border: 1px solid var(--card-border); font-size: 1.2rem; cursor: none;
-    width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    overflow: hidden; color: var(--text-main);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    cursor: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    color: var(--text-main);
+    transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
-.theme-icon-wrapper { display: flex; flex-direction: column; transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-[data-theme="light"] .theme-icon-wrapper { transform: translateY(-50%); }
+.theme-btn:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 14px var(--accent-glow);
+}
+
+.theme-icon-slot {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    pointer-events: none;
+}
+.theme-icon-slot svg {
+    display: block;
+    width: 19px;
+    height: 19px;
+    stroke: currentColor;
+    flex-shrink: 0;
+}
+
+/* Default / Dark Mode: Moon is centered & visible */
+.theme-icon-moon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+    color: var(--text-main);
+}
+.theme-icon-sun {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.3);
+    color: var(--text-main);
+}
+
+/* Light Mode: Sun rotates into center, Moon rotates away */
+[data-theme="light"] .theme-icon-moon {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.3);
+}
+[data-theme="light"] .theme-icon-sun {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+    color: var(--accent);
+}
 
 .magnetic-btn {
     transform: translate3d(var(--mx, 0), var(--my, 0), var(--mz, 0));
@@ -332,6 +386,31 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     min-height: 100vh; display: flex; flex-direction: column;
     justify-content: center; align-items: center; text-align: center;
     padding: 0 5%; position: relative;
+}
+.hero-badge {
+    font-family: 'Syne', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent);
+    background: var(--accent-glow);
+    border: 1px solid var(--accent);
+    padding: 6px 18px;
+    border-radius: 50px;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    display: inline-block;
+    box-shadow: 0 0 15px var(--accent-glow);
+    z-index: 2;
+}
+.hero-actions {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    z-index: 2;
 }
 .huge-text { 
     font-size: clamp(2.5rem, 7vw, 7rem); font-weight: 800; line-height: 1; letter-spacing: -2px; 
@@ -599,7 +678,8 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
     .navbar { padding: 1rem 5%; }
     .nav-logo { font-size: 1.1rem; letter-spacing: -0.5px; }
     .nav-actions { gap: 1rem; }
-    .theme-btn { width: 32px; height: 32px; font-size: 0.8rem; }
+    .theme-btn { width: 38px; height: 38px; }
+    .theme-icon-slot svg { width: 17px; height: 17px; }
     
     /* Hero Text Mobile Override */
     .huge-text { 
@@ -678,21 +758,21 @@ h1, h2, h3, .nav-logo { font-family: 'Syne', sans-serif; }
 /* =========================================================
    13. ASSET LINKS (EXTRACTED INLINE STYLES)
    ========================================================= */
-.bg-proj-1 { background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1920'); }
-.bg-proj-2 { background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1920'); }
-.bg-proj-3 { background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1920'); }
-.bg-proj-4 { background-image: url('https://i.ibb.co/FqqrV4Nq/autohub.png'); }
+.bg-proj-1 { background-image: url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=1920'); }
+.bg-proj-2 { background-image: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1920'); }
+.bg-proj-3 { background-image: url('https://i.postimg.cc/P5xmX4mn/2im.png'); }
+.bg-proj-4 { background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920'); }
 .bg-proj-5 { background-image: url('https://i.postimg.cc/PJhcVSzR/anygpa.png'); }
-.bg-proj-6 { background-image: url('https://i.postimg.cc/P5xmX4mn/2im.png'); }
-.bg-proj-7 { background-image: url('https://i.postimg.cc/BQdJxH4c/dtastm.png'); }
+.bg-proj-6 { background-image: url('https://i.postimg.cc/BQdJxH4c/dtastm.png'); }
+.bg-proj-7 { background-image: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1920'); }
 
-.bg-thumb-1 { background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800'); }
-.bg-thumb-2 { background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800'); }
-.bg-thumb-3 { background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=800'); }
-.bg-thumb-4 { background-image: url('https://i.ibb.co/FqqrV4Nq/autohub.png'); }
+.bg-thumb-1 { background-image: url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=800'); }
+.bg-thumb-2 { background-image: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=800'); }
+.bg-thumb-3 { background-image: url('https://i.postimg.cc/P5xmX4mn/2im.png'); }
+.bg-thumb-4 { background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800'); }
 .bg-thumb-5 { background-image: url('https://i.postimg.cc/PJhcVSzR/anygpa.png'); }
-.bg-thumb-6 { background-image: url('https://i.postimg.cc/P5xmX4mn/2im.png'); }
-.bg-thumb-7 { background-image: url('https://i.postimg.cc/BQdJxH4c/dtastm.png'); }
+.bg-thumb-6 { background-image: url('https://i.postimg.cc/BQdJxH4c/dtastm.png'); }
+.bg-thumb-7 { background-image: url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800'); }
 
 .hidden-btn { display: none; }
 /* Update this line at the bottom of your CSS */

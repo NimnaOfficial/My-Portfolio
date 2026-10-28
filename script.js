@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 150);
 
     if (!hudCursor.classList.contains("active-target")) {
-      hudData.textContent = `SYS.IDLE // X:${mouseX} Y:${mouseY}`;
+      hudData.textContent = `SYS.ONLINE // X:${mouseX} Y:${mouseY}`;
     }
   });
 
@@ -94,46 +94,39 @@ document.addEventListener("DOMContentLoaded", () => {
       hudData.textContent = actionText;
     });
 
-    // =========================================================
-    // 🔥 INFINITE TWO-WAY SCROLL ANIMATION ENGINE
-    // =========================================================
-
-    const scrollObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Element has entered the screen
-            entry.target.classList.add("is-visible");
-          } else {
-            // 🔥 THE FIX: Check if the element contains the Google Map
-            // If it DOES NOT have the map, it is safe to remove the class and animate infinitely
-            if (
-              !entry.target.querySelector("iframe") &&
-              !entry.target.classList.contains("map-wrapper")
-            ) {
-              entry.target.classList.remove("is-visible");
-            }
-          }
-        });
-      },
-      {
-        // Lowered threshold slightly to ensure tall sections trigger easily
-        threshold: 0.1,
-        rootMargin: "0px 0px -20px 0px",
-      },
-    );
-
-    // Select every single element that has the reveal-up class
-    const hiddenElements = document.querySelectorAll(".reveal-up");
-
-    // Command the observer to watch all of them endlessly
-    hiddenElements.forEach((el) => scrollObserver.observe(el));
-
     el.addEventListener("mouseleave", () => {
       hudCursor.classList.remove("active-target");
-      hudData.textContent = `SYS.IDLE // X:${mouseX} Y:${mouseY}`;
+      hudData.textContent = `SYS.ONLINE // X:${mouseX} Y:${mouseY}`;
     });
   });
+
+  // =========================================================
+  // 🔥 TWO-WAY SCROLL ANIMATION ENGINE
+  // =========================================================
+  const scrollObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        } else {
+          // If element does not contain map iframe, toggle back to enable re-entrance
+          if (
+            !entry.target.querySelector("iframe") &&
+            !entry.target.classList.contains("map-wrapper")
+          ) {
+            entry.target.classList.remove("is-visible");
+          }
+        }
+      });
+    },
+    {
+      threshold: 0.1,
+      rootMargin: "0px 0px -20px 0px",
+    },
+  );
+
+  const hiddenElements = document.querySelectorAll(".reveal-up");
+  hiddenElements.forEach((el) => scrollObserver.observe(el));
   // --- 🔥 UPGRADED: Physics-based Smooth Scrolling Engine ---
   const lenis = new Lenis({
     duration: 1.5,
@@ -183,37 +176,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  window.addEventListener("mousemove", (e) => {
-    const posX = e.clientX;
-    const posY = e.clientY;
-
-    cursorDot.style.left = `${posX}px`;
-    cursorDot.style.top = `${posY}px`;
-
-    cursorOutline.animate(
-      {
-        left: `${posX}px`,
-        top: `${posY}px`,
-      },
-      { duration: 500, fill: "forwards" },
-    );
-  });
-
-  interactiveElements.forEach((el) => {
-    el.addEventListener("mouseenter", () =>
-      cursorOutline.classList.add("hover-active"),
-    );
-    el.addEventListener("mouseleave", () =>
-      cursorOutline.classList.remove("hover-active"),
-    );
-  });
-
   // --- 1. THEME TOGGLE (Dark/Light Mode) ---
   const themeBtn = document.getElementById("theme-toggle");
   const htmlEl = document.documentElement;
 
-  if (localStorage.getItem("theme") === "dark") {
-    htmlEl.setAttribute("data-theme", "dark");
+  if (localStorage.getItem("theme") === "light") {
+    htmlEl.setAttribute("data-theme", "light");
   }
 
   themeBtn.addEventListener("click", () => {
@@ -321,52 +289,53 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- 6. VERTICAL PROJECT CAROUSEL ---
   const projectDatabase = [
     {
-      title: "Lanka Washing System",
-      desc: "A hybrid application handling 500+ database queries efficiently. Designed and implemented 15+ UI screens to ensure a smooth, seamless user experience.",
-      tags: ["Java", "PHP", "UI/UX"],
-      repoLink: "https://github.com/NimnaOfficial/LankaWashingApp",
-      liveLink: "https://lankawashing.infinityfree.me/",
-    },
-    {
-      title: "Smart Crop Supply Mgmt",
-      desc: "About Smart Crop Supply Management System is a Java desktop application for managing farmers, crops, inventory, buyer requests, and reports using a role-based system with MySQL integration.",
-      tags: ["JasperReports", "Backend", "SQL"],
-      repoLink:
-        "https://github.com/NimnaOfficial/SmartCropSupplyManagementSystem",
+      title: "PixMath Studio",
+      desc: "An industrial-grade cyber-physical workstation bridging continuous mathematics and discrete pixel architecture. Compiles algebraic formulas into GPU fragment shaders for 120 FPS WebGL2 rendering, with symbolic reverse-extraction via PyTorch SIREN/KAN implicit neural representations.",
+      tags: ["React 19", "WebGL2", "PyTorch", "Python 3.11", "SIREN / KAN", "Vite"],
+      repoLink: "https://github.com/NimnaOfficial/PixMath",
       liveLink: "",
     },
     {
-      title: "AI & Data Science",
-      desc: "Hands-on experimentation with Python-based AI/ML concepts. Built predictive models, data analysis pipelines, and basic neural networks. (COMING SOON)",
-      tags: ["Python", "Machine Learning", "Data Science"],
-      repoLink: "",
+      title: "SmartMove Transit Platform",
+      desc: "Enterprise distributed transit intelligence platform engineered for Sri Lanka's national bus network. Powered by Spring Cloud Gateway routing, Netflix Eureka service discovery, and polyglot persistence: ACID-compliant Oracle 21c XE core with MongoDB Atlas for unstructured fleet telemetry.",
+      tags: ["Spring Boot 3.x", "Spring Cloud", "Oracle 21c", "MongoDB", "React 19", "Microservices"],
+      repoLink: "https://github.com/NimnaOfficial/SmartMove",
       liveLink: "",
     },
     {
-      title: "Auto Parts Online",
-      desc: "AutoHub is a responsive e-commerce platform delivering premium auto parts in Sri Lanka. It combines an intuitive UI/UX with a secure PHP backend for a seamless shopping experience.",
-      tags: ["HTML", "CSS", "JS", "PHP"],
-      repoLink: "https://github.com/NimnaOfficial/AutoPartsOnline",
-      liveLink: "https://autopartsonlinex.infinityfree.me/",
+      title: "GhostPort OS",
+      desc: "High-performance C++20 multi-threaded systems utility engineered for zero-copy port reaping, thread-level process stasis, and Docker container control. Bypasses standard task managers by hooking directly into Windows Toolhelp32/PDH, Linux /proc, and macOS Mach kernel APIs.",
+      tags: ["C++20", "Kernel APIs", "Systems Programming", "Docker", "CMake", "TUI"],
+      repoLink: "https://github.com/NimnaOfficial/GhostPort",
+      liveLink: "",
     },
     {
-      title: "Any GPA",
-      desc: "ANY GPA is an edge-native academic SaaS engineered for global scale. It empowers students to architect, calculate, and share custom grading frameworks seamlessly. ",
-      tags: ["HTML", "CSS", "JS", "PHP", "SQL", "AI", "Wasmer", "API"],
+      title: "TechFix Mobile Edge",
+      desc: "Enterprise repair lifecycle Android platform built with Java and Kotlin, backed by Cloudflare Workers and Cloudflare D1 (SQLite at the edge). Features sub-millisecond edge latency, geospatial auto-routing of customer requests, and multi-tier RBAC.",
+      tags: ["Android", "Kotlin / Java", "Cloudflare Workers", "Cloudflare D1", "SQLite Edge"],
+      repoLink: "https://github.com/NimnaOfficial/TECHFIX",
+      liveLink: "https://streamable.com/x1kgdd",
+    },
+    {
+      title: "AnyGPA Global SaaS",
+      desc: "Edge-native academic SaaS running on Wasmer Edge WebAssembly (WASI) containers. Features an AI Vision Extractor powered by Google Gemini 1.5 Flash with 5-key automated failover rotation to OCR official transcripts, coupled with GPU-accelerated GSAP 3D physics.",
+      tags: ["Wasmer WASI", "PHP 8.2", "Gemini 1.5 Flash", "GSAP 3.12", "PWA", "MySQL"],
       repoLink: "https://github.com/NimnaOfficial/AnyGPA",
       liveLink: "https://anygpa.wasmer.app/",
     },
     {
-      title: "Ghost Port OS",
-      desc: "Ghost Port OS is a high-performance terminal utility for managing system ports. It provides a sleek interface for monitoring and controlling network connections.",
-      tags: ["C++", "System Programming", "Networking", "CMaker", "Pwsh"],
-      repoLink: "https://github.com/NimnaOfficial/GhostPort",
+      title: "Data Storm: Beverage Potential",
+      desc: "Machine Learning Medallion Lakehouse pipeline predicting latent purchase demand across 20,000 Sri Lankan retail outlets for OCTAVE (John Keells Group). Solved supply-chain constraints as a left-censored demand problem with Parquet columnar storage and geospatial foot-traffic modeling.",
+      tags: ["Python", "Medallion Lakehouse", "Parquet", "Geospatial ML", "Pandas"],
+      repoLink: "https://github.com/NimnaOfficial/BaveragePotential",
+      liveLink: "",
     },
     {
-      title: "Beverage Potential",
-      desc: "Traditional historical sales data answers the question: What did this outlet sell? Our mission was to answer a fundamentally different question",
-      tags: ["Python", "Data Analysis", "Machine Learning", "Visualization"],
-      repoLink: "https://github.com/NimnaOfficial/BaveragePotential",
+      title: "EDU. 0 Engine",
+      desc: "Asynchronous Python compiler containerized with Docker and deployed via Telegram Bot API. Dynamically unpacks .h5p interactive educational packages and compiles them in RAM into 16:9 widescreen PowerPoint presentations and ReportLab Platypus PDFs without touching physical disk.",
+      tags: ["Python 3.11", "AsyncIO", "Docker", "Telegram Bot API", "In-RAM Compiler", "ReportLab"],
+      repoLink: "https://github.com/NimnaOfficial/EDU.-0-project",
+      liveLink: "https://t.me/edu_0_bot",
     },
   ];
 
@@ -473,21 +442,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 350); // Trigger swap right after the last element fades out
     });
   });
-
-  // --- 7. SCROLL REVEAL ANIMATIONS ---
-  const observerOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
-  const scrollObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
-
-  document
-    .querySelectorAll(" .reveal-fade")
-    .forEach((el) => scrollObserver.observe(el));
 
   // --- 8. ANTIGRAVITY TEXT REVEAL (DYNAMIC CURSOR TYPEWRITER) ---
   const heroText = document.getElementById("hero-text");
