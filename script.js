@@ -86,6 +86,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (el.tagName === "A") actionText = "[ NAV_LINK_DETECTED ]";
       if (el.classList.contains("thumb-card"))
         actionText = "[ ACCESS_PROJECT_DB ]";
+      if (el.classList.contains("paper-card"))
+        actionText = "[ CSx_RESEARCH_NODE ]";
+      if (
+        el.classList.contains("bridge-quick-link") ||
+        el.classList.contains("bridge-primary-btn")
+      )
+        actionText = "[ CSx_GATEWAY_HANDSHAKE ]";
       if (el.tagName === "INPUT" || el.tagName === "TEXTAREA")
         actionText = "[ AWAITING_KEYSTROKES ]";
       if (el.classList.contains("accordion-header"))
@@ -451,6 +458,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     tiltCard.addEventListener("mouseleave", () => {
       tiltCard.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+    });
+  }
+
+  // --- 4B. 3D HOVER TILT FOR RESEARCH PAPER CARDS ---
+  const paperCards = document.querySelectorAll(".paper-card");
+  if (paperCards.length > 0 && window.innerWidth > 900) {
+    paperCards.forEach((card) => {
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -8;
+        const rotateY = ((x - centerX) / centerX) * 8;
+
+        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+      });
+
+      card.addEventListener("mouseleave", () => {
+        card.style.transform = `perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0px)`;
+      });
     });
   }
 
